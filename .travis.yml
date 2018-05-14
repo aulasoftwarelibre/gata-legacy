@@ -22,4 +22,5 @@ install:
   - composer install
 
 script:
-  - ./vendor/bin/phpspec run --format=dot --no-code-generation
+  - composer validate --strict
+  - vendor/bin/phpspec run --format=dot --no-code-generation
