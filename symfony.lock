@@ -1,4 +1,7 @@
 {
+    "beberlei/assert": {
+        "version": "v2.9.5"
+    },
     "composer/semver": {
         "version": "1.4.2"
     },
@@ -28,6 +31,9 @@
     },
     "leanphp/phpspec-code-coverage": {
         "version": "v4.2.2"
+    },
+    "marc-mabe/php-enum": {
+        "version": "v3.0.0"
     },
     "paragonie/random_compat": {
         "version": "v2.0.12"
@@ -64,6 +70,27 @@
     },
     "phpunit/php-token-stream": {
         "version": "3.0.0"
+    },
+    "prooph/common": {
+        "version": "v4.2.2"
+    },
+    "prooph/event-sourcing": {
+        "version": "v5.5.0"
+    },
+    "prooph/event-store": {
+        "version": "v7.3.6"
+    },
+    "prooph/event-store-bus-bridge": {
+        "version": "v3.2.0"
+    },
+    "prooph/event-store-symfony-bundle": {
+        "version": "v0.5.0"
+    },
+    "prooph/service-bus": {
+        "version": "v6.2.2"
+    },
+    "prooph/service-bus-symfony-bundle": {
+        "version": "v0.7.0"
     },
     "psr/cache": {
         "version": "1.0.1"
