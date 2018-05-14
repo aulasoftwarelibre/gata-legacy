@@ -1,0 +1,25 @@
+language: php
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+env:
+  global:
+    - APP_ENV=test
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.2
+
+before_install:
+  - phpenv config-rm xdebug.ini
+  - composer self-update
+
+install:
+  - composer install
+
+script:
+  - ./vendor/bin/phpspec run --format=dot --no-code-generation
