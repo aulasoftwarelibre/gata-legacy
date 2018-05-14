@@ -4,6 +4,7 @@ sudo: false
 cache:
   directories:
     - $HOME/.composer/cache/files
+    - $HOME/.php-cs-fixer
 
 env:
   global:
@@ -24,3 +25,4 @@ install:
 script:
   - composer validate --strict
   - vendor/bin/phpspec run --format=dot --no-code-generation
+  - vendor/bin/php-cs-fixer fix --verbose --diff --dry-run
