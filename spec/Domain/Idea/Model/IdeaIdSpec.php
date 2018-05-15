@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace spec\App\Domain\Idea\Model;
 
-use App\Domain\Exception\InvalidUuidFormatException;
+use App\Domain\Idea\Exception\InvalidIdeaIdFormatException;
 use App\Domain\Idea\Model\IdeaId;
 use PhpSpec\ObjectBehavior;
 
@@ -42,7 +42,7 @@ final class IdeaIdSpec extends ObjectBehavior
 
     public function it_has_to_be_valid(): void
     {
-        $this->shouldThrow(InvalidUuidFormatException::class)->during(
+        $this->shouldThrow(InvalidIdeaIdFormatException::class)->during(
             '__construct',
             [self::NOT_VALID_UUID]
         );

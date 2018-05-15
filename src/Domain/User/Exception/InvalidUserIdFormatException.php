@@ -11,8 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Exception;
+namespace App\Domain\User\Exception;
 
-final class InvalidUuidFormatException extends \DomainException
+final class InvalidUserIdFormatException extends \DomainException
 {
 }

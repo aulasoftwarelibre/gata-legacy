@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Model;
 
-use App\Domain\Exception\InvalidUuidFormatException;
+use App\Domain\User\Exception\InvalidUserIdFormatException;
 use Ramsey\Uuid\Uuid;
 
 class UserId
@@ -26,7 +26,7 @@ class UserId
     public function __construct(string $id)
     {
         if (!Uuid::isValid($id)) {
-            throw new InvalidUuidFormatException();
+            throw new InvalidUserIdFormatException();
         }
 
         $this->id = $id;
