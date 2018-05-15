@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Model;
 
-use App\Domain\User\Exception\InvalidUuidFormatException;
+use App\Domain\Exception\InvalidUuidFormatException;
 use Ramsey\Uuid\Uuid;
 
 class UserId
