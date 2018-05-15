@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "CEO pre commit hook start"
+echo "GATA pre commit hook start"
 
 PHP_CS_FIXER="vendor/bin/php-cs-fixer"
 HAS_PHP_CS_FIXER=false
