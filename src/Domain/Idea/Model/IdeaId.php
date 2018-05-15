@@ -32,14 +32,14 @@ class IdeaId
         $this->id = $id;
     }
 
-    public function id(): string
-    {
-        return $this->id;
-    }
-
     public function __toString(): string
     {
         return $this->id();
+    }
+
+    public function id(): string
+    {
+        return $this->id;
     }
 
     public function equals(self $ideaId): bool

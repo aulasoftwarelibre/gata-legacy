@@ -42,7 +42,10 @@ final class UserIdSpec extends ObjectBehavior
 
     public function it_has_to_be_valid(): void
     {
-        $this->shouldThrow(InvalidUuidFormatException::class)->during('__construct', [self::NOT_VALID_UUID]);
+        $this->shouldThrow(InvalidUuidFormatException::class)->during(
+            '__construct',
+            [self::NOT_VALID_UUID]
+        );
     }
 
     public function it_can_be_a_string(): void
