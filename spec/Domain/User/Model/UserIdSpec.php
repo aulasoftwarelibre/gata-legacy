@@ -23,14 +23,14 @@ final class UserIdSpec extends ObjectBehavior
     const NOT_VALID_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a5';
     const OTHER_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a57';
 
-    public function let()
+    public function let(): void
     {
         $uuid = self::UUID;
 
         $this->beConstructedWith($uuid);
     }
 
-    public function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(UserId::class);
     }
