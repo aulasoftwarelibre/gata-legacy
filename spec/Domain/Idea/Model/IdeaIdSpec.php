@@ -53,7 +53,7 @@ final class IdeaIdSpec extends ObjectBehavior
         $this->__toString()->shouldBe(self::UUID);
     }
 
-    public function it_can_be_compared_with_other_user_id(
+    public function it_can_be_compared_with_other_idea_id(
         IdeaId $sameIdeaId,
         IdeaId $notSameIdeaId
     ) {
