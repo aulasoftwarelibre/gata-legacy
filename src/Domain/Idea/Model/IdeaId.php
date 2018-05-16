@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\User\Model;
+namespace App\Domain\Idea\Model;
 
-use App\Domain\User\Exception\InvalidUserIdFormatException;
+use App\Domain\Idea\Exception\InvalidIdeaIdFormatException;
 use Ramsey\Uuid\Uuid;
 
-class UserId
+class IdeaId
 {
     /**
      * @var string
@@ -26,7 +26,7 @@ class UserId
     public function __construct(string $id)
     {
         if (!Uuid::isValid($id)) {
-            throw new InvalidUserIdFormatException();
+            throw new InvalidIdeaIdFormatException();
         }
 
         $this->id = $id;
@@ -42,8 +42,8 @@ class UserId
         return $this->id;
     }
 
-    public function equals(self $userId): bool
+    public function equals(self $ideaId): bool
     {
-        return $this->id() === $userId->id();
+        return $this->id() === $ideaId->id();
     }
 }
