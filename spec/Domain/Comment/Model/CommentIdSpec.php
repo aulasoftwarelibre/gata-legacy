@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Idea\Model;
+namespace spec\App\Domain\Comment\Model;
 
-use App\Domain\Idea\Exception\InvalidCommentIdFormatException;
-use App\Domain\Idea\Model\CommentId;
+use App\Domain\Comment\Exception\InvalidCommentIdFormatException;
+use App\Domain\Comment\Model\CommentId;
 use PhpSpec\ObjectBehavior;
 
 final class CommentIdSpec extends ObjectBehavior
@@ -53,7 +53,7 @@ final class CommentIdSpec extends ObjectBehavior
 
     public function it_can_be_compared_with_other_comment_id(
         CommentId $sameCommentId,
-        CommentId $notSameCommentId
+        \App\Domain\Comment\Model\CommentId $notSameCommentId
     ) {
         $sameCommentId->id()->shouldBeCalled()->willReturn(self::UUID);
         $notSameCommentId->id()->shouldBeCalled()->willReturn(self::OTHER_UUID);

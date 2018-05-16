@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Idea\Exception;
+namespace App\Domain\Comment\Exception;
 
 final class InvalidCommentIdFormatException extends \DomainException
 {

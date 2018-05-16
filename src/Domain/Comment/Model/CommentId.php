@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Idea\Model;
+namespace App\Domain\Comment\Model;
 
-use App\Domain\Idea\Exception\InvalidCommentIdFormatException;
+use App\Domain\Comment\Exception\InvalidCommentIdFormatException;
 use Ramsey\Uuid\Uuid;
 
 class CommentId
