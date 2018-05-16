@@ -1,3 +1,5 @@
+build/
+phpspec.yml
 
 ###> symfony/framework-bundle ###
 /.env
