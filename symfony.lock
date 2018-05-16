@@ -29,6 +29,15 @@
             "ref": "81dee417d2cc60cd1c9d6208dff2ec22a1103e93"
         }
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.4.2"
+    },
     "leanphp/phpspec-code-coverage": {
         "version": "v4.2.2"
     },
@@ -37,6 +46,9 @@
     },
     "paragonie/random_compat": {
         "version": "v2.0.12"
+    },
+    "php-coveralls/php-coveralls": {
+        "version": "v2.0.0"
     },
     "php-cs-fixer/diff": {
         "version": "v1.3.0"
@@ -97,6 +109,9 @@
     },
     "psr/container": {
         "version": "1.0.0"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
     },
     "psr/log": {
         "version": "1.0.2"
