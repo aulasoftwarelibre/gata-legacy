@@ -24,5 +24,9 @@ install:
 
 script:
   - composer validate --strict
-  - vendor/bin/phpspec run --format=dot --no-code-generation
+  - mkdir -p build/logs
   - vendor/bin/php-cs-fixer fix --verbose --diff --dry-run
+  - vendor/bin/phpspec run --format=dot --no-code-generation
+
+after_success:
+  - travis_retry php vendor/bin/php-coveralls
