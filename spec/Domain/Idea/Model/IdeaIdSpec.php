@@ -25,9 +25,7 @@ final class IdeaIdSpec extends ObjectBehavior
 
     public function let(): void
     {
-        $uuid = self::UUID;
-
-        $this->beConstructedWith($uuid);
+        $this->beConstructedWith(self::UUID);
     }
 
     public function it_is_initializable(): void
