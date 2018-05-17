@@ -24,7 +24,7 @@ class GroupSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('add', [
             new GroupId('e8a68535-3e17-468f-acc3-8a3e0fa04a59'),
-            'Lorem Ipsum',
+            'Lorem ipsum',
         ]);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
@@ -48,7 +48,7 @@ class GroupSpec extends ObjectBehavior
 
     public function it_has_a_name(): void
     {
-        $this->name()->shouldBeLike('Lorem Ipsum');
+        $this->name()->shouldBeLike('Lorem ipsum');
     }
 
     public function it_can_update_its_name(): void
