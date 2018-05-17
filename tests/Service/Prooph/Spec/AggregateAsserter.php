@@ -15,6 +15,7 @@ namespace Tests\Service\Prooph\Spec;
 
 use Prooph\EventSourcing\AggregateChanged;
 use Prooph\EventSourcing\EventStoreIntegration\ClosureAggregateTranslator;
+use Webmozart\Assert\Assert;
 
 final class AggregateAsserter
 {
@@ -34,7 +35,7 @@ final class AggregateAsserter
     {
         $producedEvents = $this->closureAggregateTranslator->extractPendingStreamEvents($aggregateRoot);
 
-        assert(
+        Assert::true(
             $this->messageMatcher->isOneOf($event, $producedEvents),
             'Expected one of the aggregate events to match the provided event.'
         );
