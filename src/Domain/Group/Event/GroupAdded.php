@@ -28,7 +28,7 @@ class GroupAdded extends AggregateChanged
         return new GroupId($this->aggregateId());
     }
 
-    public function name()
+    public function name(): string
     {
         return $this->payload()['name'];
     }

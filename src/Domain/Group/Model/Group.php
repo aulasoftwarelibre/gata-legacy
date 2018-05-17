@@ -38,11 +38,6 @@ class Group extends AggregateRoot
         return $group;
     }
 
-    protected function aggregateId(): string
-    {
-        return $this->id()->id();
-    }
-
     public function id(): GroupId
     {
         return $this->id;
@@ -56,6 +51,11 @@ class Group extends AggregateRoot
     public function changeName($name)
     {
         $this->recordThat(GroupUpdated::withData($this->id(), $name));
+    }
+
+    protected function aggregateId(): string
+    {
+        return $this->id()->id();
     }
 
     protected function applyGroupAdded(GroupAdded $event): void
