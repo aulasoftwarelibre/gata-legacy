@@ -17,7 +17,7 @@ use App\Domain\User\Model\UserId;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
-class CommentAddedSpec extends ObjectBehavior
+final class CommentAddedSpec extends ObjectBehavior
 {
     public function it_is_a_domain_event(): void
     {
