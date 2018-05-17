@@ -22,7 +22,11 @@ class CommentAdded extends AggregateChanged
 {
     public static function withData(CommentId $commentId, IdeaId $ideaId, UserId $userId, string $text): self
     {
-        return self::occur($commentId->id(), ['ideaId' => $ideaId->id(), 'userId' => $userId->id(), 'text' => $text]);
+        return self::occur($commentId->id(), [
+            'ideaId' => $ideaId->id(),
+            'userId' => $userId->id(),
+            'text' => $text,
+        ]);
     }
 
     public function id(): CommentId
