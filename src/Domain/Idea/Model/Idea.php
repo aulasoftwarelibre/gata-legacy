@@ -69,7 +69,7 @@ class Idea extends AggregateRoot
 
     protected function aggregateId(): string
     {
-        return $this->ideaId->id();
+        return $this->ideaId()->id();
     }
 
     protected function applyIdeaAdded(IdeaAdded $event): void
