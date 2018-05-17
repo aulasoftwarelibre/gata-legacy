@@ -33,6 +33,12 @@ final class AggregateAsserter
 
     public function assertAggregateHasProducedEvent($aggregateRoot, AggregateChanged $event): void
     {
+        Assert::eq(
+            (new ClosureAggregateTranslator())->extractAggregateId($aggregateRoot),
+            $event->aggregateId(),
+            'Expected an aggregate id.'
+        );
+
         $producedEvents = $this->closureAggregateTranslator->extractPendingStreamEvents($aggregateRoot);
 
         Assert::true(
