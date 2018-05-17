@@ -24,7 +24,7 @@ abstract class AggregateRoot extends BaseAggregateRoot
 
     protected function applyMessage(Message $event): void
     {
-        $eventClass = \get_class($event);
+        $eventClass = get_class($event);
         $applyMethodName = mb_strtolower('apply'.mb_substr($eventClass, mb_strrpos($eventClass, '\\') + 1));
         $applyMethodNames = array_map(
             function (string $class): string {
@@ -33,7 +33,7 @@ abstract class AggregateRoot extends BaseAggregateRoot
             get_class_methods(static::class)
         );
 
-        if (!\in_array($applyMethodName, $applyMethodNames, true)) {
+        if (!in_array($applyMethodName, $applyMethodNames, true)) {
             return;
         }
 
