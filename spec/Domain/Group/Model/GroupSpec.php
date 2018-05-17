@@ -13,6 +13,7 @@ namespace spec\App\Domain\Group\Model;
 
 use App\Domain\Group\Event\GroupAdded;
 use App\Domain\Group\Event\GroupUpdated;
+use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
 use PhpSpec\ObjectBehavior;
 use Tests\Service\Prooph\Spec\AggregateAsserter;
@@ -33,6 +34,11 @@ class GroupSpec extends ObjectBehavior
                 'Lorem ipsum'
             )
         );
+    }
+
+    public function it_is_initializable(): void
+    {
+        $this->shouldHaveType(Group::class);
     }
 
     public function it_has_an_id(): void
