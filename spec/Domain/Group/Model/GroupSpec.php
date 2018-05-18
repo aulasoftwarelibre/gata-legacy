@@ -17,6 +17,7 @@ use App\Domain\Group\Event\GroupAdded;
 use App\Domain\Group\Event\GroupUpdated;
 use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
+use App\Domain\Group\Model\Name;
 use PhpSpec\ObjectBehavior;
 use Tests\Service\Prooph\Spec\AggregateAsserter;
 
@@ -26,14 +27,14 @@ class GroupSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('add', [
             new GroupId('e8a68535-3e17-468f-acc3-8a3e0fa04a59'),
-            'Lorem ipsum',
+            new Name('Lorem ipsum'),
         ]);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             GroupAdded::withData(
                 new GroupId('e8a68535-3e17-468f-acc3-8a3e0fa04a59'),
-                'Lorem ipsum'
+                new Name('Lorem ipsum')
             )
         );
     }
@@ -50,18 +51,18 @@ class GroupSpec extends ObjectBehavior
 
     public function it_has_a_name(): void
     {
-        $this->name()->shouldBeLike('Lorem ipsum');
+        $this->name()->shouldBeLike(new Name('Lorem ipsum'));
     }
 
     public function it_can_update_its_name(): void
     {
-        $this->changeName('Quis aute');
+        $this->changeName(new Name('Quis aute'));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             GroupUpdated::withData(
                 new GroupId('e8a68535-3e17-468f-acc3-8a3e0fa04a59'),
-                'Quis aute'
+                new Name('Quis aute')
             )
         );
     }
