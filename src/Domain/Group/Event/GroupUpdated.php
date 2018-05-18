@@ -14,13 +14,14 @@ declare(strict_types=1);
 namespace App\Domain\Group\Event;
 
 use App\Domain\Group\Model\GroupId;
+use App\Domain\Group\Model\Name;
 use Prooph\EventSourcing\AggregateChanged;
 
 class GroupUpdated extends AggregateChanged
 {
-    public static function withData(GroupId $groupId, string $name): self
+    public static function withData(GroupId $groupId, Name $name): self
     {
-        return self::occur($groupId->id(), ['name' => $name]);
+        return self::occur($groupId->id(), ['name' => $name->value()]);
     }
 
     public function id(): GroupId
@@ -28,8 +29,8 @@ class GroupUpdated extends AggregateChanged
         return new GroupId($this->aggregateId());
     }
 
-    public function name(): string
+    public function name(): Name
     {
-        return $this->payload()['name'];
+        return new Name($this->payload()['name']);
     }
 }
