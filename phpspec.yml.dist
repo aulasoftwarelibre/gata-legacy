@@ -15,3 +15,5 @@ extensions:
             html: 'build/coverage'
         whitelist:
             - 'src/Domain'
+        blacklist:
+            - 'src/Domain/AggregateRoot.php'

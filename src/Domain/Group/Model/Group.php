@@ -25,11 +25,11 @@ class Group extends AggregateRoot
     private $id;
 
     /**
-     * @var string
+     * @var Name
      */
     private $name;
 
-    public static function add(GroupId $groupId, string $name): self
+    public static function add(GroupId $groupId, Name $name): self
     {
         $group = new self();
 
@@ -43,12 +43,12 @@ class Group extends AggregateRoot
         return $this->id;
     }
 
-    public function name()
+    public function name(): Name
     {
         return $this->name;
     }
 
-    public function changeName($name)
+    public function changeName(Name $name): void
     {
         $this->recordThat(GroupUpdated::withData($this->id(), $name));
     }

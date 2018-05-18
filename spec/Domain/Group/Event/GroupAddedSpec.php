@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace spec\App\Domain\Group\Event;
 
 use App\Domain\Group\Model\GroupId;
+use App\Domain\Group\Model\Name;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
@@ -28,10 +29,11 @@ class GroupAddedSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('withData', [
             new GroupId('e8a68535-3e17-468f-acc3-8a3e0fa04a59'),
+            new Name('Lorem ipsum'),
             'Lorem ipsum',
         ]);
 
         $this->id()->shouldBeLike(new GroupId('e8a68535-3e17-468f-acc3-8a3e0fa04a59'));
-        $this->name()->shouldBeLike('Lorem ipsum');
+        $this->name()->shouldBeLike(new Name('Lorem ipsum'));
     }
 }

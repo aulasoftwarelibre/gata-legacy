@@ -15,6 +15,7 @@ namespace spec\App\Domain\Group\Model;
 
 use App\Domain\Group\Exception\InvalidGroupIdFormatException;
 use App\Domain\Group\Model\GroupId;
+use App\Domain\ValueObject;
 use PhpSpec\ObjectBehavior;
 
 final class GroupIdSpec extends ObjectBehavior
@@ -28,9 +29,9 @@ final class GroupIdSpec extends ObjectBehavior
         $this->beConstructedWith(self::UUID);
     }
 
-    public function it_is_initializable(): void
+    public function it_is_a_value_object(): void
     {
-        $this->shouldHaveType(GroupId::class);
+        $this->shouldHaveType(ValueObject::class);
     }
 
     public function it_can_be_created_from_string(): void
