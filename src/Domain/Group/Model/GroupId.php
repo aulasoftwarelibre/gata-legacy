@@ -14,9 +14,10 @@ declare(strict_types=1);
 namespace App\Domain\Group\Model;
 
 use App\Domain\Group\Exception\InvalidGroupIdFormatException;
+use App\Domain\ValueObject;
 use Ramsey\Uuid\Uuid;
 
-class GroupId
+class GroupId implements ValueObject
 {
     /**
      * @var string
@@ -42,8 +43,8 @@ class GroupId
         return $this->id;
     }
 
-    public function equals(self $groupId): bool
+    public function equals(ValueObject $object): bool
     {
-        return $this->id() === $groupId->id();
+        return $object instanceof self && $this->id() === $object->id();
     }
 }
