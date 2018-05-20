@@ -16,7 +16,10 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('var')
     ->exclude('public/bundles')
     ->exclude('public/build')
+    ->notPath('bin/console')
+    ->notPath('public/index.php')
 ;
+
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
@@ -33,6 +36,7 @@ return PhpCsFixer\Config::create()
         'ordered_imports' => true,
         'php_unit_strict' => true,
         'phpdoc_order' => true,
+        'self_accessor' => false,
         'semicolon_after_instruction' => true,
         'strict_comparison' => true,
         'strict_param' => true,

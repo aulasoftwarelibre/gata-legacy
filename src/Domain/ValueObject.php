@@ -15,5 +15,5 @@ namespace App\Domain;
 
 interface ValueObject
 {
-    public function equals(self $object): bool;
+    public function equals(ValueObject $object): bool;
 }
