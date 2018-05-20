@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace spec\App\Domain\Idea\Event;
 
 use App\Domain\Idea\Model\IdeaId;
-use App\Domain\Idea\Model\IdeaStatus;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
@@ -29,13 +28,11 @@ final class IdeaAddedSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('withData', [
             new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'),
-            new IdeaStatus('pending'),
             'Title',
             'Description',
         ]);
 
         $this->ideaId()->shouldBeLike(new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'));
-        $this->ideaStatus()->shouldBeLike(new IdeaStatus('pending'));
         $this->title()->shouldBeLike('Title');
         $this->description()->shouldBeLike('Description');
     }
