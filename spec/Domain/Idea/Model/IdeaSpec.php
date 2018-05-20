@@ -26,7 +26,6 @@ class IdeaSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('add', [
             new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'),
-            new IdeaStatus('pending'),
             'Title',
             'Description',
         ]);
@@ -34,7 +33,6 @@ class IdeaSpec extends ObjectBehavior
             $this->getWrappedObject(),
             IdeaAdded::withData(
                 new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'),
-                new IdeaStatus('pending'),
                 'Title',
                 'Description'
             )
@@ -51,9 +49,9 @@ class IdeaSpec extends ObjectBehavior
         $this->ideaId()->shouldBeLike(new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'));
     }
 
-    public function it_has_an_idea_status(): void
+    public function it_is_pending_by_default(): void
     {
-        $this->ideaStatus()->shouldBeLike(new IdeaStatus('pending'));
+        $this->ideaStatus()->shouldBeLike(IdeaStatus::PENDING());
     }
 
     public function it_has_a_title(): void

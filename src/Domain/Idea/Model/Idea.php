@@ -38,11 +38,11 @@ class Idea extends AggregateRoot
      */
     private $description;
 
-    public static function add(IdeaId $ideaId, IdeaStatus $ideaStatus, string $title, string $description)
+    public static function add(IdeaId $ideaId, string $title, string $description)
     {
         $comment = new self();
 
-        $comment->recordThat(IdeaAdded::withData($ideaId, $ideaStatus, $title, $description));
+        $comment->recordThat(IdeaAdded::withData($ideaId, $title, $description));
 
         return $comment;
     }
@@ -75,7 +75,7 @@ class Idea extends AggregateRoot
     protected function applyIdeaAdded(IdeaAdded $event): void
     {
         $this->ideaId = $event->ideaId();
-        $this->ideaStatus = $event->ideaStatus();
+        $this->ideaStatus = IdeaStatus::PENDING();
         $this->title = $event->title();
         $this->description = $event->description();
     }
