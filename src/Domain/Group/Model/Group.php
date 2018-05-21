@@ -17,55 +17,60 @@ use App\Domain\AggregateRoot;
 use App\Domain\Group\Event\GroupAdded;
 use App\Domain\Group\Event\GroupUpdated;
 
-class Group extends AggregateRoot
+final class Group extends AggregateRoot
 {
     /**
      * @var GroupId
      */
-    private $id;
+    private $groupId;
 
     /**
-     * @var Name
+     * @var GroupName
      */
-    private $name;
+    private $groupName;
 
-    public static function add(GroupId $groupId, Name $name): self
+    public static function add(GroupId $groupId, GroupName $groupName): self
     {
         $group = new self();
 
-        $group->recordThat(GroupAdded::withData($groupId, $name));
+        $group->recordThat(GroupAdded::withData($groupId, $groupName));
 
         return $group;
     }
 
-    public function id(): GroupId
+    public function __toString(): string
     {
-        return $this->id;
+        return $this->groupName()->name();
     }
 
-    public function name(): Name
+    public function groupId(): GroupId
     {
-        return $this->name;
+        return $this->groupId;
     }
 
-    public function changeName(Name $name): void
+    public function groupName(): GroupName
     {
-        $this->recordThat(GroupUpdated::withData($this->id(), $name));
+        return $this->groupName;
+    }
+
+    public function changeGroupName(GroupName $groupName): void
+    {
+        $this->recordThat(GroupUpdated::withData($this->groupId(), $groupName));
     }
 
     protected function aggregateId(): string
     {
-        return $this->id()->id();
+        return $this->groupId()->id();
     }
 
     protected function applyGroupAdded(GroupAdded $event): void
     {
-        $this->id = $event->id();
-        $this->name = $event->name();
+        $this->groupId = $event->groupId();
+        $this->groupName = $event->groupName();
     }
 
     protected function applyGroupUpdated(GroupUpdated $event): void
     {
-        $this->name = $event->name();
+        $this->groupName = $event->groupName();
     }
 }

@@ -11,6 +11,8 @@
 
 namespace App\Domain\Group\Exception;
 
-class EmptyNameException extends \DomainException
+use DomainException;
+
+final class EmptyGroupNameException extends DomainException
 {
 }

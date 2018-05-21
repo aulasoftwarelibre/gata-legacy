@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Group\Model;
 
-use App\Domain\Group\Exception\EmptyNameException;
+use App\Domain\Group\Exception\EmptyGroupNameException;
 use App\Domain\ValueObject;
 
-class Name implements ValueObject
+final class GroupName implements ValueObject
 {
     /**
      * @var string
@@ -25,20 +25,25 @@ class Name implements ValueObject
 
     public function __construct(string $name)
     {
-        if (empty($name)) {
-            throw new EmptyNameException();
+        if ('' === $name) {
+            throw new EmptyGroupNameException();
         }
 
         $this->name = $name;
     }
 
-    public function value(): string
+    public function __toString()
+    {
+        return $this->name();
+    }
+
+    public function name(): string
     {
         return $this->name;
     }
 
-    public function equals(ValueObject $object): bool
+    public function equals(ValueObject $valueObject): bool
     {
-        return $object instanceof self && $object->value() === $this->value();
+        return $valueObject instanceof self && $valueObject->name() === $this->name();
     }
 }
