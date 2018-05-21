@@ -27,22 +27,24 @@ use Tests\Service\Prooph\Spec\AggregateAsserter;
 
 final class GroupSpec extends ObjectBehavior
 {
-    const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const IDEA_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
+    const GROUP_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
+    const IDEA_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
     const NAME = 'Lorem ipsum';
     const OTHER_NAME = 'Aliquam auctor';
+    const TITLE = 'Lorem ipsum';
+    const DESCRIPTION = 'Aliquam auctor';
 
     public function let(): void
     {
         $this->beConstructedThrough('add', [
-            new GroupId(self::UUID),
+            new GroupId(self::GROUP_ID),
             new GroupName(self::NAME),
         ]);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             GroupAdded::withData(
-                new GroupId(self::UUID),
+                new GroupId(self::GROUP_ID),
                 new GroupName(self::NAME)
             )
         );
@@ -60,7 +62,7 @@ final class GroupSpec extends ObjectBehavior
 
     public function it_has_a_group_id(): void
     {
-        $this->groupId()->shouldBeLike(new GroupId(self::UUID));
+        $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
     }
 
     public function it_has_a_group_name(): void
@@ -70,15 +72,19 @@ final class GroupSpec extends ObjectBehavior
 
     public function it_can_add_ideas(): void
     {
-        $idea = $this->addIdea(new IdeaId(self::IDEA_UUID), new IdeaTitle('Title'), new IdeaDescription('Description'));
+        $idea = $this->addIdea(
+            new IdeaId(self::IDEA_ID),
+            new IdeaTitle(self::TITLE),
+            new IdeaDescription(self::DESCRIPTION)
+        );
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $idea->getWrappedObject(),
             IdeaAdded::withData(
-                new IdeaId(self::IDEA_UUID),
-                new GroupId(self::UUID),
-                new IdeaTitle('Title'),
-                new IdeaDescription('Description')
+                new IdeaId(self::IDEA_ID),
+                new GroupId(self::GROUP_ID),
+                new IdeaTitle(self::TITLE),
+                new IdeaDescription(self::DESCRIPTION)
             )
         );
     }
@@ -90,7 +96,7 @@ final class GroupSpec extends ObjectBehavior
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             GroupUpdated::withData(
-                new GroupId(self::UUID),
+                new GroupId(self::GROUP_ID),
                 new GroupName(self::OTHER_NAME)
             )
         );
