@@ -14,9 +14,10 @@ declare(strict_types=1);
 namespace App\Domain\User\Model;
 
 use App\Domain\User\Exception\InvalidUserIdFormatException;
+use App\Domain\ValueObject;
 use Ramsey\Uuid\Uuid;
 
-class UserId
+final class UserId implements ValueObject
 {
     /**
      * @var string
@@ -42,8 +43,8 @@ class UserId
         return $this->id;
     }
 
-    public function equals(self $userId): bool
+    public function equals(ValueObject $valueObject): bool
     {
-        return $this->id() === $userId->id();
+        return $valueObject instanceof self && $this->id() === $valueObject->id();
     }
 }
