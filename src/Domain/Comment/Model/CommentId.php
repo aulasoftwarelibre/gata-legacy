@@ -14,9 +14,10 @@ declare(strict_types=1);
 namespace App\Domain\Comment\Model;
 
 use App\Domain\Comment\Exception\InvalidCommentIdFormatException;
+use App\Domain\ValueObject;
 use Ramsey\Uuid\Uuid;
 
-class CommentId
+final class CommentId implements ValueObject
 {
     /**
      * @var string
@@ -42,8 +43,8 @@ class CommentId
         return $this->id;
     }
 
-    public function equals(self $commentId): bool
+    public function equals(ValueObject $valueObject): bool
     {
-        return $this->id() === $commentId->id();
+        return $valueObject instanceof self && $this->id() === $valueObject->id();
     }
 }

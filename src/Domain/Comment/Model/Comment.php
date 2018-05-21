@@ -18,12 +18,12 @@ use App\Domain\Comment\Event\CommentAdded;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\User\Model\UserId;
 
-class Comment extends AggregateRoot
+final class Comment extends AggregateRoot
 {
     /**
      * @var CommentId
      */
-    private $id;
+    private $commentId;
 
     /**
      * @var IdeaId
@@ -36,22 +36,27 @@ class Comment extends AggregateRoot
     private $userId;
 
     /**
-     * @var string
+     * @var CommentText
      */
-    private $text;
+    private $commentText;
 
-    public static function add(CommentId $commentId, IdeaId $ideaId, UserId $userId, string $text)
+    public static function add(CommentId $commentId, IdeaId $ideaId, UserId $userId, CommentText $commentText)
     {
         $comment = new self();
 
-        $comment->recordThat(CommentAdded::withData($commentId, $ideaId, $userId, $text));
+        $comment->recordThat(CommentAdded::withData($commentId, $ideaId, $userId, $commentText));
 
         return $comment;
     }
 
-    public function id(): CommentId
+    public function __toString(): string
     {
-        return $this->id;
+        return $this->commentText()->text();
+    }
+
+    public function commentId(): CommentId
+    {
+        return $this->commentId;
     }
 
     public function ideaId(): IdeaId
@@ -64,21 +69,21 @@ class Comment extends AggregateRoot
         return $this->userId;
     }
 
-    public function text(): string
+    public function commentText(): CommentText
     {
-        return $this->text;
+        return $this->commentText;
     }
 
     protected function aggregateId(): string
     {
-        return $this->id->id();
+        return $this->commentId->id();
     }
 
     protected function applyCommentAdded(CommentAdded $event): void
     {
-        $this->id = $event->id();
+        $this->commentId = $event->commentId();
         $this->ideaId = $event->ideaId();
         $this->userId = $event->userId();
-        $this->text = $event->text();
+        $this->commentText = $event->commentText();
     }
 }

@@ -14,22 +14,23 @@ declare(strict_types=1);
 namespace App\Domain\Comment\Event;
 
 use App\Domain\Comment\Model\CommentId;
+use App\Domain\Comment\Model\CommentText;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\User\Model\UserId;
 use Prooph\EventSourcing\AggregateChanged;
 
-class CommentAdded extends AggregateChanged
+final class CommentAdded extends AggregateChanged
 {
-    public static function withData(CommentId $commentId, IdeaId $ideaId, UserId $userId, string $text): self
+    public static function withData(CommentId $commentId, IdeaId $ideaId, UserId $userId, CommentText $commentText): self
     {
         return self::occur($commentId->id(), [
             'ideaId' => $ideaId->id(),
             'userId' => $userId->id(),
-            'text' => $text,
+            'text' => $commentText->text(),
         ]);
     }
 
-    public function id(): CommentId
+    public function commentId(): CommentId
     {
         return new CommentId($this->aggregateId());
     }
@@ -44,8 +45,8 @@ class CommentAdded extends AggregateChanged
         return new UserId($this->payload()['userId']);
     }
 
-    public function text(): string
+    public function commentText(): CommentText
     {
-        return $this->payload()['text'];
+        return new CommentText($this->payload()['text']);
     }
 }

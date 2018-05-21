@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Comment\Exception;
 
-final class InvalidCommentIdFormatException extends \DomainException
+use DomainException;
+
+final class InvalidCommentIdFormatException extends DomainException
 {
 }
