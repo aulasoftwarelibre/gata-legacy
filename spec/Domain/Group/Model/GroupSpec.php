@@ -16,7 +16,6 @@ namespace spec\App\Domain\Group\Model;
 use App\Domain\AggregateRoot;
 use App\Domain\Group\Event\GroupAdded;
 use App\Domain\Group\Event\GroupUpdated;
-use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
 use PhpSpec\ObjectBehavior;

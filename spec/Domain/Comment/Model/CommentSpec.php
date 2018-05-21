@@ -37,6 +37,7 @@ final class CommentSpec extends ObjectBehavior
             new UserId(self::USER_ID),
             new CommentText(self::TEXT),
         ]);
+
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             CommentAdded::withData(

@@ -15,8 +15,9 @@ namespace App\Domain;
 
 use MabeEnum\Enum as BaseEnum;
 use MabeEnum\EnumSerializableTrait;
+use Serializable;
 
-abstract class Enum extends BaseEnum implements \Serializable, ValueObject
+abstract class Enum extends BaseEnum implements Serializable, ValueObject
 {
     use EnumSerializableTrait;
 
