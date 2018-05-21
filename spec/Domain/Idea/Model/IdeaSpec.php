@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace spec\App\Domain\Idea\Model;
 
 use App\Domain\AggregateRoot;
+use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
@@ -24,14 +25,16 @@ use Tests\Service\Prooph\Spec\AggregateAsserter;
 
 final class IdeaSpec extends ObjectBehavior
 {
-    const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
+    const IDEA_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
+    const GROUP_ID = '805d3cef-5408-48bc-98c4-dcd04d496eb5';
     const TITLE = 'Lorem Ipsum';
     const DESCRIPTION = 'Aliquam auctor';
 
     public function let(): void
     {
         $this->beConstructedThrough('add', [
-            new IdeaId(self::UUID),
+            new IdeaId(self::IDEA_ID),
+            new GroupId(self::GROUP_ID),
             new IdeaTitle(self::TITLE),
             new IdeaDescription(self::DESCRIPTION),
         ]);
@@ -39,7 +42,8 @@ final class IdeaSpec extends ObjectBehavior
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             IdeaAdded::withData(
-                new IdeaId(self::UUID),
+                new IdeaId(self::IDEA_ID),
+                new GroupId(self::GROUP_ID),
                 new IdeaTitle(self::TITLE),
                 new IdeaDescription(self::DESCRIPTION)
             )
@@ -58,12 +62,17 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_has_an_idea_id(): void
     {
-        $this->ideaId()->shouldBeLike(new IdeaId(self::UUID));
+        $this->ideaId()->shouldBeLike(new IdeaId(self::IDEA_ID));
     }
 
     public function it_is_pending_by_default(): void
     {
         $this->ideaStatus()->shouldBeLike(IdeaStatus::PENDING());
+    }
+
+    public function it_has_a_group_id(): void
+    {
+        $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
     }
 
     public function it_has_an_idea_title(): void

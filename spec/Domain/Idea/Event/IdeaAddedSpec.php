@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace spec\App\Domain\Idea\Event;
 
+use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
@@ -21,7 +22,8 @@ use Prooph\Common\Messaging\DomainEvent;
 
 final class IdeaAddedSpec extends ObjectBehavior
 {
-    const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
+    const IDEA_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
+    const GROUP_ID = '805d3cef-5408-48bc-98c4-dcd04d496eb5';
     const TITLE = 'Lorem ipsum';
     const DESCRIPTION = 'Aliquam auctor';
 
@@ -33,12 +35,14 @@ final class IdeaAddedSpec extends ObjectBehavior
     public function it_represents_idea_added_event_occurrence(): void
     {
         $this->beConstructedThrough('withData', [
-            new IdeaId(self::UUID),
+            new IdeaId(self::IDEA_ID),
+            new GroupId(self::GROUP_ID),
             new IdeaTitle(self::TITLE),
             new IdeaDescription(self::DESCRIPTION),
         ]);
 
-        $this->ideaId()->shouldBeLike(new IdeaId(self::UUID));
+        $this->ideaId()->shouldBeLike(new IdeaId(self::IDEA_ID));
+        $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
         $this->ideaTitle()->shouldBeLike(new IdeaTitle(self::TITLE));
         $this->ideaDescription()->shouldBeLike(new IdeaDescription(self::DESCRIPTION));
     }
