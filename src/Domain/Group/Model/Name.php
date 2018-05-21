@@ -32,7 +32,7 @@ class Name implements ValueObject
         $this->name = $name;
     }
 
-    public function value()
+    public function value(): string
     {
         return $this->name;
     }

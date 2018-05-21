@@ -13,7 +13,15 @@ declare(strict_types=1);
 
 namespace App\Domain;
 
-interface ValueObject
+use MabeEnum\Enum as BaseEnum;
+use MabeEnum\EnumSerializableTrait;
+
+abstract class Enum extends BaseEnum implements \Serializable, ValueObject
 {
-    public function equals(ValueObject $object): bool;
+    use EnumSerializableTrait;
+
+    public function equals(ValueObject $object): bool
+    {
+        return $this->is($object);
+    }
 }

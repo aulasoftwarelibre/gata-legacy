@@ -54,7 +54,7 @@ final class GroupIdSpec extends ObjectBehavior
 
     public function it_can_be_compared_with_other_group_id(
         GroupId $sameGroupId,
-        \App\Domain\Group\Model\GroupId $notSameGroupId
+        GroupId $notSameGroupId
     ) {
         $sameGroupId->id()->shouldBeCalled()->willReturn(self::UUID);
         $notSameGroupId->id()->shouldBeCalled()->willReturn(self::OTHER_UUID);
