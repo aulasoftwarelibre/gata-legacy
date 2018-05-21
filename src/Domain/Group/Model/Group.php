@@ -16,6 +16,10 @@ namespace App\Domain\Group\Model;
 use App\Domain\AggregateRoot;
 use App\Domain\Group\Event\GroupAdded;
 use App\Domain\Group\Event\GroupUpdated;
+use App\Domain\Idea\Model\Idea;
+use App\Domain\Idea\Model\IdeaDescription;
+use App\Domain\Idea\Model\IdeaId;
+use App\Domain\Idea\Model\IdeaTitle;
 
 final class Group extends AggregateRoot
 {
@@ -56,6 +60,16 @@ final class Group extends AggregateRoot
     public function changeGroupName(GroupName $groupName): void
     {
         $this->recordThat(GroupUpdated::withData($this->groupId(), $groupName));
+    }
+
+    public function addIdea(IdeaId $ideaId, IdeaTitle $ideaTitle, IdeaDescription $ideaDescription)
+    {
+        return Idea::add(
+            $ideaId,
+            $this->groupId(),
+            $ideaTitle,
+            $ideaDescription
+        );
     }
 
     protected function aggregateId(): string

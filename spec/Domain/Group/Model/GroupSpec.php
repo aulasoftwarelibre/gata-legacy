@@ -18,12 +18,17 @@ use App\Domain\Group\Event\GroupAdded;
 use App\Domain\Group\Event\GroupUpdated;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
+use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Model\IdeaDescription;
+use App\Domain\Idea\Model\IdeaId;
+use App\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
 use Tests\Service\Prooph\Spec\AggregateAsserter;
 
 final class GroupSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
+    const IDEA_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
     const NAME = 'Lorem ipsum';
     const OTHER_NAME = 'Aliquam auctor';
 
@@ -61,6 +66,21 @@ final class GroupSpec extends ObjectBehavior
     public function it_has_a_group_name(): void
     {
         $this->groupName()->shouldBeLike(new GroupName(self::NAME));
+    }
+
+    public function it_can_add_ideas(): void
+    {
+        $idea = $this->addIdea(new IdeaId(self::IDEA_UUID), new IdeaTitle('Title'), new IdeaDescription('Description'));
+
+        (new AggregateAsserter())->assertAggregateHasProducedEvent(
+            $idea->getWrappedObject(),
+            IdeaAdded::withData(
+                new IdeaId(self::IDEA_UUID),
+                new GroupId(self::UUID),
+                new IdeaTitle('Title'),
+                new IdeaDescription('Description')
+            )
+        );
     }
 
     public function it_can_update_its_group_name(): void
