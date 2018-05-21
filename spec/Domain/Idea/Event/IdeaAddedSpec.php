@@ -13,12 +13,18 @@ declare(strict_types=1);
 
 namespace spec\App\Domain\Idea\Event;
 
+use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
+use App\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
 final class IdeaAddedSpec extends ObjectBehavior
 {
+    const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
+    const TITLE = 'Lorem ipsum';
+    const DESCRIPTION = 'Aliquam auctor';
+
     public function it_is_a_domain_event(): void
     {
         $this->shouldHaveType(DomainEvent::class);
@@ -27,13 +33,13 @@ final class IdeaAddedSpec extends ObjectBehavior
     public function it_represents_idea_added_event_occurrence(): void
     {
         $this->beConstructedThrough('withData', [
-            new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'),
-            'Title',
-            'Description',
+            new IdeaId(self::UUID),
+            new IdeaTitle(self::TITLE),
+            new IdeaDescription(self::DESCRIPTION),
         ]);
 
-        $this->ideaId()->shouldBeLike(new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'));
-        $this->title()->shouldBeLike('Title');
-        $this->description()->shouldBeLike('Description');
+        $this->ideaId()->shouldBeLike(new IdeaId(self::UUID));
+        $this->ideaTitle()->shouldBeLike(new IdeaTitle(self::TITLE));
+        $this->ideaDescription()->shouldBeLike(new IdeaDescription(self::DESCRIPTION));
     }
 }

@@ -20,6 +20,9 @@ use Prooph\Common\Messaging\DomainEvent;
 
 final class IdeaVotedSpec extends ObjectBehavior
 {
+    const IDEA_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
+    const USER_ID = '4ab37020-455c-45a3-8f7e-194bfb9fbc0b';
+
     public function it_is_a_domain_event(): void
     {
         $this->shouldHaveType(DomainEvent::class);
@@ -28,11 +31,11 @@ final class IdeaVotedSpec extends ObjectBehavior
     public function it_represents_idea_voted_event_occurrence(): void
     {
         $this->beConstructedThrough('withData', [
-            new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'),
-            new UserId('0c586173-7676-4a2c-9220-edd223eb458e'),
+            new IdeaId(self::IDEA_ID),
+            new UserId(self::USER_ID),
         ]);
 
-        $this->ideaId()->shouldBeLike(new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'));
-        $this->userId()->shouldBeLike(new UserId('0c586173-7676-4a2c-9220-edd223eb458e'));
+        $this->ideaId()->shouldBeLike(new IdeaId(self::IDEA_ID));
+        $this->userId()->shouldBeLike(new UserId(self::USER_ID));
     }
 }

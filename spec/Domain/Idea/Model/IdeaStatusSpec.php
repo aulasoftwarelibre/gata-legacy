@@ -14,14 +14,19 @@ declare(strict_types=1);
 namespace spec\App\Domain\Idea\Model;
 
 use App\Domain\Enum;
+use App\Domain\ValueObject;
 use PhpSpec\ObjectBehavior;
 
-class IdeaStatusSpec extends ObjectBehavior
+final class IdeaStatusSpec extends ObjectBehavior
 {
     public function let(): void
     {
         $this->beConstructedThrough('byName', ['PENDING']);
-        $this->getWrappedObject();
+    }
+
+    public function it_is_a_value_object(): void
+    {
+        $this->shouldImplement(ValueObject::class);
     }
 
     public function it_is_an_enum(): void
@@ -34,7 +39,7 @@ class IdeaStatusSpec extends ObjectBehavior
         $this->__toString()->shouldBe('PENDING');
     }
 
-    public function it_can_be_compared_with_other_value_object()
+    public function it_can_be_compared_with_other_idea_status()
     {
         $this->equals($this->getWrappedObject())->shouldBe(true);
     }

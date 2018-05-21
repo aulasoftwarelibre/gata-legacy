@@ -15,34 +15,30 @@ namespace spec\App\Domain\Idea\Model;
 
 use App\Domain\Idea\Exception\InvalidIdeaIdFormatException;
 use App\Domain\Idea\Model\IdeaId;
+use App\Domain\ValueObject;
 use PhpSpec\ObjectBehavior;
 
 final class IdeaIdSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const NOT_VALID_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a5';
     const OTHER_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a57';
+    const INVALID_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a5';
 
     public function let(): void
     {
         $this->beConstructedWith(self::UUID);
     }
 
-    public function it_is_initializable(): void
+    public function it_is_a_value_object(): void
     {
-        $this->shouldHaveType(IdeaId::class);
-    }
-
-    public function it_can_be_created_from_string(): void
-    {
-        $this->id()->shouldBe(self::UUID);
+        $this->shouldImplement(ValueObject::class);
     }
 
     public function it_has_to_be_valid(): void
     {
         $this->shouldThrow(InvalidIdeaIdFormatException::class)->during(
             '__construct',
-            [self::NOT_VALID_UUID]
+            [self::INVALID_UUID]
         );
     }
 
@@ -51,12 +47,15 @@ final class IdeaIdSpec extends ObjectBehavior
         $this->__toString()->shouldBe(self::UUID);
     }
 
-    public function it_can_be_compared_with_other_idea_id(
-        IdeaId $sameIdeaId,
-        IdeaId $notSameIdeaId
-    ) {
-        $sameIdeaId->id()->shouldBeCalled()->willReturn(self::UUID);
-        $notSameIdeaId->id()->shouldBeCalled()->willReturn(self::OTHER_UUID);
+    public function it_has_an_id(): void
+    {
+        $this->id()->shouldBe(self::UUID);
+    }
+
+    public function it_can_be_compared_with_other_idea_id()
+    {
+        $sameIdeaId = new IdeaId(self::UUID);
+        $notSameIdeaId = new IdeaId(self::OTHER_UUID);
 
         $this->equals($sameIdeaId)->shouldBe(true);
         $this->equals($notSameIdeaId)->shouldBe(false);
