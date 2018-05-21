@@ -21,8 +21,8 @@ use PhpSpec\ObjectBehavior;
 final class GroupIdSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const NOT_VALID_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a5';
     const OTHER_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a57';
+    const INVALID_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a5';
 
     public function let(): void
     {
@@ -31,19 +31,14 @@ final class GroupIdSpec extends ObjectBehavior
 
     public function it_is_a_value_object(): void
     {
-        $this->shouldHaveType(ValueObject::class);
-    }
-
-    public function it_can_be_created_from_string(): void
-    {
-        $this->id()->shouldBe(self::UUID);
+        $this->shouldImplement(ValueObject::class);
     }
 
     public function it_has_to_be_valid(): void
     {
         $this->shouldThrow(InvalidGroupIdFormatException::class)->during(
             '__construct',
-            [self::NOT_VALID_UUID]
+            [self::INVALID_UUID]
         );
     }
 
@@ -52,12 +47,15 @@ final class GroupIdSpec extends ObjectBehavior
         $this->__toString()->shouldBe(self::UUID);
     }
 
-    public function it_can_be_compared_with_other_group_id(
-        GroupId $sameGroupId,
-        GroupId $notSameGroupId
-    ) {
-        $sameGroupId->id()->shouldBeCalled()->willReturn(self::UUID);
-        $notSameGroupId->id()->shouldBeCalled()->willReturn(self::OTHER_UUID);
+    public function it_has_an_id(): void
+    {
+        $this->id()->shouldBe(self::UUID);
+    }
+
+    public function it_can_be_compared_with_other_group_id()
+    {
+        $sameGroupId = new GroupId(self::UUID);
+        $notSameGroupId = new GroupId(self::OTHER_UUID);
 
         $this->equals($sameGroupId)->shouldBe(true);
         $this->equals($notSameGroupId)->shouldBe(false);

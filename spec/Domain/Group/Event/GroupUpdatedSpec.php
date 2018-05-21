@@ -14,12 +14,15 @@ declare(strict_types=1);
 namespace spec\App\Domain\Group\Event;
 
 use App\Domain\Group\Model\GroupId;
-use App\Domain\Group\Model\Name;
+use App\Domain\Group\Model\GroupName;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
-class GroupUpdatedSpec extends ObjectBehavior
+final class GroupUpdatedSpec extends ObjectBehavior
 {
+    const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
+    const NAME = 'Lorem ipsum';
+
     public function it_is_a_domain_event(): void
     {
         $this->shouldHaveType(DomainEvent::class);
@@ -28,11 +31,11 @@ class GroupUpdatedSpec extends ObjectBehavior
     public function it_represents_group_updated_event_occurrence(): void
     {
         $this->beConstructedThrough('withData', [
-            new GroupId('e8a68535-3e17-468f-acc3-8a3e0fa04a59'),
-            new Name('Quis aute'),
+            new GroupId(self::UUID),
+            new GroupName(self::NAME),
         ]);
 
-        $this->id()->shouldBeLike(new GroupId('e8a68535-3e17-468f-acc3-8a3e0fa04a59'));
-        $this->name()->shouldBeLike(new Name('Quis aute'));
+        $this->groupId()->shouldBeLike(new GroupId(self::UUID));
+        $this->groupName()->shouldBeLike(new GroupName(self::NAME));
     }
 }
