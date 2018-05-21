@@ -14,9 +14,10 @@ declare(strict_types=1);
 namespace App\Domain\Idea\Model;
 
 use App\Domain\Idea\Exception\InvalidIdeaIdFormatException;
+use App\Domain\ValueObject;
 use Ramsey\Uuid\Uuid;
 
-class IdeaId
+final class IdeaId implements ValueObject
 {
     /**
      * @var string
@@ -42,8 +43,8 @@ class IdeaId
         return $this->id;
     }
 
-    public function equals(self $ideaId): bool
+    public function equals(ValueObject $valueObject): bool
     {
-        return $this->id() === $ideaId->id();
+        return $valueObject instanceof self && $this->id() === $valueObject->id();
     }
 }

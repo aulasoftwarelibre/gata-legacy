@@ -17,7 +17,7 @@ use App\Domain\Idea\Model\IdeaId;
 use App\Domain\User\Model\UserId;
 use Prooph\EventSourcing\AggregateChanged;
 
-class IdeaVoted extends AggregateChanged
+final class IdeaVoted extends AggregateChanged
 {
     public static function withData(IdeaId $ideaId, UserId $userId): self
     {

@@ -13,16 +13,18 @@ declare(strict_types=1);
 
 namespace App\Domain\Idea\Event;
 
+use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
+use App\Domain\Idea\Model\IdeaTitle;
 use Prooph\EventSourcing\AggregateChanged;
 
-class IdeaAdded extends AggregateChanged
+final class IdeaAdded extends AggregateChanged
 {
-    public static function withData(IdeaId $ideaId, string $title, string $description): self
+    public static function withData(IdeaId $ideaId, IdeaTitle $ideaTitle, IdeaDescription $ideaDescription): self
     {
         return self::occur($ideaId->id(), [
-            'title' => $title,
-            'description' => $description,
+            'title' => $ideaTitle->title(),
+            'description' => $ideaDescription->description(),
         ]);
     }
 
@@ -31,13 +33,13 @@ class IdeaAdded extends AggregateChanged
         return new IdeaId($this->aggregateId());
     }
 
-    public function title(): string
+    public function ideaTitle(): IdeaTitle
     {
-        return $this->payload()['title'];
+        return new IdeaTitle($this->payload()['title']);
     }
 
-    public function description(): string
+    public function ideaDescription(): IdeaDescription
     {
-        return $this->payload()['description'];
+        return new IdeaDescription($this->payload()['description']);
     }
 }

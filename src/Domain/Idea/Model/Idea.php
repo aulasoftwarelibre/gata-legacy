@@ -16,7 +16,7 @@ namespace App\Domain\Idea\Model;
 use App\Domain\AggregateRoot;
 use App\Domain\Idea\Event\IdeaAdded;
 
-class Idea extends AggregateRoot
+final class Idea extends AggregateRoot
 {
     /**
      * @var IdeaId
@@ -29,22 +29,27 @@ class Idea extends AggregateRoot
     private $ideaStatus;
 
     /**
-     * @var string
+     * @var IdeaTitle
      */
-    private $title;
+    private $ideaTitle;
 
     /**
-     * @var string
+     * @var IdeaDescription
      */
-    private $description;
+    private $ideaDescription;
 
-    public static function add(IdeaId $ideaId, string $title, string $description)
+    public static function add(IdeaId $ideaId, IdeaTitle $ideaTitle, IdeaDescription $ideaDescription)
     {
         $comment = new self();
 
-        $comment->recordThat(IdeaAdded::withData($ideaId, $title, $description));
+        $comment->recordThat(IdeaAdded::withData($ideaId, $ideaTitle, $ideaDescription));
 
         return $comment;
+    }
+
+    public function __toString()
+    {
+        return $this->ideaTitle()->title();
     }
 
     public function ideaId(): IdeaId
@@ -57,14 +62,14 @@ class Idea extends AggregateRoot
         return $this->ideaStatus;
     }
 
-    public function title(): string
+    public function ideaTitle(): IdeaTitle
     {
-        return $this->title;
+        return $this->ideaTitle;
     }
 
-    public function description(): string
+    public function ideaDescription(): IdeaDescription
     {
-        return $this->description;
+        return $this->ideaDescription;
     }
 
     protected function aggregateId(): string
@@ -76,7 +81,7 @@ class Idea extends AggregateRoot
     {
         $this->ideaId = $event->ideaId();
         $this->ideaStatus = IdeaStatus::PENDING();
-        $this->title = $event->title();
-        $this->description = $event->description();
+        $this->ideaTitle = $event->ideaTitle();
+        $this->ideaDescription = $event->ideaDescription();
     }
 }

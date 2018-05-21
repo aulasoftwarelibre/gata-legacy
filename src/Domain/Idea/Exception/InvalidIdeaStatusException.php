@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Idea\Exception;
 
-final class InvalidIdeaStatusException extends \DomainException
+use DomainException;
+
+final class InvalidIdeaStatusException extends DomainException
 {
 }

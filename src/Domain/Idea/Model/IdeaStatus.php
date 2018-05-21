@@ -20,7 +20,7 @@ use App\Domain\Enum;
  * @method static IdeaStatus PENDING()
  * @method static IdeaStatus REJECTED()
  */
-class IdeaStatus extends Enum
+final class IdeaStatus extends Enum
 {
     const ACCEPTED = 'accepted';
     const PENDING = 'pending';
