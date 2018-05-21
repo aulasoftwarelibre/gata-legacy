@@ -13,57 +13,68 @@ declare(strict_types=1);
 
 namespace spec\App\Domain\Comment\Model;
 
+use App\Domain\AggregateRoot;
 use App\Domain\Comment\Event\CommentAdded;
-use App\Domain\Comment\Model\Comment;
 use App\Domain\Comment\Model\CommentId;
+use App\Domain\Comment\Model\CommentText;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\User\Model\UserId;
 use PhpSpec\ObjectBehavior;
 use Tests\Service\Prooph\Spec\AggregateAsserter;
 
-class CommentSpec extends ObjectBehavior
+final class CommentSpec extends ObjectBehavior
 {
+    const COMMENT_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
+    const IDEA_ID = '4ab37020-455c-45a3-8f7e-194bfb9fbc0b';
+    const USER_ID = '0c586173-7676-4a2c-9220-edd223eb458e';
+    const TEXT = 'Lorem ipsum';
+
     public function let(): void
     {
         $this->beConstructedThrough('add', [
-            new CommentId('e8a68535-3e17-468f-acc3-8a3e0fa04a59'),
-            new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'),
-            new UserId('0c586173-7676-4a2c-9220-edd223eb458e'),
-            'Lorem ipsum',
+            new CommentId(self::COMMENT_ID),
+            new IdeaId(self::IDEA_ID),
+            new UserId(self::USER_ID),
+            new CommentText(self::TEXT),
         ]);
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             CommentAdded::withData(
-                new CommentId('e8a68535-3e17-468f-acc3-8a3e0fa04a59'),
-                new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'),
-                new UserId('0c586173-7676-4a2c-9220-edd223eb458e'),
-                'Lorem ipsum'
+                new CommentId(self::COMMENT_ID),
+                new IdeaId(self::IDEA_ID),
+                new UserId(self::USER_ID),
+                new CommentText(self::TEXT)
             )
         );
     }
 
-    public function it_is_initializable()
+    public function it_is_an_aggregate()
     {
-        $this->shouldHaveType(Comment::class);
+        $this->shouldHaveType(AggregateRoot::class);
     }
 
-    public function it_has_an_id(): void
+    public function it_can_be_a_string(): void
     {
-        $this->id()->shouldBeLike(new CommentId('e8a68535-3e17-468f-acc3-8a3e0fa04a59'));
+        $this->__toString()->shouldBe(self::TEXT);
+    }
+
+    public function it_has_a_comment_id(): void
+    {
+        $this->commentId()->shouldBeLike(new CommentId(self::COMMENT_ID));
     }
 
     public function it_has_an_idea_id(): void
     {
-        $this->ideaId()->shouldBeLike(new IdeaId('4ab37020-455c-45a3-8f7e-194bfb9fbc0b'));
+        $this->ideaId()->shouldBeLike(new IdeaId(self::IDEA_ID));
     }
 
     public function it_has_an_user_id(): void
     {
-        $this->userId()->shouldBeLike(new UserId('0c586173-7676-4a2c-9220-edd223eb458e'));
+        $this->userId()->shouldBeLike(new UserId(self::USER_ID));
     }
 
-    public function it_has_a_text(): void
+    public function it_has_a_comment_text(): void
     {
-        $this->text()->shouldBeLike('Lorem ipsum');
+        $this->commentText()->shouldBeLike(new CommentText(self::TEXT));
     }
 }
