@@ -42,11 +42,11 @@ final class Idea extends AggregateRoot
 
     public static function add(IdeaId $ideaId, GroupId $groupId, IdeaTitle $ideaTitle, IdeaDescription $ideaDescription)
     {
-        $comment = new self();
+        $idea = new self();
 
-        $comment->recordThat(IdeaAdded::withData($ideaId, $groupId, $ideaTitle, $ideaDescription));
+        $idea->recordThat(IdeaAdded::withData($ideaId, $groupId, $ideaTitle, $ideaDescription));
 
-        return $comment;
+        return $idea;
     }
 
     public function __toString()
