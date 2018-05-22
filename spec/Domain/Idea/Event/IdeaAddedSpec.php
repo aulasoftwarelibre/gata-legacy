@@ -16,6 +16,7 @@ namespace spec\App\Domain\Idea\Event;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
+use App\Domain\Idea\Model\IdeaStatus;
 use App\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
@@ -43,6 +44,7 @@ final class IdeaAddedSpec extends ObjectBehavior
 
         $this->ideaId()->shouldBeLike(new IdeaId(self::IDEA_ID));
         $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
+        $this->ideaStatus()->shouldBeLike(IdeaStatus::PENDING());
         $this->ideaTitle()->shouldBeLike(new IdeaTitle(self::TITLE));
         $this->ideaDescription()->shouldBeLike(new IdeaDescription(self::DESCRIPTION));
     }

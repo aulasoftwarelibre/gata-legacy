@@ -15,6 +15,7 @@ namespace spec\App\Domain\Idea\Model;
 
 use App\Domain\AggregateRoot;
 use App\Domain\Group\Model\GroupId;
+use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
@@ -83,5 +84,19 @@ final class IdeaSpec extends ObjectBehavior
     public function it_has_an_idea_description(): void
     {
         $this->ideaDescription()->shouldBeLike(new IdeaDescription(self::DESCRIPTION));
+    }
+
+    public function it_can_be_accepted(): void
+    {
+        $this->accept();
+
+        (new AggregateAsserter())->assertAggregateHasProducedEvent(
+            $this->getWrappedObject(),
+            IdeaAccepted::withData(
+                new IdeaId(self::IDEA_ID)
+            )
+        );
+
+        $this->ideaStatus()->shouldBeLike(IdeaStatus::ACCEPTED());
     }
 }

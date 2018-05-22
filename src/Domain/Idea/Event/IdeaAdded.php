@@ -16,6 +16,7 @@ namespace App\Domain\Idea\Event;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
+use App\Domain\Idea\Model\IdeaStatus;
 use App\Domain\Idea\Model\IdeaTitle;
 use Prooph\EventSourcing\AggregateChanged;
 
@@ -48,5 +49,10 @@ final class IdeaAdded extends AggregateChanged
     public function ideaDescription(): IdeaDescription
     {
         return new IdeaDescription($this->payload()['description']);
+    }
+
+    public function ideaStatus(): IdeaStatus
+    {
+        return IdeaStatus::PENDING();
     }
 }
