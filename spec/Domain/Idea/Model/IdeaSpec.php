@@ -17,6 +17,7 @@ use App\Domain\AggregateRoot;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaStatus;
@@ -98,5 +99,19 @@ final class IdeaSpec extends ObjectBehavior
         );
 
         $this->ideaStatus()->shouldBeLike(IdeaStatus::ACCEPTED());
+    }
+
+    public function it_can_be_rejected(): void
+    {
+        $this->reject();
+
+        (new AggregateAsserter())->assertAggregateHasProducedEvent(
+            $this->getWrappedObject(),
+            IdeaRejected::withData(
+                new IdeaId(self::IDEA_ID)
+            )
+        );
+
+        $this->ideaStatus()->shouldBeLike(IdeaStatus::REJECTED());
     }
 }

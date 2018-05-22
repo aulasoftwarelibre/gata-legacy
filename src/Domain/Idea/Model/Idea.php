@@ -17,6 +17,7 @@ use App\Domain\AggregateRoot;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Event\IdeaRejected;
 
 final class Idea extends AggregateRoot
 {
@@ -85,6 +86,11 @@ final class Idea extends AggregateRoot
         $this->recordThat(IdeaAccepted::withData($this->ideaId()));
     }
 
+    public function reject(): void
+    {
+        $this->recordThat(IdeaRejected::withData($this->ideaId()));
+    }
+
     protected function aggregateId(): string
     {
         return $this->ideaId()->id();
@@ -100,6 +106,11 @@ final class Idea extends AggregateRoot
     }
 
     protected function applyIdeaAccepted(IdeaAccepted $event): void
+    {
+        $this->ideaStatus = $event->ideaStatus();
+    }
+
+    protected function applyIdeaRejected(IdeaRejected $event): void
     {
         $this->ideaStatus = $event->ideaStatus();
     }
