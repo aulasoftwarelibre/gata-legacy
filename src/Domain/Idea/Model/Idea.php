@@ -15,6 +15,7 @@ namespace App\Domain\Idea\Model;
 
 use App\Domain\AggregateRoot;
 use App\Domain\Group\Model\GroupId;
+use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
 
 final class Idea extends AggregateRoot
@@ -79,6 +80,11 @@ final class Idea extends AggregateRoot
         return $this->ideaDescription;
     }
 
+    public function accept(): void
+    {
+        $this->recordThat(IdeaAccepted::withData($this->ideaId()));
+    }
+
     protected function aggregateId(): string
     {
         return $this->ideaId()->id();
@@ -88,8 +94,13 @@ final class Idea extends AggregateRoot
     {
         $this->ideaId = $event->ideaId();
         $this->groupId = $event->groupId();
-        $this->ideaStatus = IdeaStatus::PENDING();
+        $this->ideaStatus = $event->ideaStatus();
         $this->ideaTitle = $event->ideaTitle();
         $this->ideaDescription = $event->ideaDescription();
+    }
+
+    protected function applyIdeaAccepted(IdeaAccepted $event): void
+    {
+        $this->ideaStatus = $event->ideaStatus();
     }
 }
