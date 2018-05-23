@@ -124,14 +124,14 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_can_add_comments(): void
     {
-        $idea = $this->addComment(
+        $comment = $this->addComment(
             new CommentId(self::COMMENT_ID),
             new UserId(self::USER_ID),
             new CommentText(self::TEXT)
         );
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
-            $idea->getWrappedObject(),
+            $comment->getWrappedObject(),
             CommentAdded::withData(
                 new CommentId(self::COMMENT_ID),
                 new IdeaId(self::IDEA_ID),
