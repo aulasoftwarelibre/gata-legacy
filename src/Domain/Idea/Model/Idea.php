@@ -20,7 +20,9 @@ use App\Domain\Comment\Model\CommentText;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
+use App\Domain\Idea\Event\IdeaTitleChanged;
 use App\Domain\User\Model\UserId;
 
 final class Idea extends AggregateRoot
@@ -57,7 +59,7 @@ final class Idea extends AggregateRoot
 
     public function __toString()
     {
-        return $this->ideaTitle()->title();
+        return $this->title()->title();
     }
 
     public function ideaId(): IdeaId
@@ -70,19 +72,37 @@ final class Idea extends AggregateRoot
         return $this->groupId;
     }
 
-    public function ideaStatus(): IdeaStatus
+    public function status(): IdeaStatus
     {
         return $this->ideaStatus;
     }
 
-    public function ideaTitle(): IdeaTitle
+    public function title(): IdeaTitle
     {
         return $this->ideaTitle;
     }
 
-    public function ideaDescription(): IdeaDescription
+    public function changeTitle(IdeaTitle $title): void
+    {
+        if ($this->title()->equals($title)) {
+            return;
+        }
+
+        $this->recordThat(IdeaTitleChanged::withData($this->ideaId(), $title));
+    }
+
+    public function description(): IdeaDescription
     {
         return $this->ideaDescription;
+    }
+
+    public function changeDescription(IdeaDescription $description): void
+    {
+        if ($this->description()->equals($description)) {
+            return;
+        }
+
+        $this->recordThat(IdeaDescriptionChanged::withData($this->ideaId(), $description));
     }
 
     public function accept(): void
@@ -117,6 +137,16 @@ final class Idea extends AggregateRoot
         $this->ideaStatus = $event->ideaStatus();
         $this->ideaTitle = $event->ideaTitle();
         $this->ideaDescription = $event->ideaDescription();
+    }
+
+    protected function applyIdeaTitleChanged(IdeaTitleChanged $event): void
+    {
+        $this->ideaTitle = $event->title();
+    }
+
+    protected function applyIdeaDescriptionChanged(IdeaDescriptionChanged $event): void
+    {
+        $this->ideaDescription = $event->description();
     }
 
     protected function applyIdeaAccepted(IdeaAccepted $event): void
