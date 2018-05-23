@@ -14,10 +14,14 @@ declare(strict_types=1);
 namespace App\Domain\Idea\Model;
 
 use App\Domain\AggregateRoot;
+use App\Domain\Comment\Model\Comment;
+use App\Domain\Comment\Model\CommentId;
+use App\Domain\Comment\Model\CommentText;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Event\IdeaRejected;
+use App\Domain\User\Model\UserId;
 
 final class Idea extends AggregateRoot
 {
@@ -89,6 +93,16 @@ final class Idea extends AggregateRoot
     public function reject(): void
     {
         $this->recordThat(IdeaRejected::withData($this->ideaId()));
+    }
+
+    public function addComment(CommentId $commentId, UserId $userId, CommentText $commentText)
+    {
+        return Comment::add(
+            $commentId,
+            $this->ideaId(),
+            $userId,
+            $commentText
+        );
     }
 
     protected function aggregateId(): string
