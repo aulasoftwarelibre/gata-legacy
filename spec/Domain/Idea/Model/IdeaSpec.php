@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace spec\App\Domain\Idea\Model;
 
 use App\Domain\AggregateRoot;
+use App\Domain\Comment\Event\CommentAdded;
+use App\Domain\Comment\Model\CommentId;
+use App\Domain\Comment\Model\CommentText;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
@@ -24,6 +27,7 @@ use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaStatus;
 use App\Domain\Idea\Model\IdeaTitle;
+use App\Domain\User\Model\UserId;
 use PhpSpec\ObjectBehavior;
 use Tests\Service\Prooph\Spec\AggregateAsserter;
 
@@ -31,8 +35,11 @@ final class IdeaSpec extends ObjectBehavior
 {
     const IDEA_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
     const GROUP_ID = '805d3cef-5408-48bc-98c4-dcd04d496eb5';
+    const COMMENT_ID = '805d3cef-5408-48bc-98c4-dcd04d496eb7';
+    const USER_ID = '805d3cef-5408-48bc-98c4-dcd04d496eb1';
     const TITLE = 'Lorem Ipsum';
     const DESCRIPTION = 'Aliquam auctor';
+    const TEXT = 'Fusce tincidunt';
 
     public function let(): void
     {
@@ -171,5 +178,24 @@ final class IdeaSpec extends ObjectBehavior
         );
 
         $this->status()->shouldBeLike(IdeaStatus::REJECTED());
+    }
+
+    public function it_can_add_comments(): void
+    {
+        $comment = $this->addComment(
+            new CommentId(self::COMMENT_ID),
+            new UserId(self::USER_ID),
+            new CommentText(self::TEXT)
+        );
+
+        (new AggregateAsserter())->assertAggregateHasProducedEvent(
+            $comment->getWrappedObject(),
+            CommentAdded::withData(
+                new CommentId(self::COMMENT_ID),
+                new IdeaId(self::IDEA_ID),
+                new UserId(self::USER_ID),
+                new CommentText(self::TEXT)
+            )
+        );
     }
 }
