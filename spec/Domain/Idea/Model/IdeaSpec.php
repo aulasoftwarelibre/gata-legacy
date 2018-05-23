@@ -17,7 +17,9 @@ use App\Domain\AggregateRoot;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
+use App\Domain\Idea\Event\IdeaTitleChanged;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaStatus;
@@ -82,10 +84,39 @@ final class IdeaSpec extends ObjectBehavior
         $this->title()->shouldBeLike(new IdeaTitle(self::TITLE));
     }
 
+    public function it_can_change_title(): void
+    {
+        $this->changeTitle(new IdeaTitle('New title'));
+
+        (new AggregateAsserter())->assertAggregateHasProducedEvent(
+            $this->getWrappedObject(),
+            IdeaTitleChanged::withData(
+                new IdeaId(self::IDEA_ID),
+                new IdeaTitle('New title')
+            )
+        );
+
+        $this->title()->equals(new IdeaTitle('New title'))->shouldBe(true);
+    }
 
     public function it_has_an_idea_description(): void
     {
         $this->description()->shouldBeLike(new IdeaDescription(self::DESCRIPTION));
+    }
+
+    public function it_can_change_description(): void
+    {
+        $this->changeDescription(new IdeaDescription('New description'));
+
+        (new AggregateAsserter())->assertAggregateHasProducedEvent(
+            $this->getWrappedObject(),
+            IdeaDescriptionChanged::withData(
+                new IdeaId(self::IDEA_ID),
+                new IdeaDescription('New description')
+            )
+        );
+
+        $this->description()->equals(new IdeaDescription('New description'))->shouldBe(true);
     }
 
     public function it_can_be_accepted(): void

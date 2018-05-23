@@ -17,7 +17,9 @@ use App\Domain\AggregateRoot;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
+use App\Domain\Idea\Event\IdeaTitleChanged;
 
 final class Idea extends AggregateRoot
 {
@@ -76,9 +78,19 @@ final class Idea extends AggregateRoot
         return $this->ideaTitle;
     }
 
+    public function changeTitle(IdeaTitle $title): void
+    {
+        $this->recordThat(IdeaTitleChanged::withData($this->ideaId(), $title));
+    }
+
     public function description(): IdeaDescription
     {
         return $this->ideaDescription;
+    }
+
+    public function changeDescription(IdeaDescription $description): void
+    {
+        $this->recordThat(IdeaDescriptionChanged::withData($this->ideaId(), $description));
     }
 
     public function accept(): void
@@ -103,6 +115,16 @@ final class Idea extends AggregateRoot
         $this->ideaStatus = $event->ideaStatus();
         $this->ideaTitle = $event->ideaTitle();
         $this->ideaDescription = $event->ideaDescription();
+    }
+
+    protected function applyIdeaTitleChanged(IdeaTitleChanged $event): void
+    {
+        $this->ideaTitle = $event->title();
+    }
+
+    protected function applyIdeaDescriptionChanged(IdeaDescriptionChanged $event): void
+    {
+        $this->ideaDescription = $event->description();
     }
 
     protected function applyIdeaAccepted(IdeaAccepted $event): void
