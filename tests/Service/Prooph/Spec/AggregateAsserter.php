@@ -46,4 +46,14 @@ final class AggregateAsserter
             'Expected one of the aggregate events to match the provided event.'
         );
     }
+
+    public function assertAggregateHasNotProducedEvent($aggregateRoot, AggregateChanged $event): void
+    {
+        $producedEvents = $this->closureAggregateTranslator->extractPendingStreamEvents($aggregateRoot);
+
+        Assert::false(
+            $this->messageMatcher->isOneOf($event, $producedEvents),
+            'Not expected one of the aggregate events to match the provided event.'
+        );
+    }
 }
