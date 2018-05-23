@@ -69,7 +69,7 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_is_pending_by_default(): void
     {
-        $this->ideaStatus()->shouldBeLike(IdeaStatus::PENDING());
+        $this->status()->shouldBeLike(IdeaStatus::PENDING());
     }
 
     public function it_has_a_group_id(): void
@@ -79,12 +79,13 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_has_an_idea_title(): void
     {
-        $this->ideaTitle()->shouldBeLike(new IdeaTitle(self::TITLE));
+        $this->title()->shouldBeLike(new IdeaTitle(self::TITLE));
     }
+
 
     public function it_has_an_idea_description(): void
     {
-        $this->ideaDescription()->shouldBeLike(new IdeaDescription(self::DESCRIPTION));
+        $this->description()->shouldBeLike(new IdeaDescription(self::DESCRIPTION));
     }
 
     public function it_can_be_accepted(): void
@@ -98,7 +99,7 @@ final class IdeaSpec extends ObjectBehavior
             )
         );
 
-        $this->ideaStatus()->shouldBeLike(IdeaStatus::ACCEPTED());
+        $this->status()->shouldBeLike(IdeaStatus::ACCEPTED());
     }
 
     public function it_can_be_rejected(): void
@@ -112,6 +113,6 @@ final class IdeaSpec extends ObjectBehavior
             )
         );
 
-        $this->ideaStatus()->shouldBeLike(IdeaStatus::REJECTED());
+        $this->status()->shouldBeLike(IdeaStatus::REJECTED());
     }
 }

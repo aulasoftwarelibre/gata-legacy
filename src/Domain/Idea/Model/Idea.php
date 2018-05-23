@@ -53,7 +53,7 @@ final class Idea extends AggregateRoot
 
     public function __toString()
     {
-        return $this->ideaTitle()->title();
+        return $this->title()->title();
     }
 
     public function ideaId(): IdeaId
@@ -66,17 +66,17 @@ final class Idea extends AggregateRoot
         return $this->groupId;
     }
 
-    public function ideaStatus(): IdeaStatus
+    public function status(): IdeaStatus
     {
         return $this->ideaStatus;
     }
 
-    public function ideaTitle(): IdeaTitle
+    public function title(): IdeaTitle
     {
         return $this->ideaTitle;
     }
 
-    public function ideaDescription(): IdeaDescription
+    public function description(): IdeaDescription
     {
         return $this->ideaDescription;
     }
