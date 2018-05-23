@@ -99,6 +99,19 @@ final class IdeaSpec extends ObjectBehavior
         $this->title()->equals(new IdeaTitle('New title'))->shouldBe(true);
     }
 
+    public function it_not_records_event_when_title_does_not_change()
+    {
+        $this->changeTitle(new IdeaTitle(self::TITLE));
+
+        (new AggregateAsserter())->assertAggregateHasNotProducedEvent(
+            $this->getWrappedObject(),
+            IdeaTitleChanged::withData(
+                new IdeaId(self::IDEA_ID),
+                new IdeaTitle(self::TITLE)
+            )
+        );
+    }
+
     public function it_has_an_idea_description(): void
     {
         $this->description()->shouldBeLike(new IdeaDescription(self::DESCRIPTION));
@@ -117,6 +130,19 @@ final class IdeaSpec extends ObjectBehavior
         );
 
         $this->description()->equals(new IdeaDescription('New description'))->shouldBe(true);
+    }
+
+    public function it_not_records_event_when_description_does_not_change()
+    {
+        $this->changeDescription(new IdeaDescription(self::DESCRIPTION));
+
+        (new AggregateAsserter())->assertAggregateHasNotProducedEvent(
+            $this->getWrappedObject(),
+            IdeaDescriptionChanged::withData(
+                new IdeaId(self::IDEA_ID),
+                new IdeaDescription(self::DESCRIPTION)
+            )
+        );
     }
 
     public function it_can_be_accepted(): void

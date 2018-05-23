@@ -80,6 +80,10 @@ final class Idea extends AggregateRoot
 
     public function changeTitle(IdeaTitle $title): void
     {
+        if ($this->title()->equals($title)) {
+            return;
+        }
+
         $this->recordThat(IdeaTitleChanged::withData($this->ideaId(), $title));
     }
 
@@ -90,6 +94,10 @@ final class Idea extends AggregateRoot
 
     public function changeDescription(IdeaDescription $description): void
     {
+        if ($this->description()->equals($description)) {
+            return;
+        }
+
         $this->recordThat(IdeaDescriptionChanged::withData($this->ideaId(), $description));
     }
 
