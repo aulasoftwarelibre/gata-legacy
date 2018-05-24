@@ -44,7 +44,7 @@ final class Group extends AggregateRoot
 
     public function __toString(): string
     {
-        return $this->groupName()->name();
+        return $this->name()->name();
     }
 
     public function groupId(): GroupId
@@ -52,12 +52,12 @@ final class Group extends AggregateRoot
         return $this->groupId;
     }
 
-    public function groupName(): GroupName
+    public function name(): GroupName
     {
         return $this->groupName;
     }
 
-    public function changeGroupName(GroupName $groupName): void
+    public function changeName(GroupName $groupName): void
     {
         $this->recordThat(GroupNameChanged::withData($this->groupId(), $groupName));
     }

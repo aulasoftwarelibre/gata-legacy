@@ -67,7 +67,7 @@ final class GroupSpec extends ObjectBehavior
 
     public function it_has_a_group_name(): void
     {
-        $this->groupName()->shouldBeLike(new GroupName(self::NAME));
+        $this->name()->shouldBeLike(new GroupName(self::NAME));
     }
 
     public function it_can_add_ideas(): void
@@ -91,7 +91,7 @@ final class GroupSpec extends ObjectBehavior
 
     public function it_can_update_its_group_name(): void
     {
-        $this->changeGroupName(new GroupName(self::OTHER_NAME));
+        $this->changeName(new GroupName(self::OTHER_NAME));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
@@ -101,6 +101,6 @@ final class GroupSpec extends ObjectBehavior
             )
         );
 
-        $this->groupName()->shouldBeLike(new GroupName(self::OTHER_NAME));
+        $this->name()->shouldBeLike(new GroupName(self::OTHER_NAME));
     }
 }
