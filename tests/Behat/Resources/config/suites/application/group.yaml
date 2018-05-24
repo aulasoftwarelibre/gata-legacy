@@ -1,0 +1,8 @@
+default:
+    suites:
+        group_application_features:
+            contexts_services: []
+# Remove [] and add services here.
+#                - service
+            filters:
+                tags: '@group && @application'
