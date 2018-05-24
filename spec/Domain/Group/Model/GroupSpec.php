@@ -15,7 +15,7 @@ namespace spec\App\Domain\Group\Model;
 
 use App\Domain\AggregateRoot;
 use App\Domain\Group\Event\GroupAdded;
-use App\Domain\Group\Event\GroupUpdated;
+use App\Domain\Group\Event\GroupNameChanged;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
 use App\Domain\Idea\Event\IdeaAdded;
@@ -95,7 +95,7 @@ final class GroupSpec extends ObjectBehavior
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            GroupUpdated::withData(
+            GroupNameChanged::withData(
                 new GroupId(self::GROUP_ID),
                 new GroupName(self::OTHER_NAME)
             )

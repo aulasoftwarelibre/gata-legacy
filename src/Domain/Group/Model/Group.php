@@ -15,7 +15,7 @@ namespace App\Domain\Group\Model;
 
 use App\Domain\AggregateRoot;
 use App\Domain\Group\Event\GroupAdded;
-use App\Domain\Group\Event\GroupUpdated;
+use App\Domain\Group\Event\GroupNameChanged;
 use App\Domain\Idea\Model\Idea;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
@@ -59,7 +59,7 @@ final class Group extends AggregateRoot
 
     public function changeGroupName(GroupName $groupName): void
     {
-        $this->recordThat(GroupUpdated::withData($this->groupId(), $groupName));
+        $this->recordThat(GroupNameChanged::withData($this->groupId(), $groupName));
     }
 
     public function addIdea(IdeaId $ideaId, IdeaTitle $ideaTitle, IdeaDescription $ideaDescription)
@@ -83,7 +83,7 @@ final class Group extends AggregateRoot
         $this->groupName = $event->groupName();
     }
 
-    protected function applyGroupUpdated(GroupUpdated $event): void
+    protected function applyGroupNameChanged(GroupNameChanged $event): void
     {
         $this->groupName = $event->groupName();
     }
