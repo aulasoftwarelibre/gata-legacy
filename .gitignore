@@ -1,5 +1,6 @@
 build/
-phpspec.yml
+behat.yaml
+phpspec.yaml
 
 ###> symfony/framework-bundle ###
 /.env
