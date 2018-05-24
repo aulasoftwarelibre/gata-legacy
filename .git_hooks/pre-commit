@@ -10,10 +10,21 @@ if [ -x vendor/bin/php-cs-fixer ]; then
 fi
 
 if $HAS_PHP_CS_FIXER; then
-    git status --porcelain | grep -e '^[AM]\(.*\).php$' | cut -c 3- | while read line; do
-        $PHP_CS_FIXER fix --verbose "$line";
-        git add "$line";
+    ERROR=0
+    for line in $(git status --porcelain | grep -e '^[AM]\(.*\).php$' | cut -c 3-); do
+        if ! $PHP_CS_FIXER fix --verbose --dry-run "$line";
+        then
+            ERROR=1
+        fi
+        $PHP_CS_FIXER fix --quiet "$line";
     done
+    if [ $ERROR -ne 0 ]
+    then
+        echo "**********************************************"
+        echo "php-cs-fixer fixed some files, commit aborted"
+        echo "**********************************************"
+        exit 1
+    fi
 else
     echo ""
     echo "Please install php-cs-fixer, e.g.:"
