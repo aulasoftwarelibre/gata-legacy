@@ -62,7 +62,7 @@ final class GroupSpec extends ObjectBehavior
 
     public function it_has_a_group_id(): void
     {
-        $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
+        $this->id()->shouldBeLike(new GroupId(self::GROUP_ID));
     }
 
     public function it_has_a_group_name(): void
