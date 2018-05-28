@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace spec\App\Domain\Idea\Model;
 
+use App\Domain\Idea\Exception\InvalidIdeaCapacityException;
 use App\Domain\Idea\Model\IdeaCapacity;
 use App\Domain\ValueObject;
 use PhpSpec\ObjectBehavior;
@@ -20,18 +21,47 @@ use PhpSpec\ObjectBehavior;
 final class IdeaCapacitySpec extends ObjectBehavior
 {
     const COUNT = 1;
-    const LIMIT = 2;
-    const OTHER_COUNT = 3;
+    const OTHER_COUNT = 2;
+    const LIMIT = 3;
     const OTHER_LIMIT = 4;
 
     public function let(): void
     {
-        $this->beConstructedWith(self::COUNT, self::LIMIT);
+        $this->beConstructedWith(self::LIMIT, self::COUNT);
     }
 
     public function it_is_a_value_object(): void
     {
         $this->shouldImplement(ValueObject::class);
+    }
+
+    public function it_is_unlimited_and_starts_counting_from_zero_by_default()
+    {
+        $this->beConstructedWith();
+
+        $this->limit()->shouldBe(null);
+        $this->count()->shouldBe(0);
+    }
+
+    public function it_can_not_have_negative_or_zero_limit_values()
+    {
+        $this->shouldThrow(InvalidIdeaCapacityException::class)->during(
+            '__construct',
+            [-1]
+        );
+
+        $this->shouldThrow(InvalidIdeaCapacityException::class)->during(
+            '__construct',
+            [0]
+        );
+    }
+
+    public function it_can_not_start_counting_from_negative_values()
+    {
+        $this->shouldThrow(InvalidIdeaCapacityException::class)->during(
+            '__construct',
+            [1, -1]
+        );
     }
 
     public function it_can_be_a_string(): void
@@ -54,16 +84,16 @@ final class IdeaCapacitySpec extends ObjectBehavior
 
     public function it_can_be_compared_with_other_idea_capacity()
     {
-        $sameIdeaCapacity = new IdeaCapacity(self::COUNT, self::LIMIT);
+        $sameIdeaCapacity = new IdeaCapacity(self::LIMIT, self::COUNT);
         $this->equals($sameIdeaCapacity)->shouldBe(true);
 
-        $notSameIdeaCapacity = new IdeaCapacity(self::COUNT, self::OTHER_LIMIT);
+        $notSameIdeaCapacity = new IdeaCapacity(self::LIMIT, self::OTHER_COUNT);
         $this->equals($notSameIdeaCapacity)->shouldBe(false);
 
-        $notSameIdeaCapacity = new IdeaCapacity(self::OTHER_COUNT, self::LIMIT);
+        $notSameIdeaCapacity = new IdeaCapacity(self::OTHER_LIMIT, self::COUNT);
         $this->equals($notSameIdeaCapacity)->shouldBe(false);
 
-        $notSameIdeaCapacity = new IdeaCapacity(self::OTHER_COUNT, self::OTHER_LIMIT);
+        $notSameIdeaCapacity = new IdeaCapacity(self::OTHER_LIMIT, self::OTHER_COUNT);
         $this->equals($notSameIdeaCapacity)->shouldBe(false);
     }
 }
