@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Idea\Model;
 
+use App\Domain\Idea\Exception\InvalidIdeaCapacityException;
 use App\Domain\ValueObject;
 
 final class IdeaCapacity implements ValueObject
@@ -27,8 +28,16 @@ final class IdeaCapacity implements ValueObject
      */
     private $limit;
 
-    public function __construct(int $count, int $limit)
+    public function __construct(int $limit = null, int $count = 0)
     {
+        if (
+            (null !== $limit && $limit < 1)
+            || $count < 0
+            || $limit < $count
+        ) {
+            throw new InvalidIdeaCapacityException();
+        }
+
         $this->count = $count;
         $this->limit = $limit;
     }
@@ -43,7 +52,7 @@ final class IdeaCapacity implements ValueObject
         return $this->count;
     }
 
-    public function limit(): int
+    public function limit(): ?int
     {
         return $this->limit;
     }
