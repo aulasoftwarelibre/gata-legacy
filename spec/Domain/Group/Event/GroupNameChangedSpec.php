@@ -18,7 +18,7 @@ use App\Domain\Group\Model\GroupName;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
-final class GroupUpdatedSpec extends ObjectBehavior
+final class GroupNameChangedSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
     const NAME = 'Lorem ipsum';

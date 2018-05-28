@@ -15,7 +15,7 @@ namespace spec\App\Domain\Group\Model;
 
 use App\Domain\AggregateRoot;
 use App\Domain\Group\Event\GroupAdded;
-use App\Domain\Group\Event\GroupUpdated;
+use App\Domain\Group\Event\GroupNameChanged;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
 use App\Domain\Idea\Event\IdeaAdded;
@@ -62,12 +62,12 @@ final class GroupSpec extends ObjectBehavior
 
     public function it_has_a_group_id(): void
     {
-        $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
+        $this->id()->shouldBeLike(new GroupId(self::GROUP_ID));
     }
 
     public function it_has_a_group_name(): void
     {
-        $this->groupName()->shouldBeLike(new GroupName(self::NAME));
+        $this->name()->shouldBeLike(new GroupName(self::NAME));
     }
 
     public function it_can_add_ideas(): void
@@ -91,16 +91,16 @@ final class GroupSpec extends ObjectBehavior
 
     public function it_can_update_its_group_name(): void
     {
-        $this->changeGroupName(new GroupName(self::OTHER_NAME));
+        $this->changeName(new GroupName(self::OTHER_NAME));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            GroupUpdated::withData(
+            GroupNameChanged::withData(
                 new GroupId(self::GROUP_ID),
                 new GroupName(self::OTHER_NAME)
             )
         );
 
-        $this->groupName()->shouldBeLike(new GroupName(self::OTHER_NAME));
+        $this->name()->shouldBeLike(new GroupName(self::OTHER_NAME));
     }
 }
