@@ -17,7 +17,7 @@ use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
 use Prooph\EventSourcing\AggregateChanged;
 
-final class GroupUpdated extends AggregateChanged
+final class GroupNameChanged extends AggregateChanged
 {
     public static function withData(GroupId $groupId, GroupName $groupName): self
     {
