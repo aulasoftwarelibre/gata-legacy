@@ -22,7 +22,9 @@ services:
     app.event_store.pdo_connection:
         class: \PDO
         arguments:
-            - '%env(DATABASE_URL)%'
+            - 'pgsql:host=%env(PGSQL_HOST)%;dbname=%env(PGSQL_DBNAME)%'
+            - '%env(PGSQL_USER)%'
+            - '%env(PGSQL_PASSWORD)%'
 
     app.event_store.postgres.persistence_strategy:
         class: Prooph\EventStore\Pdo\PersistenceStrategy\PostgresSingleStreamStrategy
