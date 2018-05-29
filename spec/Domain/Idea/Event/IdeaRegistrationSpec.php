@@ -18,17 +18,17 @@ use App\Domain\User\Model\UserId;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
-final class IdeaVotedSpec extends ObjectBehavior
+final class IdeaRegistrationSpec extends ObjectBehavior
 {
     const IDEA_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const USER_ID = '4ab37020-455c-45a3-8f7e-194bfb9fbc0b';
+    const USER_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a51';
 
     public function it_is_a_domain_event(): void
     {
         $this->shouldHaveType(DomainEvent::class);
     }
 
-    public function it_represents_idea_voted_event_occurrence(): void
+    public function it_represents_idea_registration_event_occurrence(): void
     {
         $this->beConstructedThrough('withData', [
             new IdeaId(self::IDEA_ID),
