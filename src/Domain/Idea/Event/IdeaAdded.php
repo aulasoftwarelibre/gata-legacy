@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace App\Domain\Idea\Event;
 
 use App\Domain\Group\Model\GroupId;
+use App\Domain\Idea\Model\IdeaCapacity;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaStatus;
@@ -54,5 +55,10 @@ final class IdeaAdded extends AggregateChanged
     public function ideaStatus(): IdeaStatus
     {
         return IdeaStatus::PENDING();
+    }
+
+    public function ideaCapacity(): IdeaCapacity
+    {
+        return new IdeaCapacity();
     }
 }
