@@ -21,9 +21,11 @@ use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
+use App\Domain\Idea\Event\IdeaRegistration;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaTitleChanged;
 use App\Domain\User\Model\UserId;
+use Doctrine\Common\Collections\Collection;
 
 final class Idea extends AggregateRoot
 {
@@ -47,6 +49,11 @@ final class Idea extends AggregateRoot
      * @var IdeaDescription
      */
     private $ideaDescription;
+
+    /**
+     * @var Collection
+     */
+    private $atendees;
 
     public static function add(IdeaId $ideaId, GroupId $groupId, IdeaTitle $ideaTitle, IdeaDescription $ideaDescription)
     {
@@ -157,5 +164,10 @@ final class Idea extends AggregateRoot
     protected function applyIdeaRejected(IdeaRejected $event): void
     {
         $this->ideaStatus = $event->ideaStatus();
+    }
+
+    protected function applyIdeaRegistration(IdeaRegistration $event): void
+    {
+        $this->atendees->add($event->userId());
     }
 }
