@@ -1,0 +1,4 @@
+prooph_event_store:
+    stores:
+        default:
+            event_store: '@app.event_store.in_memory'

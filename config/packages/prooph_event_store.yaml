@@ -1,0 +1,17 @@
+prooph_event_store:
+    stores:
+        default:
+            event_store: '@app.event_store.default'
+            repositories:
+                App\Infrastructure\Repository\EventStoreGroups:
+                    aggregate_type: App\Domain\Group\Model\Group
+                    aggregate_translator: Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator
+                    stream_name: 'test'
+                    one_stream_per_aggregate: true
+
+services:
+    _defaults:
+        public: false
+
+    Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator: ~
+    App\Application\Repository\Groups: '@App\Infrastructure\Repository\EventStoreGroups'

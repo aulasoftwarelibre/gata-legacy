@@ -1,0 +1,30 @@
+parameters:
+    # Adds a fallback DATABASE_URL if the env var is not set.
+    # This allows you to run cache:warmup even if your
+    # environment variables are not available yet.
+    # You should not need to change this value.
+    env(DATABASE_URL): ''
+
+services:
+    _defaults:
+        public: false
+
+    app.event_store.in_memory:
+        class: Prooph\EventStore\InMemoryEventStore
+
+    app.event_store.default:
+        class: Prooph\EventStore\Pdo\PostgresEventStore
+        arguments:
+            - '@prooph_event_store.message_factory'
+            - '@app.event_store.pdo_connection'
+            - '@app.event_store.postgres.persistence_strategy'
+
+    app.event_store.pdo_connection:
+        class: \PDO
+        arguments:
+            - 'pgsql:host=%env(PGSQL_HOST)%;dbname=%env(PGSQL_DBNAME)%'
+            - '%env(PGSQL_USER)%'
+            - '%env(PGSQL_PASSWORD)%'
+
+    app.event_store.postgres.persistence_strategy:
+        class: Prooph\EventStore\Pdo\PersistenceStrategy\PostgresSingleStreamStrategy

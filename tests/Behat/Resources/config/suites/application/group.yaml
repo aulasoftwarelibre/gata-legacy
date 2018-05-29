@@ -1,8 +1,7 @@
 default:
     suites:
         group_application_features:
-            contexts_services: []
-# Remove [] and add services here.
-#                - service
+            contexts_services:
+                - 'tests.behat.context.application.group_context'
             filters:
                 tags: '@group && @application'
