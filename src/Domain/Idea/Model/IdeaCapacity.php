@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Idea\Model;
 
+use App\Domain\Idea\Exception\ExceededCapacityLimitException;
 use App\Domain\Idea\Exception\InvalidIdeaCapacityException;
 use App\Domain\ValueObject;
 
-final class IdeaCapacity implements ValueObject
+class IdeaCapacity implements ValueObject
 {
     /**
      * @var int
@@ -28,14 +29,18 @@ final class IdeaCapacity implements ValueObject
      */
     private $limit;
 
-    public function __construct(int $limit = null, int $count = 0)
+    public function __construct(?int $limit = null, int $count = 0)
     {
-        if (
-            (null !== $limit && $limit < 1)
-            || $count < 0
-            || $limit < $count
-        ) {
+        if (null !== $limit && $limit < 1) {
             throw new InvalidIdeaCapacityException();
+        }
+
+        if ($count < 0) {
+            throw new InvalidIdeaCapacityException();
+        }
+
+        if ($limit < $count) {
+            throw new ExceededCapacityLimitException();
         }
 
         $this->count = $count;
@@ -55,6 +60,22 @@ final class IdeaCapacity implements ValueObject
     public function limit(): ?int
     {
         return $this->limit;
+    }
+
+    public static function increment(IdeaCapacity $ideaCapacity): self
+    {
+        $limit = $ideaCapacity->limit();
+        $count = $ideaCapacity->count() + 1;
+
+        return new IdeaCapacity($limit, $count);
+    }
+
+    public static function decrement(IdeaCapacity $ideaCapacity): self
+    {
+        $limit = $ideaCapacity->limit();
+        $count = $ideaCapacity->count() - 1;
+
+        return new IdeaCapacity($limit, $count);
     }
 
     public function equals(ValueObject $valueObject): bool

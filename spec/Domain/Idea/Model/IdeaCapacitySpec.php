@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace spec\App\Domain\Idea\Model;
 
+use App\Domain\Idea\Exception\ExceededCapacityLimitException;
 use App\Domain\Idea\Exception\InvalidIdeaCapacityException;
 use App\Domain\Idea\Model\IdeaCapacity;
 use App\Domain\ValueObject;
@@ -35,7 +36,7 @@ final class IdeaCapacitySpec extends ObjectBehavior
         $this->shouldImplement(ValueObject::class);
     }
 
-    public function it_is_unlimited_and_starts_counting_from_zero_by_default()
+    public function it_is_unlimited_and_starts_counting_from_zero_by_default(): void
     {
         $this->beConstructedWith();
 
@@ -43,7 +44,7 @@ final class IdeaCapacitySpec extends ObjectBehavior
         $this->count()->shouldBe(0);
     }
 
-    public function it_can_not_have_negative_or_zero_limit_values()
+    public function it_can_not_have_negative_or_zero_limit_values(): void
     {
         $this->shouldThrow(InvalidIdeaCapacityException::class)->during(
             '__construct',
@@ -56,11 +57,19 @@ final class IdeaCapacitySpec extends ObjectBehavior
         );
     }
 
-    public function it_can_not_start_counting_from_negative_values()
+    public function it_can_not_start_counting_from_negative_values(): void
     {
         $this->shouldThrow(InvalidIdeaCapacityException::class)->during(
             '__construct',
             [1, -1]
+        );
+    }
+
+    public function it_can_not_exceed_the_limit(): void
+    {
+        $this->shouldThrow(ExceededCapacityLimitException::class)->during(
+            '__construct',
+            [1, 2]
         );
     }
 
@@ -80,6 +89,32 @@ final class IdeaCapacitySpec extends ObjectBehavior
     public function it_has_a_limit(): void
     {
         $this->limit()->shouldBe(self::LIMIT);
+    }
+
+    public function it_can_increment(IdeaCapacity $ideaCapacity): void
+    {
+        $ideaCapacity->count()->shouldBeCalled()->willReturn(1);
+        $ideaCapacity->limit()->shouldBeCalled()->willReturn(3);
+
+        $this->beConstructedThrough('increment', [
+            $ideaCapacity,
+        ]);
+
+        $this->count()->shouldBe(2);
+        $this->limit()->shouldBe(3);
+    }
+
+    public function it_can_decrement(IdeaCapacity $ideaCapacity): void
+    {
+        $ideaCapacity->count()->shouldBeCalled()->willReturn(1);
+        $ideaCapacity->limit()->shouldBeCalled()->willReturn(3);
+
+        $this->beConstructedThrough('decrement', [
+            $ideaCapacity,
+        ]);
+
+        $this->count()->shouldBe(0);
+        $this->limit()->shouldBe(3);
     }
 
     public function it_can_be_compared_with_other_idea_capacity()
