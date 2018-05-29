@@ -18,7 +18,7 @@ use App\Domain\User\Model\UserId;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
-final class IdeaRegistrationSpec extends ObjectBehavior
+final class IdeaUserRegisteredSpec extends ObjectBehavior
 {
     const IDEA_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
     const USER_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a51';
