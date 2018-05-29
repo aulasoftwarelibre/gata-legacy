@@ -21,10 +21,10 @@ use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
-use App\Domain\Idea\Event\IdeaRegistration;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaTitleChanged;
 use App\Domain\User\Model\UserId;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 final class Idea extends AggregateRoot
@@ -51,12 +51,21 @@ final class Idea extends AggregateRoot
     private $ideaDescription;
 
     /**
+     * @var IdeaCapacity
+     */
+    private $ideaCapacity;
+
+    /**
      * @var Collection
      */
-    private $atendees;
+    private $attendees;
 
-    public static function add(IdeaId $ideaId, GroupId $groupId, IdeaTitle $ideaTitle, IdeaDescription $ideaDescription)
-    {
+    public static function add(
+        IdeaId $ideaId,
+        GroupId $groupId,
+        IdeaTitle $ideaTitle,
+        IdeaDescription $ideaDescription
+    ): self {
         $idea = new self();
 
         $idea->recordThat(IdeaAdded::withData($ideaId, $groupId, $ideaTitle, $ideaDescription));
@@ -64,7 +73,7 @@ final class Idea extends AggregateRoot
         return $idea;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->title()->title();
     }
@@ -87,6 +96,11 @@ final class Idea extends AggregateRoot
     public function title(): IdeaTitle
     {
         return $this->ideaTitle;
+    }
+
+    public function capacity(): IdeaCapacity
+    {
+        return $this->ideaCapacity;
     }
 
     public function changeTitle(IdeaTitle $title): void
@@ -144,6 +158,8 @@ final class Idea extends AggregateRoot
         $this->ideaStatus = $event->ideaStatus();
         $this->ideaTitle = $event->ideaTitle();
         $this->ideaDescription = $event->ideaDescription();
+        $this->ideaCapacity = $event->ideaCapacity();
+        $this->attendees = new ArrayCollection();
     }
 
     protected function applyIdeaTitleChanged(IdeaTitleChanged $event): void
