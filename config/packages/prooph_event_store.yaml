@@ -30,4 +30,4 @@ services:
         class: 'Prooph\EventStore\Pdo\PersistenceStrategy\PostgresSingleStreamStrategy'
 
     # Repositories
-    App\Application\Repository\Groups: '@App\Infrastructure\Repository\EventStoreGroups'
+    App\Application\Group\Repository\Groups: '@App\Infrastructure\Repository\EventStoreGroups'
