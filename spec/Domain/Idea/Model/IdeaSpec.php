@@ -23,6 +23,8 @@ use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaTitleChanged;
+use App\Domain\Idea\Event\IdeaUserRegistered;
+use App\Domain\Idea\Model\IdeaCapacity;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaStatus;
@@ -84,6 +86,11 @@ final class IdeaSpec extends ObjectBehavior
     public function it_has_a_group_id(): void
     {
         $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
+    }
+
+    public function it_has_a_capacity(): void
+    {
+        $this->capacity()->shouldBeLike(new IdeaCapacity());
     }
 
     public function it_has_an_idea_title(): void
@@ -195,6 +202,21 @@ final class IdeaSpec extends ObjectBehavior
                 new IdeaId(self::IDEA_ID),
                 new UserId(self::USER_ID),
                 new CommentText(self::TEXT)
+            )
+        );
+    }
+
+    public function it_can_register_attendees(): void
+    {
+        $this->registerAttendee(
+            new UserId(self::USER_ID)
+        );
+
+        (new AggregateAsserter())->assertAggregateHasProducedEvent(
+            $this->getWrappedObject(),
+            IdeaUserRegistered::withData(
+                new IdeaId(self::IDEA_ID),
+                new UserId(self::USER_ID)
             )
         );
     }
