@@ -13,7 +13,7 @@ namespace spec\App\Application\Group\Command;
 
 use App\Application\Group\Command\AddGroup;
 use App\Application\Group\Command\AddGroupHandler;
-use App\Application\Repository\Groups;
+use App\Application\Group\Repository\Groups;
 use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;

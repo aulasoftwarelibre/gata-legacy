@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the `gata` project.
  *
@@ -9,8 +11,14 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Exception;
+namespace App\Application\Group\Repository;
 
-class GroupNotFoundException extends \DomainException
+use App\Domain\Group\Model\Group;
+use App\Domain\Group\Model\GroupId;
+
+interface Groups
 {
+    public function save(Group $group): void;
+
+    public function get(GroupId $groupId): ?Group;
 }

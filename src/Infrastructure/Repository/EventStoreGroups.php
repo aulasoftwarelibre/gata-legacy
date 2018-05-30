@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
-use App\Application\Repository\Groups;
+use App\Application\Group\Repository\Groups;
 use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
