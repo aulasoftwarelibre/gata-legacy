@@ -23,6 +23,7 @@ use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaTitleChanged;
+use App\Domain\Idea\Event\IdeaUserRegistered;
 use App\Domain\User\Model\UserId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -146,6 +147,11 @@ final class Idea extends AggregateRoot
         );
     }
 
+    public function registerAttendee(UserId $userId): void
+    {
+        $this->recordThat(IdeaUserRegistered::withData($this->ideaId(), $userId));
+    }
+
     protected function aggregateId(): string
     {
         return $this->ideaId()->id();
@@ -182,8 +188,8 @@ final class Idea extends AggregateRoot
         $this->ideaStatus = $event->ideaStatus();
     }
 
-    protected function applyIdeaRegistration(IdeaRegistration $event): void
+    protected function applyIdeaUserRegistered(IdeaUserRegistered $event): void
     {
-        $this->atendees->add($event->userId());
+        $this->attendees->add($event->userId());
     }
 }
