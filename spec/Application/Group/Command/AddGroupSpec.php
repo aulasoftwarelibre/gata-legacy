@@ -35,7 +35,7 @@ class AddGroupSpec extends ObjectBehavior
             new GroupName(self::NAME),
         ]);
 
-        $this->id()->shouldBeLike(new GroupId(self::GROUP_ID));
+        $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
         $this->name()->shouldBeLike(new GroupName(self::NAME));
     }
 }

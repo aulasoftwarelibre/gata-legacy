@@ -36,6 +36,6 @@ final class GroupAddedSpec extends ObjectBehavior
         ]);
 
         $this->groupId()->shouldBeLike(new GroupId(self::UUID));
-        $this->groupName()->shouldBeLike(new GroupName(self::NAME));
+        $this->name()->shouldBeLike(new GroupName(self::NAME));
     }
 }

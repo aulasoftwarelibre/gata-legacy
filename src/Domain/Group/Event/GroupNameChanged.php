@@ -31,7 +31,7 @@ final class GroupNameChanged extends AggregateChanged
         return new GroupId($this->aggregateId());
     }
 
-    public function groupName(): GroupName
+    public function name(): GroupName
     {
         return new GroupName($this->payload()['name']);
     }

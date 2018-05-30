@@ -59,12 +59,13 @@ class GroupContext implements Context
     {
         $message = $this->eventsRecorder->getLastMessage();
 
+        /** @var GroupAdded $event */
         $event = $message->event();
         Assert::isInstanceOf($event, GroupAdded::class, sprintf(
             'Event has to be of class %s, but %s given',
             GroupAdded::class,
             get_class($event)
         ));
-        Assert::eq($event->groupName(), new GroupName($groupName));
+        Assert::eq($event->name(), new GroupName($groupName));
     }
 }

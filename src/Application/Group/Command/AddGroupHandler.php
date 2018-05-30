@@ -29,7 +29,7 @@ class AddGroupHandler
     public function __invoke(AddGroup $addGroup): void
     {
         $group = Group::add(
-            $addGroup->id(),
+            $addGroup->groupId(),
             $addGroup->name()
         );
 

@@ -23,14 +23,14 @@ final class AddGroup extends Command
     public static function create(GroupId $id, GroupName $name): self
     {
         return new self([
-            'id' => $id->id(),
+            'groupId' => $id->id(),
             'name' => $name->name(),
         ]);
     }
 
-    public function id(): GroupId
+    public function groupId(): GroupId
     {
-        return new GroupId($this->payload()['id']);
+        return new GroupId($this->payload()['groupId']);
     }
 
     public function name(): GroupName
