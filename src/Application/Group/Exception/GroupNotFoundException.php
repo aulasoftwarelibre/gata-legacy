@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the `gata` project.
  *
@@ -11,14 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Repository;
+namespace App\Application\Group\Exception;
 
-use App\Domain\Group\Model\Group;
-use App\Domain\Group\Model\GroupId;
-
-interface Groups
+class GroupNotFoundException extends \DomainException
 {
-    public function save(Group $group): void;
-
-    public function get(GroupId $groupId): ?Group;
 }

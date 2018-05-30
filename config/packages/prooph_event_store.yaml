@@ -31,4 +31,3 @@ services:
 
     # Repositories
     App\Application\Repository\Groups: '@App\Infrastructure\Repository\EventStoreGroups'
-

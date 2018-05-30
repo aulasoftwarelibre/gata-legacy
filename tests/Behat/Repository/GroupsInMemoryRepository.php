@@ -11,8 +11,8 @@
 
 namespace Tests\Behat\Repository;
 
-use App\Application\Exception\GroupNotFoundException;
-use App\Application\Repository\Groups;
+use App\Application\Group\Exception\GroupNotFoundException;
+use App\Application\Group\Repository\Groups;
 use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
 
