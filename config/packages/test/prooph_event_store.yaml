@@ -1,4 +1,17 @@
 prooph_event_store:
     stores:
         default:
-            event_store: '@app.event_store.in_memory'
+            event_store: 'Prooph\EventStore\InMemoryEventStore'
+            repositories:
+                App\Infrastructure\Repository\EventStoreGroups:
+                    aggregate_type: 'App\Domain\Group\Model\Group'
+                    aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
+                    stream_name: 'test'
+                    one_stream_per_aggregate: true
+
+services:
+    _defaults:
+        public: false
+
+    Prooph\EventStore\InMemoryEventStore: ~
+    Prooph\EventStore\EventStore: '@Prooph\EventStore\InMemoryEventStore'

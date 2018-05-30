@@ -1,17 +1,33 @@
 prooph_event_store:
     stores:
         default:
-            event_store: '@app.event_store.default'
+            event_store: 'Prooph\EventStore\Pdo\PostgresEventStore'
             repositories:
                 App\Infrastructure\Repository\EventStoreGroups:
-                    aggregate_type: App\Domain\Group\Model\Group
-                    aggregate_translator: Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator
-                    stream_name: 'test'
-                    one_stream_per_aggregate: true
+                    aggregate_type: 'App\Domain\Group\Model\Group'
+                    aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
 
 services:
     _defaults:
         public: false
 
-    Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator: ~
+    Prooph\EventStore\Pdo\PostgresEventStore:
+        arguments:
+            - '@prooph_event_store.message_factory'
+            - '@doctrine.pdo.connection'
+            - '@prooph_event_store.single_stream_strategy'
+
+    Prooph\EventStore\EventStore: '@Prooph\EventStore\Pdo\PostgresEventStore'
+
+    doctrine.pdo.connection:
+        class: '\PDO'
+        factory: ['@database_connection', 'getWrappedConnection']
+
+    prooph_event_sourcing.aggregate_translator:
+        class: 'Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator'
+
+    prooph_event_store.single_stream_strategy:
+        class: 'Prooph\EventStore\Pdo\PersistenceStrategy\PostgresSingleStreamStrategy'
+
+    # Repositories
     App\Application\Group\Repository\Groups: '@App\Infrastructure\Repository\EventStoreGroups'
