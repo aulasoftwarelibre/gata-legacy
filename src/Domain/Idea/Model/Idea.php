@@ -79,7 +79,7 @@ final class Idea extends AggregateRoot
 
     public function __toString(): string
     {
-        return $this->title()->title();
+        return $this->title()->value();
     }
 
     public function ideaId(): IdeaId

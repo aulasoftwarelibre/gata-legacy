@@ -36,7 +36,7 @@ final class IdeaTitleSpec extends ObjectBehavior
 
     public function it_has_a_title(): void
     {
-        $this->title()->shouldBe('Title');
+        $this->value()->shouldBe('Title');
     }
 
     public function it_can_be_compared_with_other_idea_title(): void
