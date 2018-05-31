@@ -61,7 +61,7 @@ final class GroupSpec extends ObjectBehavior
         $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
     }
 
-    public function it_has_a_group_name(): void
+    public function it_has_a_name(): void
     {
         $this->name()->shouldBeLike(new GroupName('Name'));
     }
@@ -85,7 +85,7 @@ final class GroupSpec extends ObjectBehavior
         );
     }
 
-    public function it_can_change_its_group_name(): void
+    public function it_can_change_its_name(): void
     {
         $this->changeName(new GroupName('Other name'));
 
