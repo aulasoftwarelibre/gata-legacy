@@ -17,10 +17,10 @@ use Prooph\EventSourcing\AggregateChanged;
 
 class IdeaTitleChanged extends AggregateChanged
 {
-    public static function withData(IdeaId $ideaId, IdeaTitle $ideaTitle)
+    public static function withData(IdeaId $ideaId, IdeaTitle $ideaTitle): self
     {
-        return self::occur($ideaId->id(), [
-            'title' => $ideaTitle->title(),
+        return self::occur($ideaId->value(), [
+            'title' => $ideaTitle->value(),
         ]);
     }
 

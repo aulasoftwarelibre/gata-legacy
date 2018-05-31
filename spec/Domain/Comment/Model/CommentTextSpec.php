@@ -20,42 +20,41 @@ use PhpSpec\ObjectBehavior;
 
 final class CommentTextSpec extends ObjectBehavior
 {
-    const TEXT = 'Lorem ipsum';
-    const OTHER_TEXT = 'Aliquam auctor';
-    const EMPTY_TEXT = '';
-
     public function let(): void
     {
-        $this->beConstructedWith(self::TEXT);
+        $this->beConstructedWith('Text');
     }
 
-    public function it_is_a_value_object()
+    public function it_is_a_value_object(): void
     {
         $this->shouldImplement(ValueObject::class);
     }
 
     public function it_can_not_be_blank(): void
     {
+        $emptyText = '';
+
         $this->shouldThrow(EmptyCommentTextException::class)->during(
-            '__construct',
-            [self::EMPTY_TEXT]
+            '__construct', [
+                $emptyText,
+            ]
         );
     }
 
     public function it_can_be_a_string(): void
     {
-        $this->__toString()->shouldBe(self::TEXT);
+        $this->__toString()->shouldBe('Text');
     }
 
     public function it_has_a_text(): void
     {
-        $this->text()->shouldBe(self::TEXT);
+        $this->value()->shouldBe('Text');
     }
 
-    public function it_can_be_compared_with_other_comment_text()
+    public function it_can_be_compared_with_other_comment_text(): void
     {
-        $sameCommentId = new CommentText(self::TEXT);
-        $notSameCommentId = new CommentText(self::OTHER_TEXT);
+        $sameCommentId = new CommentText('Text');
+        $notSameCommentId = new CommentText('Other text');
 
         $this->equals($sameCommentId)->shouldBe(true);
         $this->equals($notSameCommentId)->shouldBe(false);

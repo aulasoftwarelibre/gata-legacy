@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Exception;
 
-final class InvalidUserIdFormatException extends \DomainException
+use DomainException;
+
+final class InvalidUserIdFormatException extends DomainException
 {
 }

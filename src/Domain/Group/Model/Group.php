@@ -31,7 +31,7 @@ final class Group extends AggregateRoot
     /**
      * @var GroupName
      */
-    private $groupName;
+    private $name;
 
     public static function add(GroupId $groupId, GroupName $groupName): self
     {
@@ -44,29 +44,32 @@ final class Group extends AggregateRoot
 
     public function __toString(): string
     {
-        return $this->name()->name();
+        return $this->name()->value();
     }
 
-    public function id(): GroupId
+    public function groupId(): GroupId
     {
         return $this->groupId;
     }
 
     public function name(): GroupName
     {
-        return $this->groupName;
+        return $this->name;
     }
 
     public function changeName(GroupName $groupName): void
     {
-        $this->recordThat(GroupNameChanged::withData($this->id(), $groupName));
+        $this->recordThat(GroupNameChanged::withData($this->groupId(), $groupName));
     }
 
-    public function addIdea(IdeaId $ideaId, IdeaTitle $ideaTitle, IdeaDescription $ideaDescription)
-    {
+    public function addIdea(
+        IdeaId $ideaId,
+        IdeaTitle $ideaTitle,
+        IdeaDescription $ideaDescription
+    ): Idea {
         return Idea::add(
             $ideaId,
-            $this->id(),
+            $this->groupId(),
             $ideaTitle,
             $ideaDescription
         );
@@ -74,17 +77,17 @@ final class Group extends AggregateRoot
 
     protected function aggregateId(): string
     {
-        return $this->id()->id();
+        return $this->groupId()->value();
     }
 
     protected function applyGroupAdded(GroupAdded $event): void
     {
         $this->groupId = $event->groupId();
-        $this->groupName = $event->groupName();
+        $this->name = $event->name();
     }
 
     protected function applyGroupNameChanged(GroupNameChanged $event): void
     {
-        $this->groupName = $event->groupName();
+        $this->name = $event->name();
     }
 }

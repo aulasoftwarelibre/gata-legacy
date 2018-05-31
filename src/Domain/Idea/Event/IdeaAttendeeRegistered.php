@@ -17,12 +17,12 @@ use App\Domain\Idea\Model\IdeaId;
 use App\Domain\User\Model\UserId;
 use Prooph\EventSourcing\AggregateChanged;
 
-final class IdeaUserRegistered extends AggregateChanged
+final class IdeaAttendeeRegistered extends AggregateChanged
 {
     public static function withData(IdeaId $ideaId, UserId $userId): self
     {
-        return self::occur($ideaId->id(), [
-            'userId' => $userId->id(),
+        return self::occur($ideaId->value(), [
+            'userId' => $userId->value(),
         ]);
     }
 

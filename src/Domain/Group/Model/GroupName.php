@@ -32,18 +32,18 @@ final class GroupName implements ValueObject
         $this->name = $name;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->name();
+        return $this->value();
     }
 
-    public function name(): string
+    public function value(): string
     {
         return $this->name;
     }
 
     public function equals(ValueObject $valueObject): bool
     {
-        return $valueObject instanceof self && $valueObject->name() === $this->name();
+        return $valueObject instanceof self && $valueObject->value() === $this->value();
     }
 }

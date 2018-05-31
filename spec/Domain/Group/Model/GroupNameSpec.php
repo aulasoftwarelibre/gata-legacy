@@ -20,42 +20,41 @@ use PhpSpec\ObjectBehavior;
 
 final class GroupNameSpec extends ObjectBehavior
 {
-    const TEXT = 'Lorem ipsum';
-    const OTHER_TEXT = 'Aliquam auctor';
-    const EMPTY_TEXT = '';
-
     public function let(): void
     {
-        $this->beConstructedWith(self::TEXT);
+        $this->beConstructedWith('Text');
     }
 
-    public function it_is_a_value_object()
+    public function it_is_a_value_object(): void
     {
         $this->shouldImplement(ValueObject::class);
     }
 
-    public function it_can_not_be_blank()
+    public function it_can_not_be_blank(): void
     {
+        $emptyText = '';
+
         $this->shouldThrow(EmptyGroupNameException::class)->during(
-            '__construct',
-            [self::EMPTY_TEXT]
+            '__construct', [
+                $emptyText,
+            ]
         );
     }
 
     public function it_can_be_a_string(): void
     {
-        $this->__toString()->shouldBe(self::TEXT);
+        $this->__toString()->shouldBe('Text');
     }
 
     public function it_has_a_name(): void
     {
-        $this->name()->shouldBe(self::TEXT);
+        $this->value()->shouldBe('Text');
     }
 
-    public function it_can_be_compared_with_other_group_name()
+    public function it_can_be_compared_with_other_group_name(): void
     {
-        $sameGroupName = new GroupName(self::TEXT);
-        $notSameGroupName = new GroupName(self::OTHER_TEXT);
+        $sameGroupName = new GroupName('Text');
+        $notSameGroupName = new GroupName('Other text');
 
         $this->equals($sameGroupName)->shouldBe(true);
         $this->equals($notSameGroupName)->shouldBe(false);

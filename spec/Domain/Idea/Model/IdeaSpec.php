@@ -20,10 +20,10 @@ use App\Domain\Comment\Model\CommentText;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Event\IdeaAttendeeRegistered;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaTitleChanged;
-use App\Domain\Idea\Event\IdeaUserRegistered;
 use App\Domain\Idea\Model\IdeaCapacity;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
@@ -36,20 +36,17 @@ use Tests\Service\Prooph\Spec\AggregateAsserter;
 final class IdeaSpec extends ObjectBehavior
 {
     const IDEA_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const GROUP_ID = '805d3cef-5408-48bc-98c4-dcd04d496eb5';
-    const COMMENT_ID = '805d3cef-5408-48bc-98c4-dcd04d496eb7';
+    const GROUP_ID = '4ab37020-455c-45a3-8f7e-194bfb9fbc0b';
+    const COMMENT_ID = '0c586173-7676-4a2c-9220-edd223eb458e';
     const USER_ID = '805d3cef-5408-48bc-98c4-dcd04d496eb1';
-    const TITLE = 'Lorem Ipsum';
-    const DESCRIPTION = 'Aliquam auctor';
-    const TEXT = 'Fusce tincidunt';
 
     public function let(): void
     {
         $this->beConstructedThrough('add', [
             new IdeaId(self::IDEA_ID),
             new GroupId(self::GROUP_ID),
-            new IdeaTitle(self::TITLE),
-            new IdeaDescription(self::DESCRIPTION),
+            new IdeaTitle('Title'),
+            new IdeaDescription('Description'),
         ]);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
@@ -57,8 +54,8 @@ final class IdeaSpec extends ObjectBehavior
             IdeaAdded::withData(
                 new IdeaId(self::IDEA_ID),
                 new GroupId(self::GROUP_ID),
-                new IdeaTitle(self::TITLE),
-                new IdeaDescription(self::DESCRIPTION)
+                new IdeaTitle('Title'),
+                new IdeaDescription('Description')
             )
         );
     }
@@ -70,7 +67,7 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_can_be_a_string(): void
     {
-        $this->__toString()->shouldBe(self::TITLE);
+        $this->__toString()->shouldBe('Title');
     }
 
     public function it_has_an_idea_id(): void
@@ -78,14 +75,14 @@ final class IdeaSpec extends ObjectBehavior
         $this->ideaId()->shouldBeLike(new IdeaId(self::IDEA_ID));
     }
 
-    public function it_is_pending_by_default(): void
-    {
-        $this->status()->shouldBeLike(IdeaStatus::PENDING());
-    }
-
     public function it_has_a_group_id(): void
     {
         $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
+    }
+
+    public function it_is_pending_by_default(): void
+    {
+        $this->status()->shouldBeLike(IdeaStatus::PENDING());
     }
 
     public function it_has_a_capacity(): void
@@ -93,68 +90,68 @@ final class IdeaSpec extends ObjectBehavior
         $this->capacity()->shouldBeLike(new IdeaCapacity());
     }
 
-    public function it_has_an_idea_title(): void
+    public function it_has_a_title(): void
     {
-        $this->title()->shouldBeLike(new IdeaTitle(self::TITLE));
+        $this->title()->shouldBeLike(new IdeaTitle('Title'));
     }
 
-    public function it_can_change_title(): void
+    public function it_can_change_its_title(): void
     {
-        $this->changeTitle(new IdeaTitle('New title'));
+        $this->changeTitle(new IdeaTitle('Other title'));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             IdeaTitleChanged::withData(
                 new IdeaId(self::IDEA_ID),
-                new IdeaTitle('New title')
+                new IdeaTitle('Other title')
             )
         );
 
-        $this->title()->equals(new IdeaTitle('New title'))->shouldBe(true);
+        $this->title()->shouldBeLike(new IdeaTitle('Other title'));
     }
 
-    public function it_not_records_event_when_title_does_not_change()
+    public function it_not_change_its_title_when_it_is_the_same(): void
     {
-        $this->changeTitle(new IdeaTitle(self::TITLE));
+        $this->changeTitle(new IdeaTitle('Title'));
 
         (new AggregateAsserter())->assertAggregateHasNotProducedEvent(
             $this->getWrappedObject(),
             IdeaTitleChanged::withData(
                 new IdeaId(self::IDEA_ID),
-                new IdeaTitle(self::TITLE)
+                new IdeaTitle('Title')
             )
         );
     }
 
-    public function it_has_an_idea_description(): void
+    public function it_has_an_description(): void
     {
-        $this->description()->shouldBeLike(new IdeaDescription(self::DESCRIPTION));
+        $this->description()->shouldBeLike(new IdeaDescription('Description'));
     }
 
-    public function it_can_change_description(): void
+    public function it_can_change_its_description(): void
     {
-        $this->changeDescription(new IdeaDescription('New description'));
+        $this->changeDescription(new IdeaDescription('Other description'));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             IdeaDescriptionChanged::withData(
                 new IdeaId(self::IDEA_ID),
-                new IdeaDescription('New description')
+                new IdeaDescription('Other description')
             )
         );
 
-        $this->description()->equals(new IdeaDescription('New description'))->shouldBe(true);
+        $this->description()->shouldBeLike(new IdeaDescription('Other description'));
     }
 
-    public function it_not_records_event_when_description_does_not_change()
+    public function it_not_change_its_description_when_it_is_the_same(): void
     {
-        $this->changeDescription(new IdeaDescription(self::DESCRIPTION));
+        $this->changeDescription(new IdeaDescription('Description'));
 
         (new AggregateAsserter())->assertAggregateHasNotProducedEvent(
             $this->getWrappedObject(),
             IdeaDescriptionChanged::withData(
                 new IdeaId(self::IDEA_ID),
-                new IdeaDescription(self::DESCRIPTION)
+                new IdeaDescription('Description')
             )
         );
     }
@@ -192,7 +189,7 @@ final class IdeaSpec extends ObjectBehavior
         $comment = $this->addComment(
             new CommentId(self::COMMENT_ID),
             new UserId(self::USER_ID),
-            new CommentText(self::TEXT)
+            new CommentText('Text')
         );
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
@@ -201,7 +198,7 @@ final class IdeaSpec extends ObjectBehavior
                 new CommentId(self::COMMENT_ID),
                 new IdeaId(self::IDEA_ID),
                 new UserId(self::USER_ID),
-                new CommentText(self::TEXT)
+                new CommentText('Text')
             )
         );
     }
@@ -214,7 +211,7 @@ final class IdeaSpec extends ObjectBehavior
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaUserRegistered::withData(
+            IdeaAttendeeRegistered::withData(
                 new IdeaId(self::IDEA_ID),
                 new UserId(self::USER_ID)
             )

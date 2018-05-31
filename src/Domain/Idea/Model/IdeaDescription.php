@@ -29,16 +29,16 @@ final class IdeaDescription implements ValueObject
 
     public function __toString(): string
     {
-        return $this->description();
+        return $this->value();
     }
 
-    public function description(): string
+    public function value(): string
     {
         return $this->description;
     }
 
     public function equals(ValueObject $valueObject): bool
     {
-        return $valueObject instanceof self && $this->description() === $valueObject->description();
+        return $valueObject instanceof self && $this->value() === $valueObject->value();
     }
 }

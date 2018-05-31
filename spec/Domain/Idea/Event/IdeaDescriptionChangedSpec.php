@@ -16,24 +16,23 @@ use App\Domain\Idea\Model\IdeaId;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
-class IdeaDescriptionChangedSpec extends ObjectBehavior
+final class IdeaDescriptionChangedSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const DESCRIPTION = 'Lorem Ipsum';
 
-    public function it_is_a_domain_event()
+    public function it_is_a_domain_event(): void
     {
         $this->shouldHaveType(DomainEvent::class);
     }
 
-    public function it_represents_idea_title_changed_event_occurrence(): void
+    public function it_represents_idea_description_changed_event_occurrence(): void
     {
         $this->beConstructedThrough('withData', [
             new IdeaId(self::UUID),
-            new IdeaDescription(self::DESCRIPTION),
+            new IdeaDescription('Description'),
         ]);
 
         $this->ideaId()->shouldBeLike(new IdeaId(self::UUID));
-        $this->description()->shouldBeLike(new IdeaDescription(self::DESCRIPTION));
+        $this->description()->shouldBeLike(new IdeaDescription('Description'));
     }
 }

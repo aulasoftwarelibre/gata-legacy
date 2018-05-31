@@ -27,6 +27,6 @@ class EventStoreGroups extends AggregateRepository implements Groups
 
     public function get(GroupId $groupId): ?Group
     {
-        return $this->getAggregateRoot($groupId->id());
+        return $this->getAggregateRoot($groupId->value());
     }
 }

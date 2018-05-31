@@ -38,10 +38,14 @@ final class Comment extends AggregateRoot
     /**
      * @var CommentText
      */
-    private $commentText;
+    private $text;
 
-    public static function add(CommentId $commentId, IdeaId $ideaId, UserId $userId, CommentText $commentText)
-    {
+    public static function add(
+        CommentId $commentId,
+        IdeaId $ideaId,
+        UserId $userId,
+        CommentText $commentText
+    ): self {
         $comment = new self();
 
         $comment->recordThat(CommentAdded::withData($commentId, $ideaId, $userId, $commentText));
@@ -51,7 +55,7 @@ final class Comment extends AggregateRoot
 
     public function __toString(): string
     {
-        return $this->commentText()->text();
+        return $this->text()->value();
     }
 
     public function commentId(): CommentId
@@ -69,14 +73,14 @@ final class Comment extends AggregateRoot
         return $this->userId;
     }
 
-    public function commentText(): CommentText
+    public function text(): CommentText
     {
-        return $this->commentText;
+        return $this->text;
     }
 
     protected function aggregateId(): string
     {
-        return $this->commentId->id();
+        return $this->commentId->value();
     }
 
     protected function applyCommentAdded(CommentAdded $event): void
@@ -84,6 +88,6 @@ final class Comment extends AggregateRoot
         $this->commentId = $event->commentId();
         $this->ideaId = $event->ideaId();
         $this->userId = $event->userId();
-        $this->commentText = $event->commentText();
+        $this->text = $event->text();
     }
 }

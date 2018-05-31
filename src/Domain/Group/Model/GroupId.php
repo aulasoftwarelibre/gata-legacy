@@ -35,16 +35,16 @@ final class GroupId implements ValueObject
 
     public function __toString(): string
     {
-        return $this->id();
+        return $this->value();
     }
 
-    public function id(): string
+    public function value(): string
     {
         return $this->id;
     }
 
     public function equals(ValueObject $valueObject): bool
     {
-        return $valueObject instanceof self && $this->id() === $valueObject->id();
+        return $valueObject instanceof self && $this->value() === $valueObject->value();
     }
 }

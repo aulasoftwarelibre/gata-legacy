@@ -35,7 +35,7 @@ class GroupsInMemoryRepository implements Groups
     {
         /** @var Group $group */
         foreach ($this->groups as $group) {
-            if ($group->id()->equals($groupId)) {
+            if ($group->groupId()->equals($groupId)) {
                 return $group;
             }
         }

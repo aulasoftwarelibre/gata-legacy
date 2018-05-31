@@ -34,16 +34,16 @@ final class CommentText implements ValueObject
 
     public function __toString(): string
     {
-        return $this->text();
+        return $this->value();
     }
 
-    public function text(): string
+    public function value(): string
     {
         return $this->text;
     }
 
     public function equals(ValueObject $valueObject): bool
     {
-        return $valueObject instanceof self && $this->text() === $valueObject->text();
+        return $valueObject instanceof self && $this->value() === $valueObject->value();
     }
 }

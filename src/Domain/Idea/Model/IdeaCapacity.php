@@ -17,7 +17,7 @@ use App\Domain\Idea\Exception\ExceededCapacityLimitException;
 use App\Domain\Idea\Exception\InvalidIdeaCapacityException;
 use App\Domain\ValueObject;
 
-class IdeaCapacity implements ValueObject
+final class IdeaCapacity implements ValueObject
 {
     /**
      * @var int

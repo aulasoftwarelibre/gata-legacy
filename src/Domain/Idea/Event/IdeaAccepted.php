@@ -21,7 +21,7 @@ final class IdeaAccepted extends AggregateChanged
 {
     public static function withData(IdeaId $ideaId): self
     {
-        return self::occur($ideaId->id());
+        return self::occur($ideaId->value());
     }
 
     public function ideaId(): IdeaId
@@ -29,7 +29,7 @@ final class IdeaAccepted extends AggregateChanged
         return new IdeaId($this->aggregateId());
     }
 
-    public function ideaStatus(): IdeaStatus
+    public function status(): IdeaStatus
     {
         return IdeaStatus::ACCEPTED();
     }

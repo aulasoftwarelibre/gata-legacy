@@ -21,7 +21,6 @@ use Prooph\Common\Messaging\DomainEvent;
 final class GroupAddedSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const NAME = 'Lorem ipsum';
 
     public function it_is_a_domain_event(): void
     {
@@ -32,10 +31,10 @@ final class GroupAddedSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('withData', [
             new GroupId(self::UUID),
-            new GroupName(self::NAME),
+            new GroupName('Name'),
         ]);
 
         $this->groupId()->shouldBeLike(new GroupId(self::UUID));
-        $this->groupName()->shouldBeLike(new GroupName(self::NAME));
+        $this->name()->shouldBeLike(new GroupName('Name'));
     }
 }

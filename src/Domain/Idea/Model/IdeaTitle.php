@@ -29,16 +29,16 @@ final class IdeaTitle implements ValueObject
 
     public function __toString(): string
     {
-        return $this->title();
+        return $this->value();
     }
 
-    public function title(): string
+    public function value(): string
     {
         return $this->title;
     }
 
     public function equals(ValueObject $valueObject): bool
     {
-        return $valueObject instanceof self && $this->title() === $valueObject->title();
+        return $valueObject instanceof self && $this->value() === $valueObject->value();
     }
 }

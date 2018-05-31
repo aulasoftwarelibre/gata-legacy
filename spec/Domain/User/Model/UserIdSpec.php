@@ -21,8 +21,8 @@ use PhpSpec\ObjectBehavior;
 final class UserIdSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const OTHER_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a57';
-    const INVALID_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a5';
+    const OTHER_UUID = '4ab37020-455c-45a3-8f7e-194bfb9fbc0b';
+    const INVALID_UUID = '0c586173-7676-4a2c-9220-';
 
     public function let(): void
     {
@@ -37,8 +37,9 @@ final class UserIdSpec extends ObjectBehavior
     public function it_has_to_be_valid(): void
     {
         $this->shouldThrow(InvalidUserIdFormatException::class)->during(
-            '__construct',
-            [self::INVALID_UUID]
+            '__construct', [
+                self::INVALID_UUID,
+            ]
         );
     }
 
@@ -49,10 +50,10 @@ final class UserIdSpec extends ObjectBehavior
 
     public function it_has_an_id(): void
     {
-        $this->id()->shouldBe(self::UUID);
+        $this->value()->shouldBe(self::UUID);
     }
 
-    public function it_can_be_compared_with_other_user_id()
+    public function it_can_be_compared_with_other_user_id(): void
     {
         $sameUserId = new UserId(self::UUID);
         $notSameUserId = new UserId(self::OTHER_UUID);
