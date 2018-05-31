@@ -21,7 +21,7 @@ final class IdeaAttendeeRegistered extends AggregateChanged
 {
     public static function withData(IdeaId $ideaId, UserId $userId): self
     {
-        return self::occur($ideaId->id(), [
+        return self::occur($ideaId->value(), [
             'userId' => $userId->id(),
         ]);
     }
