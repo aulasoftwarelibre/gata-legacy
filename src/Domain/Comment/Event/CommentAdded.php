@@ -29,7 +29,7 @@ final class CommentAdded extends AggregateChanged
     ): self {
         return self::occur($commentId->value(), [
             'ideaId' => $ideaId->value(),
-            'userId' => $userId->id(),
+            'userId' => $userId->value(),
             'text' => $commentText->value(),
         ]);
     }

@@ -50,7 +50,7 @@ final class UserIdSpec extends ObjectBehavior
 
     public function it_has_an_id(): void
     {
-        $this->id()->shouldBe(self::UUID);
+        $this->value()->shouldBe(self::UUID);
     }
 
     public function it_can_be_compared_with_other_user_id(): void
