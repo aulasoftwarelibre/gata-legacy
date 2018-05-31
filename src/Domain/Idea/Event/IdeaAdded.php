@@ -19,12 +19,18 @@ use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaStatus;
 use App\Domain\Idea\Model\IdeaTitle;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Prooph\EventSourcing\AggregateChanged;
 
 final class IdeaAdded extends AggregateChanged
 {
-    public static function withData(IdeaId $ideaId, GroupId $groupId, IdeaTitle $ideaTitle, IdeaDescription $ideaDescription): self
-    {
+    public static function withData(
+        IdeaId $ideaId,
+        GroupId $groupId,
+        IdeaTitle $ideaTitle,
+        IdeaDescription $ideaDescription
+    ): self {
         return self::occur($ideaId->id(), [
             'groupId' => $groupId->id(),
             'title' => $ideaTitle->title(),
@@ -42,23 +48,28 @@ final class IdeaAdded extends AggregateChanged
         return new GroupId($this->payload()['groupId']);
     }
 
-    public function ideaTitle(): IdeaTitle
+    public function title(): IdeaTitle
     {
         return new IdeaTitle($this->payload()['title']);
     }
 
-    public function ideaDescription(): IdeaDescription
+    public function description(): IdeaDescription
     {
         return new IdeaDescription($this->payload()['description']);
     }
 
-    public function ideaStatus(): IdeaStatus
+    public function status(): IdeaStatus
     {
         return IdeaStatus::PENDING();
     }
 
-    public function ideaCapacity(): IdeaCapacity
+    public function capacity(): IdeaCapacity
     {
         return new IdeaCapacity();
+    }
+
+    public function attendees(): Collection
+    {
+        return new ArrayCollection();
     }
 }

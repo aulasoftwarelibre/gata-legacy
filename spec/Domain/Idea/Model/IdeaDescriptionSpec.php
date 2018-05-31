@@ -19,12 +19,9 @@ use PhpSpec\ObjectBehavior;
 
 final class IdeaDescriptionSpec extends ObjectBehavior
 {
-    const DESCRIPTION = 'Lorem ipsum';
-    const OTHER_DESCRIPTION = 'Aliquam auctor';
-
     public function let(): void
     {
-        $this->beConstructedWith(self::DESCRIPTION);
+        $this->beConstructedWith('Description');
     }
 
     public function it_is_a_value_object(): void
@@ -34,18 +31,18 @@ final class IdeaDescriptionSpec extends ObjectBehavior
 
     public function it_can_be_a_string(): void
     {
-        $this->__toString()->shouldBe(self::DESCRIPTION);
+        $this->__toString()->shouldBe('Description');
     }
 
     public function it_has_a_description(): void
     {
-        $this->description()->shouldBe(self::DESCRIPTION);
+        $this->description()->shouldBe('Description');
     }
 
-    public function it_can_be_compared_with_other_idea_title()
+    public function it_can_be_compared_with_other_idea_description(): void
     {
-        $sameIdeaDescription = new IdeaDescription(self::DESCRIPTION);
-        $notSameIdeaDescription = new IdeaDescription(self::OTHER_DESCRIPTION);
+        $sameIdeaDescription = new IdeaDescription('Description');
+        $notSameIdeaDescription = new IdeaDescription('Other description');
 
         $this->equals($sameIdeaDescription)->shouldBe(true);
         $this->equals($notSameIdeaDescription)->shouldBe(false);

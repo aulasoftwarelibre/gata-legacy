@@ -29,7 +29,7 @@ final class IdeaRejected extends AggregateChanged
         return new IdeaId($this->aggregateId());
     }
 
-    public function ideaStatus(): IdeaStatus
+    public function status(): IdeaStatus
     {
         return IdeaStatus::REJECTED();
     }

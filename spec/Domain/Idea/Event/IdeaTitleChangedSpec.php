@@ -16,12 +16,11 @@ use App\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
-class IdeaTitleChangedSpec extends ObjectBehavior
+final class IdeaTitleChangedSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const TITLE = 'Lorem Ipsum';
 
-    public function it_is_a_domain_event()
+    public function it_is_a_domain_event(): void
     {
         $this->shouldHaveType(DomainEvent::class);
     }
@@ -30,10 +29,10 @@ class IdeaTitleChangedSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('withData', [
             new IdeaId(self::UUID),
-            new IdeaTitle(self::TITLE),
+            new IdeaTitle('Title'),
         ]);
 
         $this->ideaId()->shouldBeLike(new IdeaId(self::UUID));
-        $this->title()->shouldBeLike(new IdeaTitle(self::TITLE));
+        $this->title()->shouldBeLike(new IdeaTitle('Title'));
     }
 }

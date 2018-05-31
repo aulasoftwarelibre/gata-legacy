@@ -34,6 +34,6 @@ final class IdeaRejectedSpec extends ObjectBehavior
         ]);
 
         $this->ideaId()->shouldBeLike(new IdeaId(self::UUID));
-        $this->ideaStatus()->shouldBeLike(IdeaStatus::REJECTED());
+        $this->status()->shouldBeLike(IdeaStatus::REJECTED());
     }
 }

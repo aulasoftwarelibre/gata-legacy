@@ -20,12 +20,11 @@ use App\Domain\Comment\Model\CommentText;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Event\IdeaAttendeeRegistered;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaTitleChanged;
-use App\Domain\Idea\Event\IdeaUserRegistered;
 use App\Domain\User\Model\UserId;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 final class Idea extends AggregateRoot
@@ -34,27 +33,31 @@ final class Idea extends AggregateRoot
      * @var IdeaId
      */
     private $ideaId;
-    /**
-     * @var IdeaStatus
-     */
-    private $ideaStatus;
+
     /**
      * @var GroupId
      */
     private $groupId;
+
+    /**
+     * @var IdeaStatus
+     */
+    private $status;
+
     /**
      * @var IdeaTitle
      */
-    private $ideaTitle;
+    private $title;
+
     /**
      * @var IdeaDescription
      */
-    private $ideaDescription;
+    private $description;
 
     /**
      * @var IdeaCapacity
      */
-    private $ideaCapacity;
+    private $capacity;
 
     /**
      * @var Collection
@@ -91,40 +94,7 @@ final class Idea extends AggregateRoot
 
     public function status(): IdeaStatus
     {
-        return $this->ideaStatus;
-    }
-
-    public function title(): IdeaTitle
-    {
-        return $this->ideaTitle;
-    }
-
-    public function capacity(): IdeaCapacity
-    {
-        return $this->ideaCapacity;
-    }
-
-    public function changeTitle(IdeaTitle $title): void
-    {
-        if ($this->title()->equals($title)) {
-            return;
-        }
-
-        $this->recordThat(IdeaTitleChanged::withData($this->ideaId(), $title));
-    }
-
-    public function description(): IdeaDescription
-    {
-        return $this->ideaDescription;
-    }
-
-    public function changeDescription(IdeaDescription $description): void
-    {
-        if ($this->description()->equals($description)) {
-            return;
-        }
-
-        $this->recordThat(IdeaDescriptionChanged::withData($this->ideaId(), $description));
+        return $this->status;
     }
 
     public function accept(): void
@@ -137,7 +107,40 @@ final class Idea extends AggregateRoot
         $this->recordThat(IdeaRejected::withData($this->ideaId()));
     }
 
-    public function addComment(CommentId $commentId, UserId $userId, CommentText $commentText)
+    public function title(): IdeaTitle
+    {
+        return $this->title;
+    }
+
+    public function changeTitle(IdeaTitle $ideaTitle): void
+    {
+        if ($this->title()->equals($ideaTitle)) {
+            return;
+        }
+
+        $this->recordThat(IdeaTitleChanged::withData($this->ideaId(), $ideaTitle));
+    }
+
+    public function description(): IdeaDescription
+    {
+        return $this->description;
+    }
+
+    public function changeDescription(IdeaDescription $ideaDescription): void
+    {
+        if ($this->description()->equals($ideaDescription)) {
+            return;
+        }
+
+        $this->recordThat(IdeaDescriptionChanged::withData($this->ideaId(), $ideaDescription));
+    }
+
+    public function capacity(): IdeaCapacity
+    {
+        return $this->capacity;
+    }
+
+    public function addComment(CommentId $commentId, UserId $userId, CommentText $commentText): Comment
     {
         return Comment::add(
             $commentId,
@@ -149,7 +152,7 @@ final class Idea extends AggregateRoot
 
     public function registerAttendee(UserId $userId): void
     {
-        $this->recordThat(IdeaUserRegistered::withData($this->ideaId(), $userId));
+        $this->recordThat(IdeaAttendeeRegistered::withData($this->ideaId(), $userId));
     }
 
     protected function aggregateId(): string
@@ -161,34 +164,34 @@ final class Idea extends AggregateRoot
     {
         $this->ideaId = $event->ideaId();
         $this->groupId = $event->groupId();
-        $this->ideaStatus = $event->ideaStatus();
-        $this->ideaTitle = $event->ideaTitle();
-        $this->ideaDescription = $event->ideaDescription();
-        $this->ideaCapacity = $event->ideaCapacity();
-        $this->attendees = new ArrayCollection();
+        $this->status = $event->status();
+        $this->title = $event->title();
+        $this->description = $event->description();
+        $this->capacity = $event->capacity();
+        $this->attendees = $event->attendees();
     }
 
     protected function applyIdeaTitleChanged(IdeaTitleChanged $event): void
     {
-        $this->ideaTitle = $event->title();
+        $this->title = $event->title();
     }
 
     protected function applyIdeaDescriptionChanged(IdeaDescriptionChanged $event): void
     {
-        $this->ideaDescription = $event->description();
+        $this->description = $event->description();
     }
 
     protected function applyIdeaAccepted(IdeaAccepted $event): void
     {
-        $this->ideaStatus = $event->ideaStatus();
+        $this->status = $event->status();
     }
 
     protected function applyIdeaRejected(IdeaRejected $event): void
     {
-        $this->ideaStatus = $event->ideaStatus();
+        $this->status = $event->status();
     }
 
-    protected function applyIdeaUserRegistered(IdeaUserRegistered $event): void
+    protected function applyIdeaAttendeeRegistered(IdeaAttendeeRegistered $event): void
     {
         $this->attendees->add($event->userId());
     }

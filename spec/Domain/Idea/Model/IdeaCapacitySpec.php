@@ -47,29 +47,35 @@ final class IdeaCapacitySpec extends ObjectBehavior
     public function it_can_not_have_negative_or_zero_limit_values(): void
     {
         $this->shouldThrow(InvalidIdeaCapacityException::class)->during(
-            '__construct',
-            [-1]
+            '__construct', [
+                -1,
+            ]
         );
 
         $this->shouldThrow(InvalidIdeaCapacityException::class)->during(
-            '__construct',
-            [0]
+            '__construct', [
+                0,
+            ]
         );
     }
 
     public function it_can_not_start_counting_from_negative_values(): void
     {
         $this->shouldThrow(InvalidIdeaCapacityException::class)->during(
-            '__construct',
-            [1, -1]
+            '__construct', [
+                1,
+                -1,
+            ]
         );
     }
 
     public function it_can_not_exceed_the_limit(): void
     {
         $this->shouldThrow(ExceededCapacityLimitException::class)->during(
-            '__construct',
-            [1, 2]
+            '__construct', [
+                1,
+                2,
+            ]
         );
     }
 
@@ -91,33 +97,27 @@ final class IdeaCapacitySpec extends ObjectBehavior
         $this->limit()->shouldBe(self::LIMIT);
     }
 
-    public function it_can_increment(IdeaCapacity $ideaCapacity): void
+    public function it_can_increment(): void
     {
-        $ideaCapacity->count()->shouldBeCalled()->willReturn(1);
-        $ideaCapacity->limit()->shouldBeCalled()->willReturn(3);
-
         $this->beConstructedThrough('increment', [
-            $ideaCapacity,
+            new IdeaCapacity(self::LIMIT, self::COUNT),
         ]);
 
-        $this->count()->shouldBe(2);
-        $this->limit()->shouldBe(3);
+        $this->count()->shouldBe(self::COUNT + 1);
+        $this->limit()->shouldBe(self::LIMIT);
     }
 
-    public function it_can_decrement(IdeaCapacity $ideaCapacity): void
+    public function it_can_decrement(): void
     {
-        $ideaCapacity->count()->shouldBeCalled()->willReturn(1);
-        $ideaCapacity->limit()->shouldBeCalled()->willReturn(3);
-
         $this->beConstructedThrough('decrement', [
-            $ideaCapacity,
+            new IdeaCapacity(self::LIMIT, self::COUNT),
         ]);
 
-        $this->count()->shouldBe(0);
-        $this->limit()->shouldBe(3);
+        $this->count()->shouldBe(self::COUNT - 1);
+        $this->limit()->shouldBe(self::LIMIT);
     }
 
-    public function it_can_be_compared_with_other_idea_capacity()
+    public function it_can_be_compared_with_other_idea_capacity(): void
     {
         $sameIdeaCapacity = new IdeaCapacity(self::LIMIT, self::COUNT);
         $this->equals($sameIdeaCapacity)->shouldBe(true);

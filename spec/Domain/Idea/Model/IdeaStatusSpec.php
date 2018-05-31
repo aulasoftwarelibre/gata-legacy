@@ -21,7 +21,9 @@ final class IdeaStatusSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedThrough('byName', ['PENDING']);
+        $this->beConstructedThrough('byName', [
+            'PENDING',
+        ]);
     }
 
     public function it_is_a_value_object(): void
@@ -39,7 +41,7 @@ final class IdeaStatusSpec extends ObjectBehavior
         $this->__toString()->shouldBe('PENDING');
     }
 
-    public function it_can_be_compared_with_other_idea_status()
+    public function it_can_be_compared_with_other_idea_status(): void
     {
         $this->equals($this->getWrappedObject())->shouldBe(true);
     }
