@@ -24,7 +24,7 @@ final class AddGroup extends Command
     {
         return new self([
             'groupId' => $id->value(),
-            'name' => $name->name(),
+            'name' => $name->value(),
         ]);
     }
 

@@ -48,7 +48,7 @@ final class GroupNameSpec extends ObjectBehavior
 
     public function it_has_a_name(): void
     {
-        $this->name()->shouldBe('Text');
+        $this->value()->shouldBe('Text');
     }
 
     public function it_can_be_compared_with_other_group_name(): void

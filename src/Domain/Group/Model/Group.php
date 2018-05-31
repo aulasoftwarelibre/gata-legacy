@@ -44,7 +44,7 @@ final class Group extends AggregateRoot
 
     public function __toString(): string
     {
-        return $this->name()->name();
+        return $this->name()->value();
     }
 
     public function groupId(): GroupId
