@@ -21,21 +21,20 @@ use Prooph\Common\Messaging\DomainEvent;
 final class GroupNameChangedSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const NAME = 'Lorem ipsum';
 
     public function it_is_a_domain_event(): void
     {
         $this->shouldHaveType(DomainEvent::class);
     }
 
-    public function it_represents_group_updated_event_occurrence(): void
+    public function it_represents_group_name_changed_event_occurrence(): void
     {
         $this->beConstructedThrough('withData', [
             new GroupId(self::UUID),
-            new GroupName(self::NAME),
+            new GroupName('Name'),
         ]);
 
         $this->groupId()->shouldBeLike(new GroupId(self::UUID));
-        $this->name()->shouldBeLike(new GroupName(self::NAME));
+        $this->name()->shouldBeLike(new GroupName('Name'));
     }
 }

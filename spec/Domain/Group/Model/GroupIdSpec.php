@@ -21,8 +21,8 @@ use PhpSpec\ObjectBehavior;
 final class GroupIdSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const OTHER_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a57';
-    const INVALID_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a5';
+    const OTHER_UUID = '4ab37020-455c-45a3-8f7e-194bfb9fbc0b';
+    const INVALID_UUID = '0c586173-7676-4a2c-9220-';
 
     public function let(): void
     {
@@ -37,8 +37,9 @@ final class GroupIdSpec extends ObjectBehavior
     public function it_has_to_be_valid(): void
     {
         $this->shouldThrow(InvalidGroupIdFormatException::class)->during(
-            '__construct',
-            [self::INVALID_UUID]
+            '__construct', [
+                self::INVALID_UUID,
+            ]
         );
     }
 
@@ -52,7 +53,7 @@ final class GroupIdSpec extends ObjectBehavior
         $this->id()->shouldBe(self::UUID);
     }
 
-    public function it_can_be_compared_with_other_group_id()
+    public function it_can_be_compared_with_other_group_id(): void
     {
         $sameGroupId = new GroupId(self::UUID);
         $notSameGroupId = new GroupId(self::OTHER_UUID);

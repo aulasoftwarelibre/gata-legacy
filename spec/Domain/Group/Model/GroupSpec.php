@@ -28,24 +28,20 @@ use Tests\Service\Prooph\Spec\AggregateAsserter;
 final class GroupSpec extends ObjectBehavior
 {
     const GROUP_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const IDEA_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const NAME = 'Lorem ipsum';
-    const OTHER_NAME = 'Aliquam auctor';
-    const TITLE = 'Lorem ipsum';
-    const DESCRIPTION = 'Aliquam auctor';
+    const IDEA_ID = '4ab37020-455c-45a3-8f7e-194bfb9fbc0b';
 
     public function let(): void
     {
         $this->beConstructedThrough('add', [
             new GroupId(self::GROUP_ID),
-            new GroupName(self::NAME),
+            new GroupName('Name'),
         ]);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             GroupAdded::withData(
                 new GroupId(self::GROUP_ID),
-                new GroupName(self::NAME)
+                new GroupName('Name')
             )
         );
     }
@@ -57,7 +53,7 @@ final class GroupSpec extends ObjectBehavior
 
     public function it_can_be_a_string(): void
     {
-        $this->__toString()->shouldBe(self::NAME);
+        $this->__toString()->shouldBe('Name');
     }
 
     public function it_has_a_group_id(): void
@@ -67,15 +63,15 @@ final class GroupSpec extends ObjectBehavior
 
     public function it_has_a_group_name(): void
     {
-        $this->name()->shouldBeLike(new GroupName(self::NAME));
+        $this->name()->shouldBeLike(new GroupName('Name'));
     }
 
     public function it_can_add_ideas(): void
     {
         $idea = $this->addIdea(
             new IdeaId(self::IDEA_ID),
-            new IdeaTitle(self::TITLE),
-            new IdeaDescription(self::DESCRIPTION)
+            new IdeaTitle('Title'),
+            new IdeaDescription('Description')
         );
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
@@ -83,24 +79,24 @@ final class GroupSpec extends ObjectBehavior
             IdeaAdded::withData(
                 new IdeaId(self::IDEA_ID),
                 new GroupId(self::GROUP_ID),
-                new IdeaTitle(self::TITLE),
-                new IdeaDescription(self::DESCRIPTION)
+                new IdeaTitle('Title'),
+                new IdeaDescription('Description')
             )
         );
     }
 
-    public function it_can_update_its_group_name(): void
+    public function it_can_change_its_group_name(): void
     {
-        $this->changeName(new GroupName(self::OTHER_NAME));
+        $this->changeName(new GroupName('Other name'));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             GroupNameChanged::withData(
                 new GroupId(self::GROUP_ID),
-                new GroupName(self::OTHER_NAME)
+                new GroupName('Other name')
             )
         );
 
-        $this->name()->shouldBeLike(new GroupName(self::OTHER_NAME));
+        $this->name()->shouldBeLike(new GroupName('Other name'));
     }
 }
