@@ -99,41 +99,32 @@ final class IdeaCapacitySpec extends ObjectBehavior
 
     public function it_can_increment(): void
     {
-        $this->beConstructedThrough('increment', [
-            new IdeaCapacity(self::LIMIT, self::COUNT),
-        ]);
-
-        $this->count()->shouldBe(self::COUNT + 1);
+        $this->increment()->limit()->shouldBe(self::LIMIT);
+        $this->increment()->count()->shouldBe(self::COUNT + 1);
+        $this->count()->shouldBe(self::COUNT);
         $this->limit()->shouldBe(self::LIMIT);
     }
 
     public function it_can_decrement(): void
     {
-        $this->beConstructedThrough('decrement', [
-            new IdeaCapacity(self::LIMIT, self::COUNT),
-        ]);
-
-        $this->count()->shouldBe(self::COUNT - 1);
+        $this->decrement()->limit()->shouldBe(self::LIMIT);
+        $this->decrement()->count()->shouldBe(self::COUNT - 1);
+        $this->count()->shouldBe(self::COUNT);
         $this->limit()->shouldBe(self::LIMIT);
     }
 
     public function it_can_be_unlimited(): void
     {
-        $this->beConstructedThrough('unlimited', [
-            new IdeaCapacity(self::LIMIT, self::COUNT),
-        ]);
-
+        $this->unlimited()->limit()->shouldBe(null);
+        $this->unlimited()->count()->shouldBe(self::COUNT);
         $this->count()->shouldBe(self::COUNT);
-        $this->limit()->shouldBe(null);
+        $this->limit()->shouldBe(self::LIMIT);
     }
 
     public function it_can_be_limited(): void
     {
-        $this->beConstructedThrough('limited', [
-            new IdeaCapacity(null, self::COUNT),
-            self::LIMIT,
-        ]);
-
+        $this->limited(self::OTHER_LIMIT)->limit()->shouldBe(self::OTHER_LIMIT);
+        $this->limited(self::OTHER_LIMIT)->count()->shouldBe(self::COUNT);
         $this->count()->shouldBe(self::COUNT);
         $this->limit()->shouldBe(self::LIMIT);
     }

@@ -210,11 +210,11 @@ final class Idea extends AggregateRoot
 
     protected function applyIdeaCapacityUnlimited(IdeaCapacityUnlimited $event): void
     {
-        $this->capacity = IdeaCapacity::unlimited($this->capacity());
+        $this->capacity = $this->capacity()->unlimited();
     }
 
     protected function applyIdeaCapacityLimited(IdeaCapacityLimited $event): void
     {
-        $this->capacity = IdeaCapacity::limited($this->capacity(), $event->limit());
+        $this->capacity = $this->capacity->limited($event->limit());
     }
 }

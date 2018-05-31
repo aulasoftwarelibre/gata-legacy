@@ -47,30 +47,24 @@ final class IdeaCapacity implements ValueObject
         $this->limit = $limit;
     }
 
-    public static function increment(IdeaCapacity $ideaCapacity): self
+    public function increment(): self
     {
-        $limit = $ideaCapacity->limit();
-        $count = $ideaCapacity->count() + 1;
-
-        return new IdeaCapacity($limit, $count);
+        return new IdeaCapacity($this->limit, $this->count + 1);
     }
 
-    public static function decrement(IdeaCapacity $ideaCapacity): self
+    public function decrement(): self
     {
-        $limit = $ideaCapacity->limit();
-        $count = $ideaCapacity->count() - 1;
-
-        return new IdeaCapacity($limit, $count);
+        return new IdeaCapacity($this->limit, $this->count - 1);
     }
 
-    public static function unlimited(IdeaCapacity $capacity): self
+    public function unlimited(): self
     {
-        return new IdeaCapacity(null, $capacity->count());
+        return new IdeaCapacity(null, $this->count());
     }
 
-    public static function limited(IdeaCapacity $capacity, int $limit): self
+    public function limited(int $limit): self
     {
-        return new IdeaCapacity($limit, $capacity->count());
+        return new IdeaCapacity($limit, $this->count());
     }
 
     public function __toString(): string
