@@ -117,6 +117,27 @@ final class IdeaCapacitySpec extends ObjectBehavior
         $this->limit()->shouldBe(self::LIMIT);
     }
 
+    public function it_can_be_unlimited(): void
+    {
+        $this->beConstructedThrough('unlimited', [
+            new IdeaCapacity(self::LIMIT, self::COUNT),
+        ]);
+
+        $this->count()->shouldBe(self::COUNT);
+        $this->limit()->shouldBe(null);
+    }
+
+    public function it_can_be_limited(): void
+    {
+        $this->beConstructedThrough('limited', [
+            new IdeaCapacity(null, self::COUNT),
+            self::LIMIT,
+        ]);
+
+        $this->count()->shouldBe(self::COUNT);
+        $this->limit()->shouldBe(self::LIMIT);
+    }
+
     public function it_can_be_compared_with_other_idea_capacity(): void
     {
         $sameIdeaCapacity = new IdeaCapacity(self::LIMIT, self::COUNT);
