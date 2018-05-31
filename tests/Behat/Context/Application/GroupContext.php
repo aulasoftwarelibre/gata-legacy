@@ -14,13 +14,16 @@ declare(strict_types=1);
 namespace Tests\Behat\Context\Application;
 
 use App\Application\Group\Command\AddGroup;
+use App\Application\Group\Command\RenameGroup;
 use App\Domain\Group\Event\GroupAdded;
+use App\Domain\Group\Event\GroupRenamed;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
 use Ramsey\Uuid\Uuid;
 use Tests\Service\Prooph\Plugin\EventsRecorder;
+use Tests\Service\SharedStorage;
 use Webmozart\Assert\Assert;
 
 class GroupContext implements Context
@@ -29,43 +32,80 @@ class GroupContext implements Context
      * @var CommandBus
      */
     private $commandBus;
+
     /**
      * @var EventsRecorder
      */
     private $eventsRecorder;
 
+    /**
+     * @var SharedStorage
+     */
+    private $sharedStorage;
+
     public function __construct(
         CommandBus $commandBus,
-        EventsRecorder $eventsRecorder
+        EventsRecorder $eventsRecorder,
+        SharedStorage $sharedStorage
     ) {
         $this->commandBus = $commandBus;
         $this->eventsRecorder = $eventsRecorder;
+        $this->sharedStorage = $sharedStorage;
     }
 
     /**
-     * @When I add a new group called :groupName
+     * @When I add a new group called :name
      */
-    public function iAddANewGroupCalled($groupName): void
+    public function iAddANewGroupCalled($name): void
     {
         $this->commandBus->dispatch(
-            AddGroup::create(new GroupId(Uuid::uuid4()->toString()), new GroupName($groupName))
+            AddGroup::create(new GroupId(Uuid::uuid4()->toString()), new GroupName($name))
         );
     }
 
     /**
-     * @Then the group :groupName should be available in the list
+     * @Then the group :name should be available in the list
      */
-    public function theGroupShouldBeAvailableInTheList(string $groupName): void
+    public function theGroupShouldBeAvailableInTheList(string $name): void
     {
         $message = $this->eventsRecorder->getLastMessage();
 
         /** @var GroupAdded $event */
         $event = $message->event();
-        Assert::isInstanceOf($event, GroupAdded::class, sprintf(
+        Assert::isInstanceOf($event, GroupAdded::class,
             'Event has to be of class %s, but %s given',
             GroupAdded::class,
             get_class($event)
+        );
+        Assert::true($event->name()->equals(new GroupName($name)));
+    }
+
+    /**
+     * @When /^I rename (it) to "([^"]*)"$/
+     */
+    public function iRenameItTo(GroupId $groupId, string $name): void
+    {
+        $this->commandBus->dispatch(RenameGroup::create(
+            $groupId,
+            new GroupName($name)
         ));
-        Assert::eq($event->name(), new GroupName($groupName));
+    }
+
+    /**
+     * @Then /^(it) should be renamed to "([^"]*)"$/
+     */
+    public function itShouldBeRenamedTo(GroupId $groupId, string $name): void
+    {
+        $message = $this->eventsRecorder->getLastMessage();
+
+        /** @var GroupRenamed $event */
+        $event = $message->event();
+        Assert::isInstanceOf($event, GroupRenamed::class,
+            'Event has to be of class %s, but %s given',
+            GroupRenamed::class,
+            get_class($event)
+        );
+        Assert::true($event->groupId()->equals($groupId));
+        Assert::true($event->name()->equals(new GroupName($name)));
     }
 }
