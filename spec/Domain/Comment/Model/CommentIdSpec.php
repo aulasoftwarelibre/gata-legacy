@@ -21,8 +21,8 @@ use PhpSpec\ObjectBehavior;
 final class CommentIdSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const OTHER_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a57';
-    const INVALID_UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a5';
+    const OTHER_UUID = '4ab37020-455c-45a3-8f7e-194bfb9fbc0b';
+    const INVALID_UUID = '0c586173-7676-4a2c-9220-';
 
     public function let(): void
     {
@@ -38,7 +38,9 @@ final class CommentIdSpec extends ObjectBehavior
     {
         $this->shouldThrow(InvalidCommentIdFormatException::class)->during(
             '__construct',
-            [self::INVALID_UUID]
+            [
+                self::INVALID_UUID,
+            ]
         );
     }
 
@@ -52,7 +54,7 @@ final class CommentIdSpec extends ObjectBehavior
         $this->id()->shouldBe(self::UUID);
     }
 
-    public function it_can_be_compared_with_other_comment_id()
+    public function it_can_be_compared_with_other_comment_id(): void
     {
         $sameCommentId = new CommentId(self::UUID);
         $notSameCommentId = new CommentId(self::OTHER_UUID);

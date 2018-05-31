@@ -21,8 +21,12 @@ use Prooph\EventSourcing\AggregateChanged;
 
 final class CommentAdded extends AggregateChanged
 {
-    public static function withData(CommentId $commentId, IdeaId $ideaId, UserId $userId, CommentText $commentText): self
-    {
+    public static function withData(
+        CommentId $commentId,
+        IdeaId $ideaId,
+        UserId $userId,
+        CommentText $commentText
+    ): self {
         return self::occur($commentId->id(), [
             'ideaId' => $ideaId->id(),
             'userId' => $userId->id(),
@@ -45,7 +49,7 @@ final class CommentAdded extends AggregateChanged
         return new UserId($this->payload()['userId']);
     }
 
-    public function commentText(): CommentText
+    public function text(): CommentText
     {
         return new CommentText($this->payload()['text']);
     }

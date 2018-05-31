@@ -27,7 +27,6 @@ final class CommentSpec extends ObjectBehavior
     const COMMENT_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
     const IDEA_ID = '4ab37020-455c-45a3-8f7e-194bfb9fbc0b';
     const USER_ID = '0c586173-7676-4a2c-9220-edd223eb458e';
-    const TEXT = 'Lorem ipsum';
 
     public function let(): void
     {
@@ -35,7 +34,7 @@ final class CommentSpec extends ObjectBehavior
             new CommentId(self::COMMENT_ID),
             new IdeaId(self::IDEA_ID),
             new UserId(self::USER_ID),
-            new CommentText(self::TEXT),
+            new CommentText('Text'),
         ]);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
@@ -44,19 +43,19 @@ final class CommentSpec extends ObjectBehavior
                 new CommentId(self::COMMENT_ID),
                 new IdeaId(self::IDEA_ID),
                 new UserId(self::USER_ID),
-                new CommentText(self::TEXT)
+                new CommentText('Text')
             )
         );
     }
 
-    public function it_is_an_aggregate()
+    public function it_is_an_aggregate(): void
     {
         $this->shouldHaveType(AggregateRoot::class);
     }
 
     public function it_can_be_a_string(): void
     {
-        $this->__toString()->shouldBe(self::TEXT);
+        $this->__toString()->shouldBe('Text');
     }
 
     public function it_has_a_comment_id(): void
@@ -74,8 +73,8 @@ final class CommentSpec extends ObjectBehavior
         $this->userId()->shouldBeLike(new UserId(self::USER_ID));
     }
 
-    public function it_has_a_comment_text(): void
+    public function it_has_a_text(): void
     {
-        $this->commentText()->shouldBeLike(new CommentText(self::TEXT));
+        $this->text()->shouldBeLike(new CommentText('Text'));
     }
 }
