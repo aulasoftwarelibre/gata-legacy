@@ -48,7 +48,7 @@ final class CommentTextSpec extends ObjectBehavior
 
     public function it_has_a_text(): void
     {
-        $this->text()->shouldBe('Text');
+        $this->value()->shouldBe('Text');
     }
 
     public function it_can_be_compared_with_other_comment_text(): void

@@ -55,7 +55,7 @@ final class Comment extends AggregateRoot
 
     public function __toString(): string
     {
-        return $this->text()->text();
+        return $this->text()->value();
     }
 
     public function commentId(): CommentId
