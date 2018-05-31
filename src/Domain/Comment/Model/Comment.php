@@ -44,11 +44,11 @@ final class Comment extends AggregateRoot
         CommentId $commentId,
         IdeaId $ideaId,
         UserId $userId,
-        CommentText $text
+        CommentText $commentText
     ): self {
         $comment = new self();
 
-        $comment->recordThat(CommentAdded::withData($commentId, $ideaId, $userId, $text));
+        $comment->recordThat(CommentAdded::withData($commentId, $ideaId, $userId, $commentText));
 
         return $comment;
     }

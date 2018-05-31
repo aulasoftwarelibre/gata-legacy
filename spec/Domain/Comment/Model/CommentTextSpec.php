@@ -35,8 +35,7 @@ final class CommentTextSpec extends ObjectBehavior
         $emptyText = '';
 
         $this->shouldThrow(EmptyCommentTextException::class)->during(
-            '__construct',
-            [
+            '__construct', [
                 $emptyText,
             ]
         );

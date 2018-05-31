@@ -37,8 +37,7 @@ final class CommentIdSpec extends ObjectBehavior
     public function it_has_to_be_valid(): void
     {
         $this->shouldThrow(InvalidCommentIdFormatException::class)->during(
-            '__construct',
-            [
+            '__construct', [
                 self::INVALID_UUID,
             ]
         );
