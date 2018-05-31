@@ -21,6 +21,8 @@ use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Event\IdeaAttendeeRegistered;
+use App\Domain\Idea\Event\IdeaCapacityLimited;
+use App\Domain\Idea\Event\IdeaCapacityUnlimited;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaTitleChanged;
@@ -155,6 +157,16 @@ final class Idea extends AggregateRoot
         $this->recordThat(IdeaAttendeeRegistered::withData($this->ideaId(), $userId));
     }
 
+    public function capacityUnlimited(): void
+    {
+        $this->recordThat(IdeaCapacityUnlimited::withData($this->ideaId()));
+    }
+
+    public function capacityLimited(int $limit): void
+    {
+        $this->recordThat(IdeaCapacityLimited::withData($this->ideaId(), $limit));
+    }
+
     protected function aggregateId(): string
     {
         return $this->ideaId()->value();
@@ -194,5 +206,15 @@ final class Idea extends AggregateRoot
     protected function applyIdeaAttendeeRegistered(IdeaAttendeeRegistered $event): void
     {
         $this->attendees->add($event->userId());
+    }
+
+    protected function applyIdeaCapacityUnlimited(IdeaCapacityUnlimited $event): void
+    {
+        $this->capacity = IdeaCapacity::unlimited($this->capacity());
+    }
+
+    protected function applyIdeaCapacityLimited(IdeaCapacityLimited $event): void
+    {
+        $this->capacity = IdeaCapacity::limited($this->capacity(), $event->limit());
     }
 }
