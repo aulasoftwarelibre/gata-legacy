@@ -11,6 +11,8 @@
 
 namespace App\Application\Group\Exception;
 
-class GroupNotFoundException extends \DomainException
+use DomainException;
+
+final class GroupNotFoundException extends DomainException
 {
 }

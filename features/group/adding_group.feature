@@ -2,7 +2,7 @@
 Feature: Adding a group
     In order to let groups to propose ideas
     As an administrator
-    I want to add a new group
+    I want to add a group to list
 
     @application
     Scenario: Adding a new group
