@@ -77,7 +77,7 @@ final class Group extends AggregateRoot
 
     protected function aggregateId(): string
     {
-        return $this->groupId()->id();
+        return $this->groupId()->value();
     }
 
     protected function applyGroupAdded(GroupAdded $event): void

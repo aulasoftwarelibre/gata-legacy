@@ -21,7 +21,7 @@ final class GroupNameChanged extends AggregateChanged
 {
     public static function withData(GroupId $groupId, GroupName $groupName): self
     {
-        return self::occur($groupId->id(), [
+        return self::occur($groupId->value(), [
             'name' => $groupName->name(),
         ]);
     }

@@ -23,7 +23,7 @@ final class AddGroup extends Command
     public static function create(GroupId $id, GroupName $name): self
     {
         return new self([
-            'groupId' => $id->id(),
+            'groupId' => $id->value(),
             'name' => $name->name(),
         ]);
     }
