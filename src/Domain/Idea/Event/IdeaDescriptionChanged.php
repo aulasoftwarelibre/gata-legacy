@@ -20,7 +20,7 @@ class IdeaDescriptionChanged extends AggregateChanged
     public static function withData(IdeaId $ideaId, IdeaDescription $ideaDescription): self
     {
         return self::occur($ideaId->id(), [
-            'description' => $ideaDescription->description(),
+            'description' => $ideaDescription->value(),
         ]);
     }
 

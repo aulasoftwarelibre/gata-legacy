@@ -36,7 +36,7 @@ final class IdeaDescriptionSpec extends ObjectBehavior
 
     public function it_has_a_description(): void
     {
-        $this->description()->shouldBe('Description');
+        $this->value()->shouldBe('Description');
     }
 
     public function it_can_be_compared_with_other_idea_description(): void

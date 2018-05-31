@@ -34,7 +34,7 @@ final class IdeaAdded extends AggregateChanged
         return self::occur($ideaId->id(), [
             'groupId' => $groupId->value(),
             'title' => $ideaTitle->title(),
-            'description' => $ideaDescription->description(),
+            'description' => $ideaDescription->value(),
         ]);
     }
 
