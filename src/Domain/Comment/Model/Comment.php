@@ -80,7 +80,7 @@ final class Comment extends AggregateRoot
 
     protected function aggregateId(): string
     {
-        return $this->commentId->id();
+        return $this->commentId->value();
     }
 
     protected function applyCommentAdded(CommentAdded $event): void

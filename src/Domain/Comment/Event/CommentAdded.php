@@ -27,7 +27,7 @@ final class CommentAdded extends AggregateChanged
         UserId $userId,
         CommentText $commentText
     ): self {
-        return self::occur($commentId->id(), [
+        return self::occur($commentId->value(), [
             'ideaId' => $ideaId->id(),
             'userId' => $userId->id(),
             'text' => $commentText->text(),
