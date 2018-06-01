@@ -21,7 +21,7 @@ use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
 
-final class Group extends AggregateRoot
+class Group extends AggregateRoot
 {
     /**
      * @var GroupId
