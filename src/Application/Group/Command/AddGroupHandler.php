@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the `gata` project.
  *
@@ -14,7 +16,7 @@ namespace App\Application\Group\Command;
 use App\Application\Group\Repository\Groups;
 use App\Domain\Group\Model\Group;
 
-class AddGroupHandler
+final class AddGroupHandler
 {
     /**
      * @var Groups
