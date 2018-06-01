@@ -72,11 +72,11 @@ class GroupContext implements Context
 
         /** @var GroupAdded $event */
         $event = $message->event();
-        Assert::isInstanceOf($event, GroupAdded::class,
+        Assert::isInstanceOf($event, GroupAdded::class, sprintf(
             'Event has to be of class %s, but %s given',
             GroupAdded::class,
             get_class($event)
-        );
+        ));
         Assert::true($event->name()->equals(new GroupName($name)));
     }
 
@@ -100,11 +100,11 @@ class GroupContext implements Context
 
         /** @var GroupRenamed $event */
         $event = $message->event();
-        Assert::isInstanceOf($event, GroupRenamed::class,
+        Assert::isInstanceOf($event, GroupRenamed::class, sprintf(
             'Event has to be of class %s, but %s given',
             GroupRenamed::class,
             get_class($event)
-        );
+        ));
         Assert::true($event->groupId()->equals($groupId));
         Assert::true($event->name()->equals(new GroupName($name)));
     }
