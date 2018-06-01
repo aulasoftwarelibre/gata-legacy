@@ -31,20 +31,40 @@ final class IdeaCapacity implements ValueObject
 
     public function __construct(?int $limit = null, int $count = 0)
     {
-        if (null !== $limit && $limit < 1) {
-            throw new InvalidIdeaCapacityException();
-        }
-
         if ($count < 0) {
             throw new InvalidIdeaCapacityException();
         }
 
-        if ($limit < $count) {
+        if (null !== $limit && $limit < 1) {
+            throw new InvalidIdeaCapacityException();
+        }
+
+        if (null !== $limit && $limit < $count) {
             throw new ExceededCapacityLimitException();
         }
 
         $this->count = $count;
         $this->limit = $limit;
+    }
+
+    public function increment(): self
+    {
+        return new IdeaCapacity($this->limit, $this->count + 1);
+    }
+
+    public function decrement(): self
+    {
+        return new IdeaCapacity($this->limit, $this->count - 1);
+    }
+
+    public function unlimited(): self
+    {
+        return new IdeaCapacity(null, $this->count());
+    }
+
+    public function limited(int $limit): self
+    {
+        return new IdeaCapacity($limit, $this->count());
     }
 
     public function __toString(): string
@@ -60,22 +80,6 @@ final class IdeaCapacity implements ValueObject
     public function limit(): ?int
     {
         return $this->limit;
-    }
-
-    public static function increment(IdeaCapacity $ideaCapacity): self
-    {
-        $limit = $ideaCapacity->limit();
-        $count = $ideaCapacity->count() + 1;
-
-        return new IdeaCapacity($limit, $count);
-    }
-
-    public static function decrement(IdeaCapacity $ideaCapacity): self
-    {
-        $limit = $ideaCapacity->limit();
-        $count = $ideaCapacity->count() - 1;
-
-        return new IdeaCapacity($limit, $count);
     }
 
     public function equals(ValueObject $valueObject): bool

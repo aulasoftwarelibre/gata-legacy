@@ -21,6 +21,8 @@ use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Event\IdeaAttendeeRegistered;
+use App\Domain\Idea\Event\IdeaCapacityLimited;
+use App\Domain\Idea\Event\IdeaCapacityUnlimited;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaTitleChanged;
@@ -39,6 +41,8 @@ final class IdeaSpec extends ObjectBehavior
     const GROUP_ID = '4ab37020-455c-45a3-8f7e-194bfb9fbc0b';
     const COMMENT_ID = '0c586173-7676-4a2c-9220-edd223eb458e';
     const USER_ID = '805d3cef-5408-48bc-98c4-dcd04d496eb1';
+
+    const CAPACITY_LIMIT = 10;
 
     public function let(): void
     {
@@ -214,6 +218,31 @@ final class IdeaSpec extends ObjectBehavior
             IdeaAttendeeRegistered::withData(
                 new IdeaId(self::IDEA_ID),
                 new UserId(self::USER_ID)
+            )
+        );
+    }
+
+    public function its_capacity_can_be_unlimited(): void
+    {
+        $this->capacityUnlimited();
+
+        (new AggregateAsserter())->assertAggregateHasProducedEvent(
+            $this->getWrappedObject(),
+            IdeaCapacityUnlimited::withData(
+                new IdeaId(self::IDEA_ID)
+            )
+        );
+    }
+
+    public function its_capacity_can_be_limited(): void
+    {
+        $this->capacityLimited(self::CAPACITY_LIMIT);
+
+        (new AggregateAsserter())->assertAggregateHasProducedEvent(
+            $this->getWrappedObject(),
+            IdeaCapacityLimited::withData(
+                new IdeaId(self::IDEA_ID),
+                self::CAPACITY_LIMIT
             )
         );
     }
