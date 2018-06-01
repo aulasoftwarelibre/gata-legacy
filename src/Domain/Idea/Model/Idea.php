@@ -27,6 +27,7 @@ use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaTitleChanged;
 use App\Domain\User\Model\UserId;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 class Idea extends AggregateRoot
@@ -62,7 +63,7 @@ class Idea extends AggregateRoot
     private $capacity;
 
     /**
-     * @var Collection
+     * @var Collection|ArrayCollection
      */
     private $attendees;
 
@@ -152,6 +153,13 @@ class Idea extends AggregateRoot
         );
     }
 
+    public function isAttendeeRegistered(UserId $userId): bool
+    {
+        return !$this->attendees->filter(function (UserId $attendeeId) use ($userId) {
+            return $attendeeId->equals($userId);
+        })->isEmpty();
+    }
+
     public function registerAttendee(UserId $userId): void
     {
         $this->recordThat(IdeaAttendeeRegistered::withData($this->ideaId(), $userId));
@@ -205,6 +213,10 @@ class Idea extends AggregateRoot
 
     protected function applyIdeaAttendeeRegistered(IdeaAttendeeRegistered $event): void
     {
+        if ($this->isAttendeeRegistered($event->userId())) {
+            return;
+        }
+
         $this->capacity = $this->capacity()->increment();
         $this->attendees->add($event->userId());
     }

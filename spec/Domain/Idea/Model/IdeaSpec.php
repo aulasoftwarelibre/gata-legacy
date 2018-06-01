@@ -207,6 +207,15 @@ final class IdeaSpec extends ObjectBehavior
         );
     }
 
+    public function it_can_check_if_attendee_is_registered()
+    {
+        $this->registerAttendee(
+            new UserId(self::USER_ID)
+        );
+
+        $this->isAttendeeRegistered(new UserId(self::USER_ID))->shouldBeEqualTo(true);
+    }
+
     public function it_can_register_attendees(): void
     {
         $capacity = $this->capacity()->getWrappedObject();
@@ -224,6 +233,20 @@ final class IdeaSpec extends ObjectBehavior
                 new UserId(self::USER_ID)
             )
         );
+    }
+
+    public function it_can_not_register_attendees_twice(): void
+    {
+        $capacity = $this->capacity()->getWrappedObject();
+
+        $this->registerAttendee(
+            new UserId(self::USER_ID)
+        );
+        $this->registerAttendee(
+            new UserId(self::USER_ID)
+        );
+
+        $this->capacity()->count()->shouldBeLike($capacity->count() + 1);
     }
 
     public function its_capacity_can_be_unlimited(): void
