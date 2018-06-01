@@ -18,7 +18,7 @@ use App\Domain\Comment\Event\CommentAdded;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\User\Model\UserId;
 
-final class Comment extends AggregateRoot
+class Comment extends AggregateRoot
 {
     /**
      * @var CommentId

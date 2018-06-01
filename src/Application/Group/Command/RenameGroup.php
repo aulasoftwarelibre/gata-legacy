@@ -18,7 +18,7 @@ use App\Domain\Group\Model\GroupName;
 use Prooph\Common\Messaging\Command;
 use Prooph\Common\Messaging\PayloadTrait;
 
-final class AddGroup extends Command
+final class RenameGroup extends Command
 {
     use PayloadTrait;
 

@@ -11,10 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Group\Exception;
+namespace Tests\Service;
 
-use DomainException;
-
-final class GroupNotFoundException extends DomainException
+interface SharedStorage
 {
+    public function get(string $key);
+
+    public function has(string $key): bool;
+
+    public function set(string $key, $resource): void;
+
+    public function getLatestResource();
 }

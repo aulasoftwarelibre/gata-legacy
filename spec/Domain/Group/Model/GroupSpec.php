@@ -15,7 +15,7 @@ namespace spec\App\Domain\Group\Model;
 
 use App\Domain\AggregateRoot;
 use App\Domain\Group\Event\GroupAdded;
-use App\Domain\Group\Event\GroupNameChanged;
+use App\Domain\Group\Event\GroupRenamed;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
 use App\Domain\Idea\Event\IdeaAdded;
@@ -87,11 +87,11 @@ final class GroupSpec extends ObjectBehavior
 
     public function it_can_change_its_name(): void
     {
-        $this->changeName(new GroupName('Other name'));
+        $this->rename(new GroupName('Other name'));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            GroupNameChanged::withData(
+            GroupRenamed::withData(
                 new GroupId(self::GROUP_ID),
                 new GroupName('Other name')
             )

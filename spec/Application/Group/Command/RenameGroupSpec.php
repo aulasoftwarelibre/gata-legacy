@@ -18,7 +18,7 @@ use App\Domain\Group\Model\GroupName;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\Command;
 
-final class AddGroupSpec extends ObjectBehavior
+final class RenameGroupSpec extends ObjectBehavior
 {
     const GROUP_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
 
@@ -27,7 +27,7 @@ final class AddGroupSpec extends ObjectBehavior
         $this->shouldHaveType(Command::class);
     }
 
-    public function it_represents_add_group_intention(): void
+    public function it_represents_rename_group_intention(): void
     {
         $this->beConstructedThrough('create', [
             new GroupId(self::GROUP_ID),

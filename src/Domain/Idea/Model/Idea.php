@@ -29,7 +29,7 @@ use App\Domain\Idea\Event\IdeaTitleChanged;
 use App\Domain\User\Model\UserId;
 use Doctrine\Common\Collections\Collection;
 
-final class Idea extends AggregateRoot
+class Idea extends AggregateRoot
 {
     /**
      * @var IdeaId

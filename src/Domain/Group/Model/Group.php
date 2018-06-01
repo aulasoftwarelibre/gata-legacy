@@ -15,13 +15,13 @@ namespace App\Domain\Group\Model;
 
 use App\Domain\AggregateRoot;
 use App\Domain\Group\Event\GroupAdded;
-use App\Domain\Group\Event\GroupNameChanged;
+use App\Domain\Group\Event\GroupRenamed;
 use App\Domain\Idea\Model\Idea;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
 
-final class Group extends AggregateRoot
+class Group extends AggregateRoot
 {
     /**
      * @var GroupId
@@ -57,9 +57,9 @@ final class Group extends AggregateRoot
         return $this->name;
     }
 
-    public function changeName(GroupName $groupName): void
+    public function rename(GroupName $groupName): void
     {
-        $this->recordThat(GroupNameChanged::withData($this->groupId(), $groupName));
+        $this->recordThat(GroupRenamed::withData($this->groupId(), $groupName));
     }
 
     public function addIdea(
@@ -86,7 +86,7 @@ final class Group extends AggregateRoot
         $this->name = $event->name();
     }
 
-    protected function applyGroupNameChanged(GroupNameChanged $event): void
+    protected function applyGroupRenamed(GroupRenamed $event): void
     {
         $this->name = $event->name();
     }

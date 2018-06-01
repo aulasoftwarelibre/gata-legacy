@@ -14,9 +14,8 @@ declare(strict_types=1);
 namespace App\Application\Group\Command;
 
 use App\Application\Group\Repository\Groups;
-use App\Domain\Group\Model\Group;
 
-final class AddGroupHandler
+final class RenameGroupHandler
 {
     /**
      * @var Groups
@@ -28,12 +27,11 @@ final class AddGroupHandler
         $this->groups = $groups;
     }
 
-    public function __invoke(AddGroup $addGroup): void
+    public function __invoke(RenameGroup $renameGroup): void
     {
-        $group = Group::add(
-            $addGroup->groupId(),
-            $addGroup->name()
-        );
+        $group = $this->groups->get($renameGroup->groupId());
+
+        $group->rename($renameGroup->name());
 
         $this->groups->save($group);
     }
