@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the `gata` project.
  *
@@ -11,9 +13,7 @@
 
 namespace App\Application\Group\Command;
 
-use App\Application\Group\Exception\GroupNotFoundException;
 use App\Application\Group\Repository\Groups;
-use App\Domain\Group\Model\Group;
 
 final class RenameGroupHandler
 {
@@ -30,10 +30,6 @@ final class RenameGroupHandler
     public function __invoke(RenameGroup $renameGroup): void
     {
         $group = $this->groups->get($renameGroup->groupId());
-
-        if (!$group instanceof Group) {
-            throw new GroupNotFoundException();
-        }
 
         $group->rename($renameGroup->name());
 
