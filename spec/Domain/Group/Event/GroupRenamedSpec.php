@@ -18,7 +18,7 @@ use App\Domain\Group\Model\GroupName;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
-final class GroupNameChangedSpec extends ObjectBehavior
+final class GroupRenamedSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
 
@@ -27,7 +27,7 @@ final class GroupNameChangedSpec extends ObjectBehavior
         $this->shouldHaveType(DomainEvent::class);
     }
 
-    public function it_represents_group_name_changed_event_occurrence(): void
+    public function it_represents_group_renamed_event_occurrence(): void
     {
         $this->beConstructedThrough('withData', [
             new GroupId(self::UUID),

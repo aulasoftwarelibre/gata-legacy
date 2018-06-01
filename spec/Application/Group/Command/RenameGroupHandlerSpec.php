@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace spec\App\Application\Group\Command;
 
-use App\Application\Group\Command\AddGroup;
+use App\Application\Group\Command\RenameGroup;
 use App\Application\Group\Repository\Groups;
 use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
@@ -21,7 +21,7 @@ use App\Domain\Group\Model\GroupName;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-final class AddGroupHandlerSpec extends ObjectBehavior
+final class RenameGroupHandlerSpec extends ObjectBehavior
 {
     const GROUP_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
 
@@ -30,16 +30,15 @@ final class AddGroupHandlerSpec extends ObjectBehavior
         $this->beConstructedWith($groups);
     }
 
-    public function it_creates_a_group(Groups $groups): void
+    public function it_renames_a_group(Groups $groups, Group $group): void
     {
-        $groups->save(Argument::that(
-            function (Group $group) {
-                return $group->groupId()->equals(new GroupId(self::GROUP_ID))
-                    && $group->name()->equals(new GroupName('Name'));
-            }
-        ))->shouldBeCalled();
+        $groups->get(Argument::exact(new GroupId(self::GROUP_ID)))->willReturn($group);
 
-        $this(AddGroup::create(
+        $group->rename(Argument::exact(new GroupName('Name')))->shouldBeCalled();
+
+        $groups->save($group)->shouldBeCalled();
+
+        $this(RenameGroup::create(
             new GroupId(self::GROUP_ID),
             new GroupName('Name')
         ));

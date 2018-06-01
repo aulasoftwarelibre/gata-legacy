@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
+use App\Application\Group\Exception\GroupNotFoundException;
 use App\Application\Group\Repository\Groups;
 use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
@@ -27,6 +28,12 @@ class EventStoreGroups extends AggregateRepository implements Groups
 
     public function get(GroupId $groupId): ?Group
     {
-        return $this->getAggregateRoot($groupId->value());
+        $group = $this->getAggregateRoot($groupId->value());
+
+        if (!$group instanceof Group) {
+            throw new GroupNotFoundException();
+        }
+
+        return $group;
     }
 }
