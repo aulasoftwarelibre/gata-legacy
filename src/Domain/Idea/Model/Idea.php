@@ -205,6 +205,7 @@ class Idea extends AggregateRoot
 
     protected function applyIdeaAttendeeRegistered(IdeaAttendeeRegistered $event): void
     {
+        $this->capacity = $this->capacity()->increment();
         $this->attendees->add($event->userId());
     }
 

@@ -209,9 +209,13 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_can_register_attendees(): void
     {
+        $capacity = $this->capacity()->getWrappedObject();
+
         $this->registerAttendee(
             new UserId(self::USER_ID)
         );
+
+        $this->capacity()->count()->shouldBeLike($capacity->count() + 1);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
