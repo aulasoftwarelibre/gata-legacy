@@ -18,10 +18,9 @@ use App\Domain\Group\Model\GroupName;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\Command;
 
-class AddGroupSpec extends ObjectBehavior
+final class AddGroupSpec extends ObjectBehavior
 {
     const GROUP_ID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
-    const NAME = 'Lorem ipsum';
 
     public function it_is_a_command(): void
     {
@@ -32,10 +31,10 @@ class AddGroupSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('create', [
             new GroupId(self::GROUP_ID),
-            new GroupName(self::NAME),
+            new GroupName('Name'),
         ]);
 
         $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
-        $this->name()->shouldBeLike(new GroupName(self::NAME));
+        $this->name()->shouldBeLike(new GroupName('Name'));
     }
 }
