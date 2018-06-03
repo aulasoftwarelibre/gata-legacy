@@ -21,6 +21,7 @@ use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Event\IdeaAttendeeRegistered;
+use App\Domain\Idea\Event\IdeaAttendeeUnregistered;
 use App\Domain\Idea\Event\IdeaCapacityLimited;
 use App\Domain\Idea\Event\IdeaCapacityUnlimited;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
@@ -213,7 +214,7 @@ final class IdeaSpec extends ObjectBehavior
             new UserId(self::USER_ID)
         );
 
-        $this->isAttendeeRegistered(new UserId(self::USER_ID))->shouldBeEqualTo(true);
+        $this->isAttendeeRegistered(new UserId(self::USER_ID))->shouldBe(true);
     }
 
     public function it_can_register_attendees(): void
@@ -224,7 +225,8 @@ final class IdeaSpec extends ObjectBehavior
             new UserId(self::USER_ID)
         );
 
-        $this->capacity()->count()->shouldBeLike($capacity->count() + 1);
+        $this->capacity()->count()->shouldBe($capacity->count() + 1);
+        $this->isAttendeeRegistered(new UserId(self::USER_ID))->shouldBe(true);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
@@ -246,7 +248,41 @@ final class IdeaSpec extends ObjectBehavior
             new UserId(self::USER_ID)
         );
 
-        $this->capacity()->count()->shouldBeLike($capacity->count() + 1);
+        $this->capacity()->count()->shouldBe($capacity->count() + 1);
+    }
+
+    public function it_can_unregister_attendees(): void
+    {
+        $capacity = $this->capacity()->getWrappedObject();
+
+        $this->registerAttendee(
+            new UserId(self::USER_ID)
+        );
+
+        $this->unregisterAttendee(
+            new UserId(self::USER_ID)
+        );
+        $this->capacity()->count()->shouldBe($capacity->count());
+        $this->isAttendeeRegistered(new UserId(self::USER_ID))->shouldBe(false);
+
+        (new AggregateAsserter())->assertAggregateHasProducedEvent(
+            $this->getWrappedObject(),
+            IdeaAttendeeUnregistered::withData(
+                new IdeaId(self::IDEA_ID),
+                new UserId(self::USER_ID)
+            )
+        );
+    }
+
+    public function it_can_not_unregister_attendees_does_not_exists(): void
+    {
+        $capacity = $this->capacity()->getWrappedObject();
+
+        $this->unregisterAttendee(
+            new UserId(self::USER_ID)
+        );
+
+        $this->capacity()->count()->shouldBe($capacity->count());
     }
 
     public function its_capacity_can_be_unlimited(): void
