@@ -8,6 +8,11 @@ prooph_event_store:
                     aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
                     stream_name: 'test'
                     one_stream_per_aggregate: true
+                App\Infrastructure\Repository\EventStoreIdeas:
+                    aggregate_type: 'App\Domain\Idea\Model\Idea'
+                    aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
+                    stream_name: 'test'
+                    one_stream_per_aggregate: true
 
 services:
     _defaults:
