@@ -21,12 +21,14 @@ use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Event\IdeaAttendeeRegistered;
+use App\Domain\Idea\Event\IdeaAttendeeUnregistered;
 use App\Domain\Idea\Event\IdeaCapacityLimited;
 use App\Domain\Idea\Event\IdeaCapacityUnlimited;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaTitleChanged;
 use App\Domain\User\Model\UserId;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 class Idea extends AggregateRoot
@@ -62,7 +64,7 @@ class Idea extends AggregateRoot
     private $capacity;
 
     /**
-     * @var Collection
+     * @var Collection|ArrayCollection
      */
     private $attendees;
 
@@ -152,9 +154,21 @@ class Idea extends AggregateRoot
         );
     }
 
+    public function isAttendeeRegistered(UserId $userId): bool
+    {
+        return $this->attendees->exists(function ($key, UserId $attendeeId) use ($userId) {
+            return $attendeeId->equals($userId);
+        });
+    }
+
     public function registerAttendee(UserId $userId): void
     {
         $this->recordThat(IdeaAttendeeRegistered::withData($this->ideaId(), $userId));
+    }
+
+    public function unregisterAttendee(UserId $userId): void
+    {
+        $this->recordThat(IdeaAttendeeUnregistered::withData($this->ideaId(), $userId));
     }
 
     public function capacityUnlimited(): void
@@ -205,7 +219,24 @@ class Idea extends AggregateRoot
 
     protected function applyIdeaAttendeeRegistered(IdeaAttendeeRegistered $event): void
     {
+        if ($this->isAttendeeRegistered($event->userId())) {
+            return;
+        }
+
+        $this->capacity = $this->capacity()->increment();
         $this->attendees->add($event->userId());
+    }
+
+    protected function applyIdeaAttendeeUnregistered(IdeaAttendeeUnregistered $event): void
+    {
+        if (!$this->isAttendeeRegistered($event->userId())) {
+            return;
+        }
+
+        $this->capacity = $this->capacity()->decrement();
+        $this->attendees = $this->attendees->filter(function (UserId $attendeeId) use ($event) {
+            return !$attendeeId->equals($event->userId());
+        });
     }
 
     protected function applyIdeaCapacityUnlimited(IdeaCapacityUnlimited $event): void
