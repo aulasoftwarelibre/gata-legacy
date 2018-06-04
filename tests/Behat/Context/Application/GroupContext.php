@@ -26,7 +26,7 @@ use Tests\Service\Prooph\Plugin\EventsRecorder;
 use Tests\Service\SharedStorage;
 use Webmozart\Assert\Assert;
 
-class GroupContext implements Context
+final class GroupContext implements Context
 {
     /**
      * @var CommandBus
@@ -56,11 +56,12 @@ class GroupContext implements Context
     /**
      * @When I add a new group called :name
      */
-    public function iAddANewGroupCalled($name): void
+    public function iAddANewGroupCalled(string $name): void
     {
-        $this->commandBus->dispatch(
-            AddGroup::create(new GroupId(Uuid::uuid4()->toString()), new GroupName($name))
-        );
+        $this->commandBus->dispatch(AddGroup::create(
+            new GroupId(Uuid::uuid4()->toString()),
+            new GroupName($name)
+        ));
     }
 
     /**
@@ -68,10 +69,8 @@ class GroupContext implements Context
      */
     public function theGroupShouldBeAvailableInTheList(string $name): void
     {
-        $message = $this->eventsRecorder->getLastMessage();
-
         /** @var GroupAdded $event */
-        $event = $message->event();
+        $event = $this->eventsRecorder->getLastMessage()->event();
         Assert::isInstanceOf($event, GroupAdded::class, sprintf(
             'Event has to be of class %s, but %s given',
             GroupAdded::class,
@@ -81,7 +80,7 @@ class GroupContext implements Context
     }
 
     /**
-     * @When /^I rename (it) to "([^"]*)"$/
+     * @When /^I rename (this group) to "([^"]*)"$/
      */
     public function iRenameItTo(GroupId $groupId, string $name): void
     {
@@ -92,7 +91,7 @@ class GroupContext implements Context
     }
 
     /**
-     * @Then /^(it) should be renamed to "([^"]*)"$/
+     * @Then /^(this group) should be renamed to "([^"]*)"$/
      */
     public function itShouldBeRenamedTo(GroupId $groupId, string $name): void
     {
