@@ -22,10 +22,10 @@ final class AddGroup extends Command
 {
     use PayloadTrait;
 
-    public static function create(GroupId $id, GroupName $name): self
+    public static function create(GroupId $groupId, GroupName $name): self
     {
         return new self([
-            'groupId' => $id->value(),
+            'groupId' => $groupId->value(),
             'name' => $name->value(),
         ]);
     }

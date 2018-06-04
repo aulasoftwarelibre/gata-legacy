@@ -35,7 +35,8 @@ final class AddGroupHandlerSpec extends ObjectBehavior
         $groups->save(Argument::that(
             function (Group $group) {
                 return $group->groupId()->equals(new GroupId(self::GROUP_ID))
-                    && $group->name()->equals(new GroupName('Name'));
+                    && $group->name()->equals(new GroupName('Name'))
+                ;
             }
         ))->shouldBeCalled();
 
