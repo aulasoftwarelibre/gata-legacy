@@ -26,7 +26,7 @@ class IdeaAttendeeUnregisteredSpec extends ObjectBehavior
         $this->shouldHaveType(DomainEvent::class);
     }
 
-    public function it_represents_idea_attendee_registered_event_occurrence(): void
+    public function it_represents_idea_attendee_unregistered_event_occurrence(): void
     {
         $this->beConstructedThrough('withData', [
             new IdeaId(self::IDEA_ID),
