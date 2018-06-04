@@ -6,6 +6,9 @@ prooph_event_store:
                 App\Infrastructure\Repository\EventStoreGroups:
                     aggregate_type: 'App\Domain\Group\Model\Group'
                     aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
+                App\Infrastructure\Repository\EventStoreIdeas:
+                    aggregate_type: 'App\Domain\Idea\Model\Idea'
+                    aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
 
 services:
     _defaults:
@@ -31,3 +34,4 @@ services:
 
     # Repositories
     App\Application\Group\Repository\Groups: '@App\Infrastructure\Repository\EventStoreGroups'
+    App\Application\Idea\Repository\Ideas: '@App\Infrastructure\Repository\EventStoreIdeas'

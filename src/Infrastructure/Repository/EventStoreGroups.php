@@ -19,7 +19,7 @@ use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 
-class EventStoreGroups extends AggregateRepository implements Groups
+final class EventStoreGroups extends AggregateRepository implements Groups
 {
     public function save(Group $group): void
     {

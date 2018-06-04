@@ -7,5 +7,5 @@ Feature: Renaming a group
     @application
     Scenario: Renaming a group
         Given there is a group named "Aula de software libre"
-        When I rename it to "Aula de Software Libre"
-        Then it should be renamed to "Aula de Software Libre"
+        When I rename this group to "Aula de Software Libre"
+        Then this group should be renamed to "Aula de Software Libre"

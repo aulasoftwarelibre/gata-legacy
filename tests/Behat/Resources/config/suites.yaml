@@ -1,2 +1,3 @@
 imports:
     - 'suites/application/group.yaml'
+    - 'suites/application/idea.yaml'
