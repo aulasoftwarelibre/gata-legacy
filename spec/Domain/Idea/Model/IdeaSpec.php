@@ -24,7 +24,7 @@ use App\Domain\Idea\Event\IdeaAttendeeRegistered;
 use App\Domain\Idea\Event\IdeaAttendeeUnregistered;
 use App\Domain\Idea\Event\IdeaCapacityLimited;
 use App\Domain\Idea\Event\IdeaCapacityUnlimited;
-use App\Domain\Idea\Event\IdeaDescriptionChanged;
+use App\Domain\Idea\Event\IdeaRedescribed;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaRetitled;
 use App\Domain\Idea\Model\IdeaCapacity;
@@ -135,11 +135,11 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_can_change_its_description(): void
     {
-        $this->changeDescription(new IdeaDescription('Other description'));
+        $this->redescribe(new IdeaDescription('Other description'));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaDescriptionChanged::withData(
+            IdeaRedescribed::withData(
                 new IdeaId(self::IDEA_ID),
                 new IdeaDescription('Other description')
             )
@@ -150,11 +150,11 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_not_change_its_description_when_it_is_the_same(): void
     {
-        $this->changeDescription(new IdeaDescription('Description'));
+        $this->redescribe(new IdeaDescription('Description'));
 
         (new AggregateAsserter())->assertAggregateHasNotProducedEvent(
             $this->getWrappedObject(),
-            IdeaDescriptionChanged::withData(
+            IdeaRedescribed::withData(
                 new IdeaId(self::IDEA_ID),
                 new IdeaDescription('Description')
             )
