@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Tests\Behat\Context\Application;
 
 use App\Application\Idea\Command\AddIdea;
+use App\Application\Idea\Command\RetitleIdea;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Event\IdeaRetitled;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
@@ -73,12 +75,41 @@ final class IdeaContext implements Context
     {
         /** @var IdeaAdded $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
+
         Assert::isInstanceOf($event, IdeaAdded::class, sprintf(
             'Event has to be of class %s, but %s given',
             IdeaAdded::class,
             get_class($event)
         ));
         Assert::true($event->groupId()->equals($groupId));
+        Assert::true($event->title()->equals(new IdeaTitle($title)));
+    }
+
+    /**
+     * @When /^I retitle (it) to "([^"]*)"$/
+     */
+    public function iRetitleItTo(IdeaId $ideaId, string $title)
+    {
+        $this->commandBus->dispatch(RetitleIdea::create(
+            $ideaId,
+            new IdeaTitle($title)
+        ));
+    }
+
+    /**
+     * @Then /^(it) should be retitled to "([^"]*)"$/
+     */
+    public function itShouldBeRetitledTo(IdeaId $ideaId, string $title)
+    {
+        /** @var IdeaRetitled $event */
+        $event = $this->eventsRecorder->getLastMessage()->event();
+
+        Assert::isInstanceOf($event, IdeaRetitled::class, sprintf(
+            'Event has to be of class %s, but %s given',
+            IdeaRetitled::class,
+            get_class($event)
+        ));
+        Assert::true($event->ideaId()->equals($ideaId));
         Assert::true($event->title()->equals(new IdeaTitle($title)));
     }
 }
