@@ -54,9 +54,9 @@ final class GroupContext implements Context
     }
 
     /**
-     * @When I add a new group called :name
+     * @When /^I add a new group named "([^"]*)"$/
      */
-    public function iAddANewGroupCalled(string $name): void
+    public function iAddANewGroupNamed(string $name): void
     {
         $this->commandBus->dispatch(AddGroup::create(
             new GroupId(Uuid::uuid4()->toString()),
@@ -65,12 +65,13 @@ final class GroupContext implements Context
     }
 
     /**
-     * @Then the group :name should be available in the list
+     * @Then /^the group "([^"]*)" should be available in the list$/
      */
     public function theGroupShouldBeAvailableInTheList(string $name): void
     {
         /** @var GroupAdded $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
+
         Assert::isInstanceOf($event, GroupAdded::class, sprintf(
             'Event has to be of class %s, but %s given',
             GroupAdded::class,
@@ -80,7 +81,7 @@ final class GroupContext implements Context
     }
 
     /**
-     * @When /^I rename (this group) to "([^"]*)"$/
+     * @When /^I rename (it) to "([^"]*)"$/
      */
     public function iRenameItTo(GroupId $groupId, string $name): void
     {
@@ -91,14 +92,13 @@ final class GroupContext implements Context
     }
 
     /**
-     * @Then /^(this group) should be renamed to "([^"]*)"$/
+     * @Then /^(it) should be renamed to "([^"]*)"$/
      */
     public function itShouldBeRenamedTo(GroupId $groupId, string $name): void
     {
-        $message = $this->eventsRecorder->getLastMessage();
-
         /** @var GroupRenamed $event */
-        $event = $message->event();
+        $event = $this->eventsRecorder->getLastMessage()->event();
+
         Assert::isInstanceOf($event, GroupRenamed::class, sprintf(
             'Event has to be of class %s, but %s given',
             GroupRenamed::class,

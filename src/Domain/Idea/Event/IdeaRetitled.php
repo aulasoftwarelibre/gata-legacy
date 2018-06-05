@@ -15,7 +15,7 @@ use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
 use Prooph\EventSourcing\AggregateChanged;
 
-class IdeaTitleChanged extends AggregateChanged
+class IdeaRetitled extends AggregateChanged
 {
     public static function withData(IdeaId $ideaId, IdeaTitle $ideaTitle): self
     {

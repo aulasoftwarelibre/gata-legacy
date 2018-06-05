@@ -13,15 +13,17 @@ declare(strict_types=1);
 
 namespace Tests\Behat\Context\Setup;
 
-use App\Application\Group\Command\AddGroup;
+use App\Application\Idea\Command\AddIdea;
 use App\Domain\Group\Model\GroupId;
-use App\Domain\Group\Model\GroupName;
+use App\Domain\Idea\Model\IdeaDescription;
+use App\Domain\Idea\Model\IdeaId;
+use App\Domain\Idea\Model\IdeaTitle;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
 use Ramsey\Uuid\Uuid;
 use Tests\Service\SharedStorage;
 
-final class GroupContext implements Context
+final class IdeaContext implements Context
 {
     /**
      * @var CommandBus
@@ -40,17 +42,20 @@ final class GroupContext implements Context
     }
 
     /**
-     * @Given /^there is a group named "([^"]*)"$/
+     * @Given /^there is an idea titled "([^"]*)" with any description in any group$/
      */
-    public function thereIsAGroupNamed(string $name): void
+    public function thereIsAnIdeaTitledWithAnyDescriptionInAnyGroup(string $title): void
     {
+        $ideaId = new IdeaId(Uuid::uuid4()->toString());
         $groupId = new GroupId(Uuid::uuid4()->toString());
 
-        $this->sharedStorage->set('groupId', $groupId);
+        $this->sharedStorage->set('ideaId', $ideaId);
 
-        $this->commandBus->dispatch(AddGroup::create(
+        $this->commandBus->dispatch(AddIdea::create(
+            $ideaId,
             $groupId,
-            new GroupName($name)
+            new IdeaTitle($title),
+            new IdeaDescription('Description')
         ));
     }
 }

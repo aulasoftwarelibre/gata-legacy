@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Tests\Behat\Context\Transform;
 
-use App\Domain\Group\Model\GroupId;
+use App\Domain\Idea\Model\IdeaId;
 use Behat\Behat\Context\Context;
 use Tests\Service\SharedStorage;
 
-final class GroupContext implements Context
+final class IdeaContext implements Context
 {
     /**
      * @var SharedStorage
@@ -30,11 +30,11 @@ final class GroupContext implements Context
     }
 
     /**
-     * @Transform this group
+     * @Transform this idea
      * @Transform it
      */
-    public function getGroupFromSharedStorage(): GroupId
+    public function getIdeaFromSharedStorage(): IdeaId
     {
-        return $this->sharedStorage->get('groupId');
+        return $this->sharedStorage->get('ideaId');
     }
 }

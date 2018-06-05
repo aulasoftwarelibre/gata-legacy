@@ -2,8 +2,10 @@ default:
     suites:
         idea_application_features:
             contexts_services:
+                - 'tests.behat.context.application.idea_context'
+                - 'tests.behat.context.setup.idea_context'
+                - 'tests.behat.context.transform.idea_context'
                 - 'tests.behat.context.setup.group_context'
                 - 'tests.behat.context.transform.group_context'
-                - 'tests.behat.context.application.idea_context'
             filters:
                 tags: '@idea && @application'

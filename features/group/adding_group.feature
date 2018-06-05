@@ -6,5 +6,5 @@ Feature: Adding a group
 
     @application
     Scenario: Adding a new group
-        When I add a new group called "Aula de Software Libre"
+        When I add a new group named "Aula de Software Libre"
         Then the group "Aula de Software Libre" should be available in the list

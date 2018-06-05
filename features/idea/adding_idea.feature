@@ -6,6 +6,6 @@ Feature: Adding an idea
 
     @application
     Scenario: Adding a new idea
-        Given there is a group named "Aula de software libre"
+        Given there is a group named "Aula de Software Libre"
         When I add a new idea titled "DDD Introduction" with any description to this group
         Then the idea "DDD Introduction" should be available in this group
