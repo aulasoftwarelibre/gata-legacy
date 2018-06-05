@@ -16,7 +16,7 @@ use App\Domain\Idea\Model\IdeaId;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
-final class IdeaDescriptionChangedSpec extends ObjectBehavior
+final class IdeaRedescribedSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
 
@@ -25,7 +25,7 @@ final class IdeaDescriptionChangedSpec extends ObjectBehavior
         $this->shouldHaveType(DomainEvent::class);
     }
 
-    public function it_represents_idea_description_changed_event_occurrence(): void
+    public function it_represents_idea_redescribed_event_occurrence(): void
     {
         $this->beConstructedThrough('withData', [
             new IdeaId(self::UUID),
