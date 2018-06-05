@@ -25,7 +25,7 @@ final class IdeaRetitledSpec extends ObjectBehavior
         $this->shouldHaveType(DomainEvent::class);
     }
 
-    public function it_represents_idea_title_changed_event_occurrence(): void
+    public function it_represents_idea_retitled_event_occurrence(): void
     {
         $this->beConstructedThrough('withData', [
             new IdeaId(self::UUID),
