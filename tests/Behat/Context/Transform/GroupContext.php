@@ -31,6 +31,7 @@ final class GroupContext implements Context
 
     /**
      * @Transform this group
+     * @Transform it
      */
     public function getGroupFromSharedStorage(): GroupId
     {
