@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Tests\Behat\Context\Setup;
 
 use App\Application\Group\Command\AddGroup;
-use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
 use Behat\Behat\Context\Context;
@@ -41,9 +40,7 @@ final class GroupContext implements Context
     }
 
     /**
-     * @Given there is a group named :name
-     *
-     * @param string $name
+     * @Given /^there is a group named "([^"]*)"$/
      */
     public function thereIsAGroupNamed(string $name): void
     {
