@@ -16,7 +16,7 @@ use App\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
-final class IdeaTitleChangedSpec extends ObjectBehavior
+final class IdeaRetitledSpec extends ObjectBehavior
 {
     const UUID = 'e8a68535-3e17-468f-acc3-8a3e0fa04a59';
 

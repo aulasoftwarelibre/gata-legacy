@@ -26,7 +26,7 @@ use App\Domain\Idea\Event\IdeaCapacityLimited;
 use App\Domain\Idea\Event\IdeaCapacityUnlimited;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
-use App\Domain\Idea\Event\IdeaTitleChanged;
+use App\Domain\Idea\Event\IdeaRetitled;
 use App\Domain\User\Model\UserId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -116,13 +116,13 @@ class Idea extends AggregateRoot
         return $this->title;
     }
 
-    public function changeTitle(IdeaTitle $ideaTitle): void
+    public function retitle(IdeaTitle $ideaTitle): void
     {
         if ($this->title()->equals($ideaTitle)) {
             return;
         }
 
-        $this->recordThat(IdeaTitleChanged::withData($this->ideaId(), $ideaTitle));
+        $this->recordThat(IdeaRetitled::withData($this->ideaId(), $ideaTitle));
     }
 
     public function description(): IdeaDescription
@@ -197,7 +197,7 @@ class Idea extends AggregateRoot
         $this->attendees = $event->attendees();
     }
 
-    protected function applyIdeaTitleChanged(IdeaTitleChanged $event): void
+    protected function applyIdeaRetitled(IdeaRetitled $event): void
     {
         $this->title = $event->title();
     }

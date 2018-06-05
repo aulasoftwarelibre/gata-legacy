@@ -26,7 +26,7 @@ use App\Domain\Idea\Event\IdeaCapacityLimited;
 use App\Domain\Idea\Event\IdeaCapacityUnlimited;
 use App\Domain\Idea\Event\IdeaDescriptionChanged;
 use App\Domain\Idea\Event\IdeaRejected;
-use App\Domain\Idea\Event\IdeaTitleChanged;
+use App\Domain\Idea\Event\IdeaRetitled;
 use App\Domain\Idea\Model\IdeaCapacity;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
@@ -102,11 +102,11 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_can_change_its_title(): void
     {
-        $this->changeTitle(new IdeaTitle('Other title'));
+        $this->retitle(new IdeaTitle('Other title'));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaTitleChanged::withData(
+            IdeaRetitled::withData(
                 new IdeaId(self::IDEA_ID),
                 new IdeaTitle('Other title')
             )
@@ -117,11 +117,11 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_not_change_its_title_when_it_is_the_same(): void
     {
-        $this->changeTitle(new IdeaTitle('Title'));
+        $this->retitle(new IdeaTitle('Title'));
 
         (new AggregateAsserter())->assertAggregateHasNotProducedEvent(
             $this->getWrappedObject(),
-            IdeaTitleChanged::withData(
+            IdeaRetitled::withData(
                 new IdeaId(self::IDEA_ID),
                 new IdeaTitle('Title')
             )
