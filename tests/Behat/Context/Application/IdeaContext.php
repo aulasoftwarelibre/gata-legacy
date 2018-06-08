@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Tests\Behat\Context\Application;
 
+use App\Application\Idea\Command\AcceptIdea;
 use App\Application\Idea\Command\AddIdea;
 use App\Application\Idea\Command\RetitleIdea;
 use App\Domain\Group\Model\GroupId;
+use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Event\IdeaRetitled;
 use App\Domain\Idea\Model\IdeaDescription;
@@ -111,5 +113,34 @@ final class IdeaContext implements Context
         ));
         Assert::true($event->ideaId()->equals($ideaId));
         Assert::true($event->title()->equals(new IdeaTitle($title)));
+    }
+
+    /**
+     * @When /^I accept (it)$/
+     */
+    public function iAcceptIt(IdeaId $ideaId)
+    {
+        $this->commandBus->dispatch(
+            AcceptIdea::create(
+                $ideaId
+            )
+        );
+    }
+
+    /**
+     * @Then /^(it) should be marked as accepted$/
+     */
+    public function itShouldBeMarkedAsAccepted(IdeaId $ideaId)
+    {
+        /** @var IdeaAccepted $event */
+        $event = $this->eventsRecorder->getLastMessage()->event();
+
+        Assert::isInstanceOf($event, IdeaAccepted::class, sprintf(
+            'Event has to be of class %s, but %s given',
+            IdeaAccepted::class,
+            get_class($event)
+        ));
+
+        Assert::true($event->ideaId()->equals($ideaId));
     }
 }
