@@ -10,3 +10,10 @@ Feature: Changing idea status
         And there is an idea titled "DDD Introduction" in this group
         When I accept it
         Then it should be marked as accepted
+
+    @application
+    Scenario: Marking an idea as rejected
+        Given there is a group named "Aula de Software Libre"
+        And there is an idea titled "DDD Introduction" in this group
+        When I reject it
+        Then it should be marked as rejected
