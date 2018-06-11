@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Behat\Context\Setup;
 
 use App\Application\Idea\Command\AddIdea;
+use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
@@ -48,6 +49,23 @@ final class IdeaContext implements Context
     {
         $ideaId = new IdeaId(Uuid::uuid4()->toString());
         $groupId = new GroupId(Uuid::uuid4()->toString());
+
+        $this->sharedStorage->set('ideaId', $ideaId);
+
+        $this->commandBus->dispatch(AddIdea::create(
+            $ideaId,
+            $groupId,
+            new IdeaTitle($title),
+            new IdeaDescription('Description')
+        ));
+    }
+
+    /**
+     * @Given /^there is an idea titled "([^"]*)" in (this group)$/
+     */
+    public function thereIsAnIdeaTitledInThisGroup(string $title, GroupId $groupId): void
+    {
+        $ideaId = new IdeaId(Uuid::uuid4()->toString());
 
         $this->sharedStorage->set('ideaId', $ideaId);
 
