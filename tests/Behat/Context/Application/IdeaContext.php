@@ -15,10 +15,12 @@ namespace Tests\Behat\Context\Application;
 
 use App\Application\Idea\Command\AcceptIdea;
 use App\Application\Idea\Command\AddIdea;
+use App\Application\Idea\Command\RejectIdea;
 use App\Application\Idea\Command\RetitleIdea;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaRetitled;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
@@ -128,6 +130,18 @@ final class IdeaContext implements Context
     }
 
     /**
+     * @When /^I reject (it)$/
+     */
+    public function iRejectIt(IdeaId $ideaId)
+    {
+        $this->commandBus->dispatch(
+            RejectIdea::create(
+                $ideaId
+            )
+        );
+    }
+
+    /**
      * @Then /^(it) should be marked as accepted$/
      */
     public function itShouldBeMarkedAsAccepted(IdeaId $ideaId)
@@ -138,6 +152,23 @@ final class IdeaContext implements Context
         Assert::isInstanceOf($event, IdeaAccepted::class, sprintf(
             'Event has to be of class %s, but %s given',
             IdeaAccepted::class,
+            get_class($event)
+        ));
+
+        Assert::true($event->ideaId()->equals($ideaId));
+    }
+
+    /**
+     * @Then /^(it) should be marked as rejected$/
+     */
+    public function itShouldBeMarkedAsRejected(IdeaId $ideaId)
+    {
+        /** @var IdeaRejected $event */
+        $event = $this->eventsRecorder->getLastMessage()->event();
+
+        Assert::isInstanceOf($event, IdeaRejected::class, sprintf(
+            'Event has to be of class %s, but %s given',
+            IdeaRejected::class,
             get_class($event)
         ));
 
