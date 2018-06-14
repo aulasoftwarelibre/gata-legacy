@@ -39,3 +39,6 @@ services:
     App\Application\Group\Repository\Groups: '@App\Infrastructure\Repository\EventStoreGroups'
     App\Application\Idea\Repository\Ideas: '@App\Infrastructure\Repository\EventStoreIdeas'
     App\Application\Comment\Repository\Comments: '@App\Infrastructure\Repository\EventStoreComments'
+
+
+    App\Infrastructure\ReadModel\Group\Repository\GroupViews: '@App\Infrastructure\Doctrine\Repository\GroupViewORMRepository'
