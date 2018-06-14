@@ -15,7 +15,7 @@ use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use Prooph\EventSourcing\AggregateChanged;
 
-class IdeaDescriptionChanged extends AggregateChanged
+class IdeaRedescribed extends AggregateChanged
 {
     public static function withData(IdeaId $ideaId, IdeaDescription $ideaDescription): self
     {

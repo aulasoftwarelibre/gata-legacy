@@ -76,4 +76,22 @@ final class IdeaContext implements Context
             new IdeaDescription('Description')
         ));
     }
+
+    /**
+     * @Given /^there is an idea with any title and "([^"]*)" as description in any group$/
+     */
+    public function thereIsAnIdeaWithAnyTitleAndAsDescriptionInAnyGroup(string $description): void
+    {
+        $ideaId = new IdeaId(Uuid::uuid4()->toString());
+        $groupId = new GroupId(Uuid::uuid4()->toString());
+
+        $this->sharedStorage->set('ideaId', $ideaId);
+
+        $this->commandBus->dispatch(AddIdea::create(
+            $ideaId,
+            $groupId,
+            new IdeaTitle('Title'),
+            new IdeaDescription($description)
+        ));
+    }
 }

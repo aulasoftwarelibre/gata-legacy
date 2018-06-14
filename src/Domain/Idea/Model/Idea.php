@@ -24,7 +24,7 @@ use App\Domain\Idea\Event\IdeaAttendeeRegistered;
 use App\Domain\Idea\Event\IdeaAttendeeUnregistered;
 use App\Domain\Idea\Event\IdeaCapacityLimited;
 use App\Domain\Idea\Event\IdeaCapacityUnlimited;
-use App\Domain\Idea\Event\IdeaDescriptionChanged;
+use App\Domain\Idea\Event\IdeaRedescribed;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaRetitled;
 use App\Domain\User\Model\UserId;
@@ -130,13 +130,13 @@ class Idea extends AggregateRoot
         return $this->description;
     }
 
-    public function changeDescription(IdeaDescription $ideaDescription): void
+    public function redescribe(IdeaDescription $ideaDescription): void
     {
         if ($this->description()->equals($ideaDescription)) {
             return;
         }
 
-        $this->recordThat(IdeaDescriptionChanged::withData($this->ideaId(), $ideaDescription));
+        $this->recordThat(IdeaRedescribed::withData($this->ideaId(), $ideaDescription));
     }
 
     public function capacity(): IdeaCapacity
@@ -202,7 +202,7 @@ class Idea extends AggregateRoot
         $this->title = $event->title();
     }
 
-    protected function applyIdeaDescriptionChanged(IdeaDescriptionChanged $event): void
+    protected function applyIdeaRedescribed(IdeaRedescribed $event): void
     {
         $this->description = $event->description();
     }
