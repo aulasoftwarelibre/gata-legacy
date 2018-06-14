@@ -13,11 +13,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ReadModel\Group\Projection;
 
-use App\Domain\Group\Event\GroupAdded;
+use App\Application\Group\Exception\GroupNotFoundException;
+use App\Domain\Group\Event\GroupRenamed;
 use App\Infrastructure\ReadModel\Group\Repository\GroupViews;
 use App\Infrastructure\ReadModel\Group\View\GroupView;
 
-final class GroupAddedProjection
+final class GroupRenamedProjection
 {
     /**
      * @var GroupViews
@@ -29,12 +30,17 @@ final class GroupAddedProjection
         $this->groupViews = $groupViews;
     }
 
-    public function __invoke(GroupAdded $groupAdded)
+    public function __invoke(GroupRenamed $groupRenamed)
     {
-        $this->groupViews->add(new GroupView(
-           $groupAdded->groupId()->value(),
-           $groupAdded->name()->value()
-        ));
+        $groupId = $groupRenamed->groupId();
+
+        $groupView = $this->groupViews->get($groupId);
+        if (!$groupView instanceof GroupView) {
+            throw new GroupNotFoundException();
+        }
+
+        $name = $groupRenamed->name();
+        $groupView->rename($name);
 
         $this->groupViews->save();
     }
