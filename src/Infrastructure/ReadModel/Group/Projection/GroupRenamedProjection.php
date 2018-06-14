@@ -39,7 +39,7 @@ final class GroupRenamedProjection
             throw new GroupNotFoundException();
         }
 
-        $name = $groupRenamed->name();
+        $name = $groupRenamed->name()->value();
         $groupView->rename($name);
 
         $this->groupViews->save();
