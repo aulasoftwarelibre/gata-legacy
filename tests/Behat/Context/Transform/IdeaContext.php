@@ -30,8 +30,7 @@ final class IdeaContext implements Context
     }
 
     /**
-     * @Transform this idea
-     * @Transform it
+     * @Transform
      */
     public function getIdeaFromSharedStorage(): IdeaId
     {
