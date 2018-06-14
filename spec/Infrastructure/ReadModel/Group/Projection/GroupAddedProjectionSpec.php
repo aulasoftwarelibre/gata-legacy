@@ -37,6 +37,8 @@ final class GroupAddedProjectionSpec extends ObjectBehavior
             'Name'
         )))->shouldBeCalled();
 
+        $groupViews->save()->shouldBeCalled();
+
         $this(GroupAdded::withData(
             new GroupId(self::UUID),
             new GroupName('Name')
