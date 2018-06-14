@@ -20,6 +20,7 @@ use App\Application\Idea\Command\RetitleIdea;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Event\IdeaRedescribed;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaRetitled;
 use App\Domain\Idea\Model\IdeaDescription;
@@ -85,6 +86,7 @@ final class IdeaContext implements Context
             IdeaAdded::class,
             get_class($event)
         ));
+
         Assert::true($event->groupId()->equals($groupId));
         Assert::true($event->title()->equals(new IdeaTitle($title)));
     }
@@ -113,6 +115,7 @@ final class IdeaContext implements Context
             IdeaRetitled::class,
             get_class($event)
         ));
+
         Assert::true($event->ideaId()->equals($ideaId));
         Assert::true($event->title()->equals(new IdeaTitle($title)));
     }
@@ -122,11 +125,9 @@ final class IdeaContext implements Context
      */
     public function iAcceptIt(IdeaId $ideaId)
     {
-        $this->commandBus->dispatch(
-            AcceptIdea::create(
-                $ideaId
-            )
-        );
+        $this->commandBus->dispatch(AcceptIdea::create(
+            $ideaId
+        ));
     }
 
     /**
@@ -134,11 +135,9 @@ final class IdeaContext implements Context
      */
     public function iRejectIt(IdeaId $ideaId)
     {
-        $this->commandBus->dispatch(
-            RejectIdea::create(
-                $ideaId
-            )
-        );
+        $this->commandBus->dispatch(RejectIdea::create(
+            $ideaId
+        ));
     }
 
     /**
@@ -173,5 +172,34 @@ final class IdeaContext implements Context
         ));
 
         Assert::true($event->ideaId()->equals($ideaId));
+    }
+
+    /**
+     * @When /^I redescribe (it) to "([^"]*)"$/
+     */
+    public function iRedescribeItTo(IdeaId $ideaId, string $description)
+    {
+        $this->commandBus->dispatch(RedescribeIdea::create(
+            $ideaId,
+            new IdeaDescription($description)
+        ));
+    }
+
+    /**
+     * @Then /^(it) should be redescribed to "([^"]*)"$/
+     */
+    public function itShouldBeRedescribedTo(IdeaId $ideaId, string $description)
+    {
+        /** @var IdeaRedescribed $event */
+        $event = $this->eventsRecorder->getLastMessage()->event();
+
+        Assert::isInstanceOf($event, IdeaRedescribed::class, sprintf(
+            'Event has to be of class %s, but %s given',
+            IdeaRedescribed::class,
+            get_class($event)
+        ));
+
+        Assert::true($event->ideaId()->equals($ideaId));
+        Assert::true($event->description()->equals(new IdeaDescription($description)));
     }
 }
