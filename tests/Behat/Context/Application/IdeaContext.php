@@ -19,10 +19,12 @@ use App\Application\Idea\Command\RedescribeIdea;
 use App\Application\Idea\Command\RegisterIdeaAttendee;
 use App\Application\Idea\Command\RejectIdea;
 use App\Application\Idea\Command\RetitleIdea;
+use App\Application\Idea\Command\UnregisterIdeaAttendee;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Event\IdeaAttendeeRegistered;
+use App\Domain\Idea\Event\IdeaAttendeeUnregistered;
 use App\Domain\Idea\Event\IdeaRedescribed;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaRetitled;
@@ -230,6 +232,39 @@ final class IdeaContext implements Context
         Assert::isInstanceOf($event, IdeaAttendeeRegistered::class, sprintf(
             'Event has to be of class %s, but %s given',
             IdeaAttendeeRegistered::class,
+            get_class($event)
+        ));
+
+        $myUserId = $this->sharedStorage->get('myUserId');
+
+        Assert::true($event->ideaId()->equals($ideaId));
+        Assert::true($event->userId()->equals($myUserId));
+    }
+
+    /**
+     * @When /^I unregister me as attendee from (this idea)$/
+     */
+    public function iUnregisterMeAsAttendeeFromThisIdea(IdeaId $ideaId)
+    {
+        $myUserId = $this->sharedStorage->get('myUserId');
+
+        $this->commandBus->dispatch(UnregisterIdeaAttendee::create(
+            $ideaId,
+            $myUserId
+        ));
+    }
+
+    /**
+     * @Then /^I have to be unregistered as attendee in (this idea)$/
+     */
+    public function iHaveToBeUnregisteredAsAttendeeInThisIdea(IdeaId $ideaId)
+    {
+        /** @var IdeaAttendeeUnregistered $event */
+        $event = $this->eventsRecorder->getLastMessage()->event();
+
+        Assert::isInstanceOf($event, IdeaAttendeeUnregistered::class, sprintf(
+            'Event has to be of class %s, but %s given',
+            IdeaAttendeeUnregistered::class,
             get_class($event)
         ));
 
