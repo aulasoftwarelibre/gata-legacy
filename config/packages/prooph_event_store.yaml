@@ -9,6 +9,9 @@ prooph_event_store:
                 App\Infrastructure\Repository\EventStoreIdeas:
                     aggregate_type: 'App\Domain\Idea\Model\Idea'
                     aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
+                App\Infrastructure\Repository\EventStoreComments:
+                    aggregate_type: 'App\Domain\Comment\Model\Comment'
+                    aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
 
 services:
     _defaults:
@@ -35,3 +38,4 @@ services:
     # Repositories
     App\Application\Group\Repository\Groups: '@App\Infrastructure\Repository\EventStoreGroups'
     App\Application\Idea\Repository\Ideas: '@App\Infrastructure\Repository\EventStoreIdeas'
+    App\Application\Comment\Repository\Comments: '@App\Infrastructure\Repository\EventStoreComments'
