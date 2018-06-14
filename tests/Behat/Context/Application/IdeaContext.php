@@ -16,11 +16,13 @@ namespace Tests\Behat\Context\Application;
 use App\Application\Idea\Command\AcceptIdea;
 use App\Application\Idea\Command\AddIdea;
 use App\Application\Idea\Command\RedescribeIdea;
+use App\Application\Idea\Command\RegisterIdeaAttendee;
 use App\Application\Idea\Command\RejectIdea;
 use App\Application\Idea\Command\RetitleIdea;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
+use App\Domain\Idea\Event\IdeaAttendeeRegistered;
 use App\Domain\Idea\Event\IdeaRedescribed;
 use App\Domain\Idea\Event\IdeaRejected;
 use App\Domain\Idea\Event\IdeaRetitled;
@@ -95,7 +97,7 @@ final class IdeaContext implements Context
     /**
      * @When /^I retitle (it) to "([^"]*)"$/
      */
-    public function iRetitleItTo(IdeaId $ideaId, string $title)
+    public function iRetitleItTo(IdeaId $ideaId, string $title): void
     {
         $this->commandBus->dispatch(RetitleIdea::create(
             $ideaId,
@@ -106,7 +108,7 @@ final class IdeaContext implements Context
     /**
      * @Then /^(it) should be retitled to "([^"]*)"$/
      */
-    public function itShouldBeRetitledTo(IdeaId $ideaId, string $title)
+    public function itShouldBeRetitledTo(IdeaId $ideaId, string $title): void
     {
         /** @var IdeaRetitled $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
@@ -124,7 +126,7 @@ final class IdeaContext implements Context
     /**
      * @When /^I accept (it)$/
      */
-    public function iAcceptIt(IdeaId $ideaId)
+    public function iAcceptIt(IdeaId $ideaId): void
     {
         $this->commandBus->dispatch(AcceptIdea::create(
             $ideaId
@@ -134,7 +136,7 @@ final class IdeaContext implements Context
     /**
      * @When /^I reject (it)$/
      */
-    public function iRejectIt(IdeaId $ideaId)
+    public function iRejectIt(IdeaId $ideaId): void
     {
         $this->commandBus->dispatch(RejectIdea::create(
             $ideaId
@@ -144,7 +146,7 @@ final class IdeaContext implements Context
     /**
      * @Then /^(it) should be marked as accepted$/
      */
-    public function itShouldBeMarkedAsAccepted(IdeaId $ideaId)
+    public function itShouldBeMarkedAsAccepted(IdeaId $ideaId): void
     {
         /** @var IdeaAccepted $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
@@ -161,7 +163,7 @@ final class IdeaContext implements Context
     /**
      * @Then /^(it) should be marked as rejected$/
      */
-    public function itShouldBeMarkedAsRejected(IdeaId $ideaId)
+    public function itShouldBeMarkedAsRejected(IdeaId $ideaId): void
     {
         /** @var IdeaRejected $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
@@ -178,7 +180,7 @@ final class IdeaContext implements Context
     /**
      * @When /^I redescribe (it) to "([^"]*)"$/
      */
-    public function iRedescribeItTo(IdeaId $ideaId, string $description)
+    public function iRedescribeItTo(IdeaId $ideaId, string $description): void
     {
         $this->commandBus->dispatch(RedescribeIdea::create(
             $ideaId,
@@ -189,7 +191,7 @@ final class IdeaContext implements Context
     /**
      * @Then /^(it) should be redescribed to "([^"]*)"$/
      */
-    public function itShouldBeRedescribedTo(IdeaId $ideaId, string $description)
+    public function itShouldBeRedescribedTo(IdeaId $ideaId, string $description): void
     {
         /** @var IdeaRedescribed $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
@@ -202,5 +204,38 @@ final class IdeaContext implements Context
 
         Assert::true($event->ideaId()->equals($ideaId));
         Assert::true($event->description()->equals(new IdeaDescription($description)));
+    }
+
+    /**
+     * @When /^I register me as attendee in (this idea)$/
+     */
+    public function iRegisterMeAsAttendeeInThisIdea(IdeaId $ideaId): void
+    {
+        $myUserId = $this->sharedStorage->get('myUserId');
+
+        $this->commandBus->dispatch(RegisterIdeaAttendee::create(
+            $ideaId,
+            $myUserId
+        ));
+    }
+
+    /**
+     * @Then /^I have to be registered as attendee in (this idea)$/
+     */
+    public function iHaveToBeRegisteredAsAttendeeInThisIdea(IdeaId $ideaId): void
+    {
+        /** @var IdeaAttendeeRegistered $event */
+        $event = $this->eventsRecorder->getLastMessage()->event();
+
+        Assert::isInstanceOf($event, IdeaAttendeeRegistered::class, sprintf(
+            'Event has to be of class %s, but %s given',
+            IdeaAttendeeRegistered::class,
+            get_class($event)
+        ));
+
+        $myUserId = $this->sharedStorage->get('myUserId');
+
+        Assert::true($event->ideaId()->equals($ideaId));
+        Assert::true($event->userId()->equals($myUserId));
     }
 }
