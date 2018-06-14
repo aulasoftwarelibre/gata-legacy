@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Tests\Behat\Context\Setup;
 
 use App\Application\Idea\Command\AddIdea;
-use App\Domain\Group\Model\Group;
+use App\Application\Idea\Command\RegisterIdeaAttendee;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
@@ -92,6 +92,19 @@ final class IdeaContext implements Context
             $groupId,
             new IdeaTitle('Title'),
             new IdeaDescription($description)
+        ));
+    }
+
+    /**
+     * @Given /^I am registered as attendee in (this idea)$/
+     */
+    public function iAmRegisteredAsAttendeeInThisIdea(IdeaId $ideaId): void
+    {
+        $myUserId = $this->sharedStorage->get('myUserId');
+
+        $this->commandBus->dispatch(RegisterIdeaAttendee::create(
+            $ideaId,
+            $myUserId
         ));
     }
 }
