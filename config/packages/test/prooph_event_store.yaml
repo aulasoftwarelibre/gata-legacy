@@ -13,6 +13,11 @@ prooph_event_store:
                     aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
                     stream_name: 'test'
                     one_stream_per_aggregate: true
+                App\Infrastructure\Repository\EventStoreComments:
+                    aggregate_type: 'App\Domain\Comment\Model\Comment'
+                    aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
+                    stream_name: 'test'
+                    one_stream_per_aggregate: true
 
 services:
     _defaults:
