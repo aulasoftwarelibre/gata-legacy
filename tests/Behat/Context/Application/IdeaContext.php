@@ -15,6 +15,7 @@ namespace Tests\Behat\Context\Application;
 
 use App\Application\Idea\Command\AcceptIdea;
 use App\Application\Idea\Command\AddIdea;
+use App\Application\Idea\Command\RedescribeIdea;
 use App\Application\Idea\Command\RejectIdea;
 use App\Application\Idea\Command\RetitleIdea;
 use App\Domain\Group\Model\GroupId;
