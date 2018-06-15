@@ -18,6 +18,7 @@ use App\Application\Idea\Repository\Ideas;
 use App\Domain\Idea\Model\Idea;
 use App\Domain\Idea\Model\IdeaId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
+use Ramsey\Uuid\Uuid;
 
 final class EventStoreIdeas extends AggregateRepository implements Ideas
 {
@@ -35,5 +36,10 @@ final class EventStoreIdeas extends AggregateRepository implements Ideas
         }
 
         return $idea;
+    }
+
+    public function nextIdentity(): IdeaId
+    {
+        return new IdeaId(Uuid::uuid4()->toString());
     }
 }

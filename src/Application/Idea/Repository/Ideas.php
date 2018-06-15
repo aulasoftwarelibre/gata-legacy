@@ -21,4 +21,6 @@ interface Ideas
     public function save(Idea $idea): void;
 
     public function get(IdeaId $ideaId): ?Idea;
+
+    public function nextIdentity(): IdeaId;
 }
