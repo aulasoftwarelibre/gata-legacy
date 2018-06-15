@@ -20,6 +20,7 @@ use App\Application\Idea\Command\RegisterIdeaAttendee;
 use App\Application\Idea\Command\RejectIdea;
 use App\Application\Idea\Command\RetitleIdea;
 use App\Application\Idea\Command\UnregisterIdeaAttendee;
+use App\Application\Idea\Repository\Ideas;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Event\IdeaAccepted;
 use App\Domain\Idea\Event\IdeaAdded;
@@ -33,7 +34,6 @@ use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
-use Ramsey\Uuid\Uuid;
 use Tests\Service\Prooph\Plugin\EventsRecorder;
 use Tests\Service\SharedStorage;
 use Webmozart\Assert\Assert;
@@ -54,15 +54,21 @@ final class IdeaContext implements Context
      * @var SharedStorage
      */
     private $sharedStorage;
+    /**
+     * @var Ideas
+     */
+    private $ideas;
 
     public function __construct(
         CommandBus $commandBus,
         EventsRecorder $eventsRecorder,
-        SharedStorage $sharedStorage
+        SharedStorage $sharedStorage,
+        Ideas $ideas
     ) {
         $this->commandBus = $commandBus;
         $this->eventsRecorder = $eventsRecorder;
         $this->sharedStorage = $sharedStorage;
+        $this->ideas = $ideas;
     }
 
     /**
@@ -71,7 +77,7 @@ final class IdeaContext implements Context
     public function iAddANewIdeaTitledWithAnyDescriptionToThisGroup(string $title, GroupId $groupId): void
     {
         $this->commandBus->dispatch(AddIdea::create(
-            new IdeaId(Uuid::uuid4()->toString()),
+            $this->ideas->nextIdentity(),
             $groupId,
             new IdeaTitle($title),
             new IdeaDescription('Description')

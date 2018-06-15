@@ -15,13 +15,13 @@ namespace Tests\Behat\Context\Setup;
 
 use App\Application\Idea\Command\AddIdea;
 use App\Application\Idea\Command\RegisterIdeaAttendee;
+use App\Application\Idea\Repository\Ideas;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
-use Ramsey\Uuid\Uuid;
 use Tests\Service\SharedStorage;
 
 final class IdeaContext implements Context
@@ -35,11 +35,19 @@ final class IdeaContext implements Context
      * @var SharedStorage
      */
     private $sharedStorage;
+    /**
+     * @var Ideas
+     */
+    private $ideas;
 
-    public function __construct(CommandBus $commandBus, SharedStorage $sharedStorage)
-    {
+    public function __construct(
+        CommandBus $commandBus,
+        SharedStorage $sharedStorage,
+        Ideas $ideas
+    ) {
         $this->commandBus = $commandBus;
         $this->sharedStorage = $sharedStorage;
+        $this->ideas = $ideas;
     }
 
     /**
@@ -47,7 +55,7 @@ final class IdeaContext implements Context
      */
     public function thereIsAnIdeaTitledInThisGroup(string $title, GroupId $groupId): void
     {
-        $ideaId = new IdeaId(Uuid::uuid4()->toString());
+        $ideaId = $this->ideas->nextIdentity();
 
         $this->sharedStorage->set('ideaId', $ideaId);
 
