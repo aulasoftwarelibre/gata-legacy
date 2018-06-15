@@ -6,6 +6,7 @@ Feature: Redescribing an idea
 
     @application
     Scenario: Retitling an idea
-        Given there is an idea with any title and "DDD introduction" as description in any group
+        Given there is a group named "Aula de Software Libre"
+        And there is an idea titled "DDD introduction" in this group
         When I redescribe it to "DDD Introduction"
         Then it should be redescribed to "DDD Introduction"

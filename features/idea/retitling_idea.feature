@@ -6,6 +6,7 @@ Feature: Retitling an idea
 
     @application
     Scenario: Retitling an idea
-        Given there is an idea titled "DDD introduction" with any description in any group
+        Given there is a group named "Aula de Software Libre"
+        And there is an idea titled "DDD introduction" in this group
         When I retitle it to "DDD Introduction"
         Then it should be retitled to "DDD Introduction"
