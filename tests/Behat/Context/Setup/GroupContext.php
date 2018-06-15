@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Tests\Behat\Context\Setup;
 
 use App\Application\Group\Command\AddGroup;
+use App\Application\Group\Repository\Groups;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
-use Ramsey\Uuid\Uuid;
 use Tests\Service\SharedStorage;
 
 final class GroupContext implements Context
@@ -32,11 +32,19 @@ final class GroupContext implements Context
      * @var SharedStorage
      */
     private $sharedStorage;
+    /**
+     * @var Groups
+     */
+    private $groups;
 
-    public function __construct(CommandBus $commandBus, SharedStorage $sharedStorage)
-    {
+    public function __construct(
+        CommandBus $commandBus,
+        SharedStorage $sharedStorage,
+        Groups $groups
+    ) {
         $this->commandBus = $commandBus;
         $this->sharedStorage = $sharedStorage;
+        $this->groups = $groups;
     }
 
     /**
@@ -44,7 +52,7 @@ final class GroupContext implements Context
      */
     public function thereIsAGroupNamed(string $name): void
     {
-        $groupId = new GroupId(Uuid::uuid4()->toString());
+        $groupId = $this->groups->nextIdentity();
 
         $this->sharedStorage->set('groupId', $groupId);
 

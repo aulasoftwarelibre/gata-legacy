@@ -15,15 +15,14 @@ namespace Tests\Behat\Context\Application;
 
 use App\Application\Group\Command\AddGroup;
 use App\Application\Group\Command\RenameGroup;
+use App\Application\Group\Repository\Groups;
 use App\Domain\Group\Event\GroupAdded;
 use App\Domain\Group\Event\GroupRenamed;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
-use Ramsey\Uuid\Uuid;
 use Tests\Service\Prooph\Plugin\EventsRecorder;
-use Tests\Service\SharedStorage;
 use Webmozart\Assert\Assert;
 
 final class GroupContext implements Context
@@ -39,18 +38,18 @@ final class GroupContext implements Context
     private $eventsRecorder;
 
     /**
-     * @var SharedStorage
+     * @var Groups
      */
-    private $sharedStorage;
+    private $groups;
 
     public function __construct(
         CommandBus $commandBus,
         EventsRecorder $eventsRecorder,
-        SharedStorage $sharedStorage
+        Groups $groups
     ) {
         $this->commandBus = $commandBus;
         $this->eventsRecorder = $eventsRecorder;
-        $this->sharedStorage = $sharedStorage;
+        $this->groups = $groups;
     }
 
     /**
@@ -59,7 +58,7 @@ final class GroupContext implements Context
     public function iAddANewGroupNamed(string $name): void
     {
         $this->commandBus->dispatch(AddGroup::create(
-            new GroupId(Uuid::uuid4()->toString()),
+            $this->groups->nextIdentity(),
             new GroupName($name)
         ));
     }
