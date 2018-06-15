@@ -21,6 +21,7 @@
             <argument type="service" id="__symfony__.prooph_service_bus.default_command_bus" />
             <argument type="service" id="__symfony__.tests.service.prooph.plugin.event_collector_plugin"/>
             <argument type="service" id="tests.service.in_memory_shared_storage"/>
+            <argument type="service" id="__symfony__.App\Infrastructure\Repository\EventStoreComments" />
             <tag name="fob.context_service" />
         </service>
         <service id="tests.behat.context.application.security_context" class="Tests\Behat\Context\Application\SecurityContext">
