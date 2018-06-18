@@ -24,9 +24,3 @@ services:
         namespace: 'App\Application\'
         tags:
             - { name: 'prooph_service_bus.default_command_bus.route_target', message_detection: true }
-
-    projections:
-        resource: '../../src/Infrastructure/ReadModel/**/Projection/*Projection.php'
-        namespace: 'App\Infrastructure\ReadModel\'
-        tags:
-            - { name: 'prooph_service_bus.default_event_bus.route_target', message_detection: true }
