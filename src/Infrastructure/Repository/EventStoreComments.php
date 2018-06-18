@@ -18,6 +18,7 @@ use App\Application\Comment\Repository\Comments;
 use App\Domain\Comment\Model\Comment;
 use App\Domain\Comment\Model\CommentId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
+use Ramsey\Uuid\Uuid;
 
 class EventStoreComments extends AggregateRepository implements Comments
 {
@@ -35,5 +36,10 @@ class EventStoreComments extends AggregateRepository implements Comments
         }
 
         return $comment;
+    }
+
+    public function nextIdentity(): CommentId
+    {
+        return new CommentId(Uuid::uuid4()->toString());
     }
 }
