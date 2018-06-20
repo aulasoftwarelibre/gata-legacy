@@ -18,6 +18,7 @@ use App\Application\Group\Repository\Groups;
 use App\Domain\Group\Model\Group;
 use App\Domain\Group\Model\GroupId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
+use Ramsey\Uuid\Uuid;
 
 final class EventStoreGroups extends AggregateRepository implements Groups
 {
@@ -35,5 +36,10 @@ final class EventStoreGroups extends AggregateRepository implements Groups
         }
 
         return $group;
+    }
+
+    public function nextIdentity(): GroupId
+    {
+        return new GroupId(Uuid::uuid4()->toString());
     }
 }

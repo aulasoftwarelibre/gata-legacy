@@ -14,15 +14,14 @@ declare(strict_types=1);
 namespace Tests\Behat\Context\Application;
 
 use App\Application\Comment\Command\AddComment;
+use App\Application\Comment\Repository\Comments;
 use App\Domain\Comment\Event\CommentAdded;
-use App\Domain\Comment\Model\CommentId;
 use App\Domain\Comment\Model\CommentText;
 use App\Domain\Idea\Model\Idea;
 use App\Domain\Idea\Model\IdeaId;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Prooph\ServiceBus\CommandBus;
-use Ramsey\Uuid\Uuid;
 use Tests\Service\Prooph\Plugin\EventsRecorder;
 use Tests\Service\SharedStorage;
 use Webmozart\Assert\Assert;
@@ -41,15 +40,21 @@ class CommentContext implements Context
      * @var SharedStorage
      */
     private $sharedStorage;
+    /**
+     * @var Comments
+     */
+    private $comments;
 
     public function __construct(
         CommandBus $commandBus,
         EventsRecorder $eventsRecorder,
-        SharedStorage $sharedStorage
+        SharedStorage $sharedStorage,
+        Comments $comments
     ) {
         $this->commandBus = $commandBus;
         $this->eventsRecorder = $eventsRecorder;
         $this->sharedStorage = $sharedStorage;
+        $this->comments = $comments;
     }
 
     /**
@@ -61,7 +66,7 @@ class CommentContext implements Context
         $userId = $this->sharedStorage->get('myUserId');
 
         $this->commandBus->dispatch(AddComment::create(
-            new CommentId(Uuid::uuid4()->toString()),
+            $this->comments->nextIdentity(),
             $ideaId,
             $userId,
             new CommentText($string->getRaw())

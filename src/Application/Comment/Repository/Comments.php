@@ -21,4 +21,6 @@ interface Comments
     public function save(Comment $comment): void;
 
     public function get(CommentId $commentId): ?Comment;
+
+    public function nextIdentity(): CommentId;
 }

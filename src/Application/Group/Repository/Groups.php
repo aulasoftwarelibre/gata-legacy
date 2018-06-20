@@ -21,4 +21,6 @@ interface Groups
     public function save(Group $group): void;
 
     public function get(GroupId $groupId): ?Group;
+
+    public function nextIdentity(): GroupId;
 }
