@@ -13,14 +13,17 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Repository;
 
-use App\Domain\Group\Model\GroupId;
+use App\Infrastructure\Doctrine\SchemaManagerORMTrait;
 use App\Infrastructure\ReadModel\Group\Repository\GroupViews;
 use App\Infrastructure\ReadModel\Group\View\GroupView;
+use App\Infrastructure\ReadModel\SchemaManagerInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-class GroupViewORMRepository extends ServiceEntityRepository implements GroupViews
+class GroupViewORMRepository extends ServiceEntityRepository implements GroupViews, SchemaManagerInterface
 {
+    use SchemaManagerORMTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, GroupView::class);
@@ -29,15 +32,27 @@ class GroupViewORMRepository extends ServiceEntityRepository implements GroupVie
     public function add(GroupView $groupView): void
     {
         $this->_em->persist($groupView);
-    }
-
-    public function get(GroupId $groupId): GroupView
-    {
-        return $this->find($groupId->value());
-    }
-
-    public function save(): void
-    {
         $this->_em->flush();
+    }
+
+    public function get(string $groupId): GroupView
+    {
+        return $this->find($groupId);
+    }
+
+    public function rename(string $groupId, string $newName): void
+    {
+        $qb = $this->createQueryBuilder('o');
+
+        $qb->update()
+            ->set('o.name', ':name')
+            ->where('o.id = :id')
+            ->setParameters([
+                'id' => $groupId,
+                'name' => $newName,
+            ])
+            ->getQuery()
+            ->execute()
+        ;
     }
 }
