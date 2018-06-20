@@ -18,4 +18,6 @@ extensions:
             - 'src/Domain'
             - 'src/Infrastructure/ReadModel'
         blacklist:
-            - 'src/Domain/AggregateRoot.php'
+            - 'src/Domain/ApplyMethodDispatcherTrait.php'
+            - 'src/Infrastructure/ReadModel/AbstractReadModel.php'
+            - 'src/Infrastructure/ReadModel/AbstractReadModelProjector.php'

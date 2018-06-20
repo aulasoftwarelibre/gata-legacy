@@ -33,6 +33,8 @@ class GroupReadModel extends AbstractReadModel
     public function __construct(GroupViews $groupViews)
     {
         $this->groupViews = $groupViews;
+
+        parent::__construct($groupViews);
     }
 
     public function applyGroupAdded(GroupAdded $groupAdded): void
@@ -51,10 +53,5 @@ class GroupReadModel extends AbstractReadModel
             $groupRenamed->groupId()->value(),
             $groupRenamed->name()->value()
         );
-    }
-
-    protected function getSchemaManager(): SchemaManagerInterface
-    {
-        return $this->groupViews;
     }
 }
