@@ -13,13 +13,16 @@ declare(strict_types=1);
 
 namespace App\Domain\Comment\Model;
 
-use App\Domain\AggregateRoot;
+use App\Domain\ApplyMethodDispatcherTrait;
 use App\Domain\Comment\Event\CommentAdded;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\User\Model\UserId;
+use Prooph\EventSourcing\AggregateRoot;
 
 class Comment extends AggregateRoot
 {
+    use ApplyMethodDispatcherTrait;
+
     /**
      * @var CommentId
      */

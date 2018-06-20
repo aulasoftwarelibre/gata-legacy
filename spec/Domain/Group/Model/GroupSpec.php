@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace spec\App\Domain\Group\Model;
 
-use App\Domain\AggregateRoot;
 use App\Domain\Group\Event\GroupAdded;
 use App\Domain\Group\Event\GroupRenamed;
 use App\Domain\Group\Model\GroupId;
@@ -23,6 +22,7 @@ use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
+use Prooph\EventSourcing\AggregateRoot;
 use Tests\Service\Prooph\Spec\AggregateAsserter;
 
 final class GroupSpec extends ObjectBehavior

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Idea\Model;
 
-use App\Domain\AggregateRoot;
+use App\Domain\ApplyMethodDispatcherTrait;
 use App\Domain\Comment\Model\Comment;
 use App\Domain\Comment\Model\CommentId;
 use App\Domain\Comment\Model\CommentText;
@@ -30,9 +30,12 @@ use App\Domain\Idea\Event\IdeaRetitled;
 use App\Domain\User\Model\UserId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Prooph\EventSourcing\AggregateRoot;
 
 class Idea extends AggregateRoot
 {
+    use ApplyMethodDispatcherTrait;
+
     /**
      * @var IdeaId
      */

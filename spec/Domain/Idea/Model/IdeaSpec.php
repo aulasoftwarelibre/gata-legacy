@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace spec\App\Domain\Idea\Model;
 
-use App\Domain\AggregateRoot;
 use App\Domain\Comment\Event\CommentAdded;
 use App\Domain\Comment\Model\CommentId;
 use App\Domain\Comment\Model\CommentText;
@@ -34,6 +33,7 @@ use App\Domain\Idea\Model\IdeaStatus;
 use App\Domain\Idea\Model\IdeaTitle;
 use App\Domain\User\Model\UserId;
 use PhpSpec\ObjectBehavior;
+use Prooph\EventSourcing\AggregateRoot;
 use Tests\Service\Prooph\Spec\AggregateAsserter;
 
 final class IdeaSpec extends ObjectBehavior
