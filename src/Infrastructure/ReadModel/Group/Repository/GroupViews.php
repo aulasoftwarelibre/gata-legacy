@@ -13,14 +13,13 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ReadModel\Group\Repository;
 
-use App\Domain\Group\Model\GroupId;
 use App\Infrastructure\ReadModel\Group\View\GroupView;
 
 interface GroupViews
 {
     public function add(GroupView $groupView): void;
 
-    public function get(GroupId $groupId): GroupView;
+    public function get(string $groupId): GroupView;
 
-    public function save(): void;
+    public function rename(string $groupId, string $newName): void;
 }
