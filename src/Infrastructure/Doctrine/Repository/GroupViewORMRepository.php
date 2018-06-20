@@ -16,11 +16,10 @@ namespace App\Infrastructure\Doctrine\Repository;
 use App\Infrastructure\Doctrine\SchemaManagerORMTrait;
 use App\Infrastructure\ReadModel\Group\Repository\GroupViews;
 use App\Infrastructure\ReadModel\Group\View\GroupView;
-use App\Infrastructure\ReadModel\SchemaManagerInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-class GroupViewORMRepository extends ServiceEntityRepository implements GroupViews, SchemaManagerInterface
+class GroupViewORMRepository extends ServiceEntityRepository implements GroupViews
 {
     use SchemaManagerORMTrait;
 

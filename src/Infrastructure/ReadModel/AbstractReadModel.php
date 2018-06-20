@@ -21,27 +21,34 @@ abstract class AbstractReadModel implements ReadModel
      * @var array
      */
     private $stack = [];
+    /**
+     * @var SchemaManagerInterface
+     */
+    private $schemaManager;
 
-    abstract protected function getSchemaManager(): SchemaManagerInterface;
+    public function __construct(SchemaManagerInterface $schemaManager)
+    {
+        $this->schemaManager = $schemaManager;
+    }
 
     public function init(): void
     {
-        $this->getSchemaManager()->init();
+        $this->schemaManager->init();
     }
 
     public function isInitialized(): bool
     {
-        return $this->getSchemaManager()->isInitialized();
+        return $this->schemaManager->isInitialized();
     }
 
     public function reset(): void
     {
-        $this->getSchemaManager()->reset();
+        $this->schemaManager->reset();
     }
 
     public function delete(): void
     {
-        $this->getSchemaManager()->delete();
+        $this->schemaManager->delete();
     }
 
     public function stack(string $operation, ...$args): void

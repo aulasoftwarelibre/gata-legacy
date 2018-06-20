@@ -14,8 +14,9 @@ declare(strict_types=1);
 namespace App\Infrastructure\ReadModel\Group\Repository;
 
 use App\Infrastructure\ReadModel\Group\View\GroupView;
+use App\Infrastructure\ReadModel\SchemaManagerInterface;
 
-interface GroupViews
+interface GroupViews extends SchemaManagerInterface
 {
     public function add(GroupView $groupView): void;
 
