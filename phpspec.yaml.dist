@@ -14,6 +14,10 @@ extensions:
             clover: 'build/logs/clover.xml'
             html: 'build/coverage'
         whitelist:
+            - 'src/Application'
             - 'src/Domain'
+            - 'src/Infrastructure/ReadModel'
         blacklist:
-            - 'src/Domain/AggregateRoot.php'
+            - 'src/Domain/ApplyMethodDispatcherTrait.php'
+            - 'src/Infrastructure/ReadModel/AbstractReadModel.php'
+            - 'src/Infrastructure/ReadModel/AbstractReadModelProjector.php'

@@ -13,6 +13,15 @@ prooph_event_store:
                     aggregate_type: 'App\Domain\Comment\Model\Comment'
                     aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
 
+    projection_managers:
+        default:
+            event_store: 'Prooph\EventStore\Pdo\PostgresEventStore'
+            connection: 'doctrine.pdo.connection'
+            projections:
+                group_projection:
+                    read_model: 'App\Infrastructure\ReadModel\Group\Projection\GroupReadModel'
+                    projection: 'App\Infrastructure\ReadModel\Group\Projection\GroupProjection'
+
 services:
     _defaults:
         public: false
@@ -39,3 +48,5 @@ services:
     App\Application\Group\Repository\Groups: '@App\Infrastructure\Repository\EventStoreGroups'
     App\Application\Idea\Repository\Ideas: '@App\Infrastructure\Repository\EventStoreIdeas'
     App\Application\Comment\Repository\Comments: '@App\Infrastructure\Repository\EventStoreComments'
+
+    App\Infrastructure\ReadModel\Group\Repository\GroupViews: '@App\Infrastructure\Doctrine\Repository\GroupViewORMRepository'

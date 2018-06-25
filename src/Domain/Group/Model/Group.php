@@ -13,16 +13,19 @@ declare(strict_types=1);
 
 namespace App\Domain\Group\Model;
 
-use App\Domain\AggregateRoot;
+use App\Domain\ApplyMethodDispatcherTrait;
 use App\Domain\Group\Event\GroupAdded;
 use App\Domain\Group\Event\GroupRenamed;
 use App\Domain\Idea\Model\Idea;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
+use Prooph\EventSourcing\AggregateRoot;
 
 class Group extends AggregateRoot
 {
+    use ApplyMethodDispatcherTrait;
+
     /**
      * @var GroupId
      */

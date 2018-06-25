@@ -4,3 +4,14 @@ parameters:
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        mappings:
+            ReadModel:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.root_dir%/Resources/config/doctrine'
+                prefix: 'App\Infrastructure\ReadModel'
+                alias: ReadModel

@@ -25,3 +25,6 @@ services:
 
     Prooph\EventStore\InMemoryEventStore: ~
     Prooph\EventStore\EventStore: '@Prooph\EventStore\InMemoryEventStore'
+
+    Tests\Behat\Repository\GroupsInMemoryRepository: ~
+    App\Infrastructure\ReadModel\Group\Repository\GroupViews: '@Tests\Behat\Repository\GroupsInMemoryRepository'
