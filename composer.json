@@ -2,7 +2,7 @@
     "name": "aulasoftwarelibre/gata",
     "description": "Gestión y Administración de Tareas del Aula",
     "type": "project",
-    "license": "proprietary",
+    "license": "MIT",
     "require": {
         "php": "^7.2.0",
         "ext-iconv": "*",
