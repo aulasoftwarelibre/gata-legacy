@@ -15,7 +15,6 @@ namespace Tests\Behat\Context\Setup;
 
 use App\Application\Group\Command\AddGroup;
 use App\Application\Group\Repository\Groups;
-use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
