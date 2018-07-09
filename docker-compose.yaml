@@ -21,4 +21,4 @@ services:
             - 'database'
         environment:
             - 'DATABASE_URL'
-        command: 'php bin/console event-store:projection:run group_projection'
+        command: 'sh -c ".docker/wait-for database:5432 -- php bin/console event-store:projection:run group_projection"'
