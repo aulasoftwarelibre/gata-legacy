@@ -30,19 +30,21 @@ final class AddGroupHandlerSpec extends ObjectBehavior
         $this->beConstructedWith($groups);
     }
 
-    public function it_creates_a_group(Groups $groups): void
-    {
+    public function it_creates_a_group(
+        Groups $groups,
+        Group $group
+    ): void {
         $groups->save(Argument::that(
             function (Group $group) {
-                return $group->groupId()->equals(new GroupId(self::GROUP_ID))
-                    && $group->name()->equals(new GroupName('Name'))
+                return $group->groupId()->equals(GroupId::fromString(self::GROUP_ID))
+                    && $group->name()->equals(GroupName::fromString('Name'))
                 ;
             }
         ))->shouldBeCalled();
 
-        $this(AddGroup::create(
-            new GroupId(self::GROUP_ID),
-            new GroupName('Name')
+        $this(AddGroup::with(
+            GroupId::fromString(self::GROUP_ID),
+            GroupName::fromString('Name')
         ));
     }
 }

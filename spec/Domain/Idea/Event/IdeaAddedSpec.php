@@ -35,13 +35,13 @@ final class IdeaAddedSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('withData', [
             new IdeaId(self::IDEA_ID),
-            new GroupId(self::GROUP_ID),
+            GroupId::fromString(self::GROUP_ID),
             new IdeaTitle('Title'),
             new IdeaDescription('Description'),
         ]);
 
         $this->ideaId()->shouldBeLike(new IdeaId(self::IDEA_ID));
-        $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
+        $this->groupId()->shouldBeLike(GroupId::fromString(self::GROUP_ID));
         $this->status()->shouldBeLike(IdeaStatus::PENDING());
         $this->title()->shouldBeLike(new IdeaTitle('Title'));
         $this->description()->shouldBeLike(new IdeaDescription('Description'));

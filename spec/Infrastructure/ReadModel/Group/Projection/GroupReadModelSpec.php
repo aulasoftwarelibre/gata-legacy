@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace spec\AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Projection;
 
-use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupAdded;
-use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupRenamed;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasRenamed;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
 use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews;
@@ -43,9 +43,9 @@ class GroupReadModelSpec extends ObjectBehavior
             'Name'
         ))->shouldBeCalled();
 
-        $this->applyGroupAdded(GroupAdded::withData(
-                new GroupId(self::GROUP_ID),
-                new GroupName('Name')
+        $this->applyGroupAdded(GroupWasAdded::with(
+                GroupId::fromString(self::GROUP_ID),
+                GroupName::fromString('Name')
         ));
     }
 
@@ -55,9 +55,9 @@ class GroupReadModelSpec extends ObjectBehavior
             ->rename(self::GROUP_ID, 'New name')
             ->shouldBeCalled();
 
-        $this->applyGroupRenamed(GroupRenamed::withData(
-            new GroupId(self::GROUP_ID),
-            new GroupName('New name')
+        $this->applyGroupRenamed(GroupWasRenamed::with(
+            GroupId::fromString(self::GROUP_ID),
+            GroupName::fromString('New name')
         ));
     }
 }

@@ -67,6 +67,17 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "generate": [
+            "vendor/bin/fpp model/",
+            "vendor/bin/php-cs-fixer fix"
+        ],
+        "fix": [
+            "vendor/bin/php-cs-fixer fix"
+        ],
+        "test": [
+            "vendor/bin/phpspec run",
+            "vendor/bin/behat"
         ]
     },
     "conflict": {

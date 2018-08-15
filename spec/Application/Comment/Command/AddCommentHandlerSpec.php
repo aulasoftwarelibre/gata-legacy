@@ -45,7 +45,7 @@ class AddCommentHandlerSpec extends ObjectBehavior
         $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
         $idea->addComment(
             new CommentId(self::COMMENT_ID),
-            new UserId(self::USER_ID),
+            UserId::fromString(self::USER_ID),
             new CommentText('Lorem ipsum')
             )
             ->shouldBeCalled()
@@ -56,7 +56,7 @@ class AddCommentHandlerSpec extends ObjectBehavior
         $this(AddComment::create(
             new CommentId(self::COMMENT_ID),
             new IdeaId(self::IDEA_ID),
-            new UserId(self::USER_ID),
+            UserId::fromString(self::USER_ID),
             new CommentText('Lorem ipsum')
         ));
     }
@@ -69,7 +69,7 @@ class AddCommentHandlerSpec extends ObjectBehavior
             AddComment::create(
                 new CommentId(self::COMMENT_ID),
                 new IdeaId(self::IDEA_ID),
-                new UserId(self::USER_ID),
+                UserId::fromString(self::USER_ID),
                 new CommentText('Lorem ipsum')
             ),
         ]);

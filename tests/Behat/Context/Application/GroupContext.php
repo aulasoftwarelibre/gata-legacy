@@ -17,8 +17,8 @@ use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Plugin\EventsRecorder;
 use AulaSoftwareLibre\Gata\Application\Group\Command\AddGroup;
 use AulaSoftwareLibre\Gata\Application\Group\Command\RenameGroup;
 use AulaSoftwareLibre\Gata\Application\Group\Repository\Groups;
-use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupAdded;
-use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupRenamed;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasRenamed;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
 use Behat\Behat\Context\Context;
@@ -68,12 +68,12 @@ final class GroupContext implements Context
      */
     public function theGroupShouldBeAvailableInTheList(string $name): void
     {
-        /** @var GroupAdded $event */
+        /** @var GroupWasAdded $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
 
-        Assert::isInstanceOf($event, GroupAdded::class, sprintf(
+        Assert::isInstanceOf($event, GroupWasAdded::class, sprintf(
             'Event has to be of class %s, but %s given',
-            GroupAdded::class,
+            GroupWasAdded::class,
             get_class($event)
         ));
         Assert::true($event->name()->equals(new GroupName($name)));
@@ -95,12 +95,12 @@ final class GroupContext implements Context
      */
     public function itShouldBeRenamedTo(GroupId $groupId, string $name): void
     {
-        /** @var GroupRenamed $event */
+        /** @var GroupWasRenamed $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
 
-        Assert::isInstanceOf($event, GroupRenamed::class, sprintf(
+        Assert::isInstanceOf($event, GroupWasRenamed::class, sprintf(
             'Event has to be of class %s, but %s given',
-            GroupRenamed::class,
+            GroupWasRenamed::class,
             get_class($event)
         ));
         Assert::true($event->groupId()->equals($groupId));

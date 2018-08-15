@@ -32,10 +32,10 @@ final class RegisterIdeaAttendeeSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('create', [
             new IdeaId(self::IDEA_ID),
-            new UserId(self::USER_ID),
+            UserId::fromString(self::USER_ID),
         ]);
 
         $this->ideaId()->shouldBeLike(new IdeaId(self::IDEA_ID));
-        $this->userId()->shouldBeLike(new UserId(self::USER_ID));
+        $this->userId()->shouldBeLike(UserId::fromString(self::USER_ID));
     }
 }

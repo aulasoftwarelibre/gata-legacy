@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace AulaSoftwareLibre\Gata\Application\Group\Command;
 
+use AulaSoftwareLibre\DDD\BaseBundle\Handlers\CommandHandler;
 use AulaSoftwareLibre\Gata\Application\Group\Repository\Groups;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\Group;
 
-final class AddGroupHandler
+final class AddGroupHandler implements CommandHandler
 {
     /**
      * @var Groups

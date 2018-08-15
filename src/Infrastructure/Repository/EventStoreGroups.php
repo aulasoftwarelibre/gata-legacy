@@ -29,7 +29,7 @@ final class EventStoreGroups extends AggregateRepository implements Groups
 
     public function get(GroupId $groupId): ?Group
     {
-        $group = $this->getAggregateRoot($groupId->value());
+        $group = $this->getAggregateRoot($groupId->toString());
 
         if (!$group instanceof Group) {
             throw new GroupNotFoundException();
@@ -40,6 +40,6 @@ final class EventStoreGroups extends AggregateRepository implements Groups
 
     public function nextIdentity(): GroupId
     {
-        return new GroupId(Uuid::uuid4()->toString());
+        return GroupId::fromString(Uuid::uuid4()->toString());
     }
 }

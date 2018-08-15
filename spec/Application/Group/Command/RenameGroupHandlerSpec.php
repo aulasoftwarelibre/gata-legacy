@@ -32,15 +32,15 @@ final class RenameGroupHandlerSpec extends ObjectBehavior
 
     public function it_renames_a_group(Groups $groups, Group $group): void
     {
-        $groups->get(Argument::exact(new GroupId(self::GROUP_ID)))->willReturn($group);
+        $groups->get(Argument::exact(GroupId::fromString(self::GROUP_ID)))->willReturn($group);
 
         $group->rename(Argument::exact(new GroupName('Name')))->shouldBeCalled();
 
         $groups->save($group)->shouldBeCalled();
 
-        $this(RenameGroup::create(
-            new GroupId(self::GROUP_ID),
-            new GroupName('Name')
+        $this(RenameGroup::with(
+            GroupId::fromString(self::GROUP_ID),
+            GroupName::fromString('Name')
         ));
     }
 }

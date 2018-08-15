@@ -33,7 +33,7 @@ final class CommentSpec extends ObjectBehavior
         $this->beConstructedThrough('add', [
             new CommentId(self::COMMENT_ID),
             new IdeaId(self::IDEA_ID),
-            new UserId(self::USER_ID),
+            UserId::fromString(self::USER_ID),
             new CommentText('Text'),
         ]);
 
@@ -42,7 +42,7 @@ final class CommentSpec extends ObjectBehavior
             CommentAdded::withData(
                 new CommentId(self::COMMENT_ID),
                 new IdeaId(self::IDEA_ID),
-                new UserId(self::USER_ID),
+                UserId::fromString(self::USER_ID),
                 new CommentText('Text')
             )
         );
@@ -70,7 +70,7 @@ final class CommentSpec extends ObjectBehavior
 
     public function it_has_an_user_id(): void
     {
-        $this->userId()->shouldBeLike(new UserId(self::USER_ID));
+        $this->userId()->shouldBeLike(UserId::fromString(self::USER_ID));
     }
 
     public function it_has_a_text(): void

@@ -26,7 +26,7 @@ final class RegisterIdeaAttendee extends Command
     {
         return new self([
             'ideaId' => $ideaId->value(),
-            'userId' => $userId->value(),
+            'userId' => $userId->toString(),
         ]);
     }
 
@@ -37,6 +37,6 @@ final class RegisterIdeaAttendee extends Command
 
     public function userId(): UserId
     {
-        return new UserId($this->payload()['userId']);
+        return UserId::fromString($this->payload()['userId']);
     }
 }

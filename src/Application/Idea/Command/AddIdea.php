@@ -32,7 +32,7 @@ final class AddIdea extends Command
     ) {
         return new self([
             'ideaId' => $ideaId->value(),
-            'groupId' => $groupId->value(),
+            'groupId' => $groupId->toString(),
             'title' => $ideaTitle->value(),
             'description' => $ideaDescription->value(),
         ]);
@@ -45,7 +45,7 @@ final class AddIdea extends Command
 
     public function groupId()
     {
-        return new GroupId($this->payload()['groupId']);
+        return GroupId::fromString($this->payload()['groupId']);
     }
 
     public function title()

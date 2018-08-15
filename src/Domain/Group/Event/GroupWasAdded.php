@@ -14,40 +14,46 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AulaSoftwareLibre\Gata\Application\Group\Command;
+namespace AulaSoftwareLibre\Gata\Domain\Group\Event;
 
-final class AddGroup extends \Prooph\Common\Messaging\Command
+final class GroupWasAdded extends \Prooph\EventSourcing\AggregateChanged
 {
-    use \Prooph\Common\Messaging\PayloadTrait;
-
-    public const MESSAGE_NAME = 'AulaSoftwareLibre\Gata\Application\Group\Command\AddGroup';
+    public const MESSAGE_NAME = 'AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasAdded';
 
     protected $messageName = self::MESSAGE_NAME;
 
+    protected $payload = [];
+
+    private $groupId;
+    private $name;
+
     public function groupId(): \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId
     {
-        return \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId::fromString($this->payload['groupId']);
+        if (null === $this->groupId) {
+            $this->groupId = \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId::fromString($this->aggregateId());
+        }
+
+        return $this->groupId;
     }
 
     public function name(): \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName
     {
-        return \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName::fromString($this->payload['name']);
+        if (null === $this->name) {
+            $this->name = \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName::fromString($this->payload['name']);
+        }
+
+        return $this->name;
     }
 
-    public static function with(\AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId $groupId, \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName $name): AddGroup
+    public static function with(\AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId $groupId, \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName $name): GroupWasAdded
     {
-        return new self([
-            'groupId' => $groupId->toString(),
+        return new self($groupId->toString(), [
             'name' => $name->toString(),
         ]);
     }
 
     protected function setPayload(array $payload): void
     {
-        if (!isset($payload['groupId']) || !\is_string($payload['groupId'])) {
-            throw new \InvalidArgumentException("Key 'groupId' is missing in payload or is not a string");
-        }
-
         if (!isset($payload['name']) || !\is_string($payload['name'])) {
             throw new \InvalidArgumentException("Key 'name' is missing in payload or is not a string");
         }

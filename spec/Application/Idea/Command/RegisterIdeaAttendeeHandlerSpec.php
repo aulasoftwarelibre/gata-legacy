@@ -34,12 +34,12 @@ final class RegisterIdeaAttendeeHandlerSpec extends ObjectBehavior
     public function it_register_an_idea_attendee(Ideas $ideas, Idea $idea): void
     {
         $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
-        $idea->registerAttendee(new UserId(self::USER_ID))->shouldBeCalled();
+        $idea->registerAttendee(UserId::fromString(self::USER_ID))->shouldBeCalled();
         $ideas->save($idea)->shouldBeCalled();
 
         $this(RegisterIdeaAttendee::create(
             new IdeaId(self::IDEA_ID),
-            new UserId(self::USER_ID)
+            UserId::fromString(self::USER_ID)
         ));
     }
 
@@ -50,7 +50,7 @@ final class RegisterIdeaAttendeeHandlerSpec extends ObjectBehavior
         $this->shouldThrow(IdeaNotFoundException::class)->during('__invoke', [
             RegisterIdeaAttendee::create(
                 new IdeaId(self::IDEA_ID),
-                new UserId(self::USER_ID)
+                UserId::fromString(self::USER_ID)
             ),
         ]);
     }

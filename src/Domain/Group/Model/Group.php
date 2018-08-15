@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace AulaSoftwareLibre\Gata\Domain\Group\Model;
 
 use AulaSoftwareLibre\Gata\Domain\ApplyMethodDispatcherTrait;
-use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupAdded;
-use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupRenamed;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasRenamed;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
@@ -40,14 +40,14 @@ class Group extends AggregateRoot
     {
         $group = new self();
 
-        $group->recordThat(GroupAdded::withData($groupId, $groupName));
+        $group->recordThat(GroupWasAdded::with($groupId, $groupName));
 
         return $group;
     }
 
     public function __toString(): string
     {
-        return $this->name()->value();
+        return $this->name->toString();
     }
 
     public function groupId(): GroupId
@@ -62,7 +62,7 @@ class Group extends AggregateRoot
 
     public function rename(GroupName $groupName): void
     {
-        $this->recordThat(GroupRenamed::withData($this->groupId(), $groupName));
+        $this->recordThat(GroupWasRenamed::with($this->groupId(), $groupName));
     }
 
     public function addIdea(
@@ -80,16 +80,16 @@ class Group extends AggregateRoot
 
     protected function aggregateId(): string
     {
-        return $this->groupId()->value();
+        return $this->groupId()->toString();
     }
 
-    protected function applyGroupAdded(GroupAdded $event): void
+    protected function applyGroupWasAdded(GroupWasAdded $event): void
     {
         $this->groupId = $event->groupId();
         $this->name = $event->name();
     }
 
-    protected function applyGroupRenamed(GroupRenamed $event): void
+    protected function applyGroupWasRenamed(GroupWasRenamed $event): void
     {
         $this->name = $event->name();
     }

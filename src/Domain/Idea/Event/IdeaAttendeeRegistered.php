@@ -22,7 +22,7 @@ final class IdeaAttendeeRegistered extends AggregateChanged
     public static function withData(IdeaId $ideaId, UserId $userId): self
     {
         return self::occur($ideaId->value(), [
-            'userId' => $userId->value(),
+            'userId' => $userId->toString(),
         ]);
     }
 
@@ -33,6 +33,6 @@ final class IdeaAttendeeRegistered extends AggregateChanged
 
     public function userId(): UserId
     {
-        return new UserId($this->payload()['userId']);
+        return UserId::fromString($this->payload()['userId']);
     }
 }

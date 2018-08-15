@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Projection;
 
 use AulaSoftwareLibre\Gata\Domain\ApplyMethodDispatcherTrait;
-use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupAdded;
-use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupRenamed;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasRenamed;
 use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\AbstractReadModel;
 use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews;
 use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View\GroupView;
@@ -37,20 +37,20 @@ class GroupReadModel extends AbstractReadModel
         parent::__construct($groupViews);
     }
 
-    public function applyGroupAdded(GroupAdded $groupAdded): void
+    public function applyGroupAdded(GroupWasAdded $groupAdded): void
     {
         $groupView = new GroupView(
-            $groupAdded->groupId()->value(),
+            $groupAdded->groupId()->toString(),
             $groupAdded->name()->value()
         );
 
         $this->groupViews->add($groupView);
     }
 
-    public function applyGroupRenamed(GroupRenamed $groupRenamed): void
+    public function applyGroupRenamed(GroupWasRenamed $groupRenamed): void
     {
         $this->groupViews->rename(
-            $groupRenamed->groupId()->value(),
+            $groupRenamed->groupId()->toString(),
             $groupRenamed->name()->value()
         );
     }

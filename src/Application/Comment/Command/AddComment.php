@@ -33,7 +33,7 @@ final class AddComment extends Command
         return new self([
             'commentId' => $commentId->value(),
             'ideaId' => $ideaId->value(),
-            'userId' => $userId->value(),
+            'userId' => $userId->toString(),
             'text' => $commentText->value(),
         ]);
     }
@@ -50,7 +50,7 @@ final class AddComment extends Command
 
     public function userId()
     {
-        return new UserId($this->payload()['userId']);
+        return UserId::fromString($this->payload()['userId']);
     }
 
     public function text()

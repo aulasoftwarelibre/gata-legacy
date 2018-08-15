@@ -38,7 +38,7 @@ final class AddIdeaHandlerSpec extends ObjectBehavior
         $ideas->save(Argument::that(
             function (Idea $idea) {
                 return $idea->ideaId()->equals(new IdeaId(self::IDEA_ID))
-                    && $idea->groupId()->equals(new GroupId(self::GROUP_ID))
+                    && $idea->groupId()->equals(GroupId::fromString(self::GROUP_ID))
                     && $idea->title()->equals(new IdeaTitle('Title'))
                     && $idea->description()->equals(new IdeaDescription('Description'))
                 ;
@@ -47,7 +47,7 @@ final class AddIdeaHandlerSpec extends ObjectBehavior
 
         $this(AddIdea::create(
             new IdeaId(self::IDEA_ID),
-            new GroupId(self::GROUP_ID),
+            GroupId::fromString(self::GROUP_ID),
             new IdeaTitle('Title'),
             new IdeaDescription('Description')
         ));

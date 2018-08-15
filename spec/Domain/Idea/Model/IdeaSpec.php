@@ -49,7 +49,7 @@ final class IdeaSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('add', [
             new IdeaId(self::IDEA_ID),
-            new GroupId(self::GROUP_ID),
+            GroupId::fromString(self::GROUP_ID),
             new IdeaTitle('Title'),
             new IdeaDescription('Description'),
         ]);
@@ -58,7 +58,7 @@ final class IdeaSpec extends ObjectBehavior
             $this->getWrappedObject(),
             IdeaAdded::withData(
                 new IdeaId(self::IDEA_ID),
-                new GroupId(self::GROUP_ID),
+                GroupId::fromString(self::GROUP_ID),
                 new IdeaTitle('Title'),
                 new IdeaDescription('Description')
             )
@@ -82,7 +82,7 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_has_a_group_id(): void
     {
-        $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
+        $this->groupId()->shouldBeLike(GroupId::fromString(self::GROUP_ID));
     }
 
     public function it_is_pending_by_default(): void
@@ -193,7 +193,7 @@ final class IdeaSpec extends ObjectBehavior
     {
         $comment = $this->addComment(
             new CommentId(self::COMMENT_ID),
-            new UserId(self::USER_ID),
+            UserId::fromString(self::USER_ID),
             new CommentText('Text')
         );
 
@@ -202,7 +202,7 @@ final class IdeaSpec extends ObjectBehavior
             CommentAdded::withData(
                 new CommentId(self::COMMENT_ID),
                 new IdeaId(self::IDEA_ID),
-                new UserId(self::USER_ID),
+                UserId::fromString(self::USER_ID),
                 new CommentText('Text')
             )
         );
@@ -211,10 +211,10 @@ final class IdeaSpec extends ObjectBehavior
     public function it_can_check_if_attendee_is_registered()
     {
         $this->registerAttendee(
-            new UserId(self::USER_ID)
+            UserId::fromString(self::USER_ID)
         );
 
-        $this->isAttendeeRegistered(new UserId(self::USER_ID))->shouldBe(true);
+        $this->isAttendeeRegistered(UserId::fromString(self::USER_ID))->shouldBe(true);
     }
 
     public function it_can_register_attendees(): void
@@ -222,17 +222,17 @@ final class IdeaSpec extends ObjectBehavior
         $capacity = $this->capacity()->getWrappedObject();
 
         $this->registerAttendee(
-            new UserId(self::USER_ID)
+            UserId::fromString(self::USER_ID)
         );
 
         $this->capacity()->count()->shouldBe($capacity->count() + 1);
-        $this->isAttendeeRegistered(new UserId(self::USER_ID))->shouldBe(true);
+        $this->isAttendeeRegistered(UserId::fromString(self::USER_ID))->shouldBe(true);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             IdeaAttendeeRegistered::withData(
                 new IdeaId(self::IDEA_ID),
-                new UserId(self::USER_ID)
+                UserId::fromString(self::USER_ID)
             )
         );
     }
@@ -242,10 +242,10 @@ final class IdeaSpec extends ObjectBehavior
         $capacity = $this->capacity()->getWrappedObject();
 
         $this->registerAttendee(
-            new UserId(self::USER_ID)
+            UserId::fromString(self::USER_ID)
         );
         $this->registerAttendee(
-            new UserId(self::USER_ID)
+            UserId::fromString(self::USER_ID)
         );
 
         $this->capacity()->count()->shouldBe($capacity->count() + 1);
@@ -256,20 +256,20 @@ final class IdeaSpec extends ObjectBehavior
         $capacity = $this->capacity()->getWrappedObject();
 
         $this->registerAttendee(
-            new UserId(self::USER_ID)
+            UserId::fromString(self::USER_ID)
         );
 
         $this->unregisterAttendee(
-            new UserId(self::USER_ID)
+            UserId::fromString(self::USER_ID)
         );
         $this->capacity()->count()->shouldBe($capacity->count());
-        $this->isAttendeeRegistered(new UserId(self::USER_ID))->shouldBe(false);
+        $this->isAttendeeRegistered(UserId::fromString(self::USER_ID))->shouldBe(false);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
             IdeaAttendeeUnregistered::withData(
                 new IdeaId(self::IDEA_ID),
-                new UserId(self::USER_ID)
+                UserId::fromString(self::USER_ID)
             )
         );
     }
@@ -279,7 +279,7 @@ final class IdeaSpec extends ObjectBehavior
         $capacity = $this->capacity()->getWrappedObject();
 
         $this->unregisterAttendee(
-            new UserId(self::USER_ID)
+            UserId::fromString(self::USER_ID)
         );
 
         $this->capacity()->count()->shouldBe($capacity->count());
