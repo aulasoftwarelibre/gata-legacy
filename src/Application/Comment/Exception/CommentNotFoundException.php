@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Comment\Exception;
+namespace AulaSoftwareLibre\Gata\Application\Comment\Exception;
 
 class CommentNotFoundException extends \DomainException
 {

@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Idea\Model;
+namespace spec\AulaSoftwareLibre\Gata\Domain\Idea\Model;
 
-use App\Domain\Idea\Exception\InvalidIdeaIdFormatException;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\ValueObject;
+use AulaSoftwareLibre\Gata\Domain\Idea\Exception\InvalidIdeaIdFormatException;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\ValueObject;
 use PhpSpec\ObjectBehavior;
 
 final class IdeaIdSpec extends ObjectBehavior

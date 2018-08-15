@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Group\Model;
+namespace spec\AulaSoftwareLibre\Gata\Domain\Group\Model;
 
-use App\Domain\Group\Event\GroupAdded;
-use App\Domain\Group\Event\GroupRenamed;
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Group\Model\GroupName;
-use App\Domain\Idea\Event\IdeaAdded;
-use App\Domain\Idea\Model\IdeaDescription;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\Idea\Model\IdeaTitle;
 use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Spec\AggregateAsserter;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupAdded;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupRenamed;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAdded;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
 use Prooph\EventSourcing\AggregateRoot;
 

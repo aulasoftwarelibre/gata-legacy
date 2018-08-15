@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Infrastructure\ReadModel\Group\View;
+namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View;
 
 final class GroupView
 {

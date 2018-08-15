@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Infrastructure\Doctrine;
+namespace AulaSoftwareLibre\Gata\Infrastructure\Doctrine;
 
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\ORM\Tools\SchemaTool;

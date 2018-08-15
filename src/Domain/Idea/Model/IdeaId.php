@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Idea\Model;
+namespace AulaSoftwareLibre\Gata\Domain\Idea\Model;
 
-use App\Domain\Idea\Exception\InvalidIdeaIdFormatException;
-use App\Domain\ValueObject;
+use AulaSoftwareLibre\Gata\Domain\Idea\Exception\InvalidIdeaIdFormatException;
+use AulaSoftwareLibre\Gata\Domain\ValueObject;
 use Ramsey\Uuid\Uuid;
 
 final class IdeaId implements ValueObject

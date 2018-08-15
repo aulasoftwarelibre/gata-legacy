@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Group\Command;
+namespace AulaSoftwareLibre\Gata\Application\Group\Command;
 
-use App\Application\Group\Repository\Groups;
-use App\Domain\Group\Model\Group;
+use AulaSoftwareLibre\Gata\Application\Group\Repository\Groups;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\Group;
 
 final class AddGroupHandler
 {

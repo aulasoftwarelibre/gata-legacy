@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Idea\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Idea\Command;
 
-use App\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\Command;
 

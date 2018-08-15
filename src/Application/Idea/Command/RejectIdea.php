@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Idea\Command;
+namespace AulaSoftwareLibre\Gata\Application\Idea\Command;
 
-use App\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 use Prooph\Common\Messaging\Command;
 use Prooph\Common\Messaging\PayloadTrait;
 

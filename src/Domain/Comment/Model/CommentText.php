@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Comment\Model;
+namespace AulaSoftwareLibre\Gata\Domain\Comment\Model;
 
-use App\Domain\Comment\Exception\EmptyCommentTextException;
-use App\Domain\ValueObject;
+use AulaSoftwareLibre\Gata\Domain\Comment\Exception\EmptyCommentTextException;
+use AulaSoftwareLibre\Gata\Domain\ValueObject;
 
 final class CommentText implements ValueObject
 {

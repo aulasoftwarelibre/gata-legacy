@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Tests\Behat\Repository;
 
-use App\Application\Group\Exception\GroupNotFoundException;
-use App\Domain\Group\Model\GroupId;
-use App\Infrastructure\ReadModel\Group\Repository\GroupViews;
-use App\Infrastructure\ReadModel\Group\View\GroupView;
+use AulaSoftwareLibre\Gata\Application\Group\Exception\GroupNotFoundException;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View\GroupView;
 
 class GroupsInMemoryRepository implements GroupViews
 {

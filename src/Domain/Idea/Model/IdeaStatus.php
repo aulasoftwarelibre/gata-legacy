@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Idea\Model;
+namespace AulaSoftwareLibre\Gata\Domain\Idea\Model;
 
-use App\Domain\Enum;
+use AulaSoftwareLibre\Gata\Domain\Enum;
 
 /**
  * @method static IdeaStatus ACCEPTED()

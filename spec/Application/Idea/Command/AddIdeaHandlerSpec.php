@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Idea\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Idea\Command;
 
-use App\Application\Idea\Command\AddIdea;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaDescription;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\Idea\Model\IdeaTitle;
+use AulaSoftwareLibre\Gata\Application\Idea\Command\AddIdea;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

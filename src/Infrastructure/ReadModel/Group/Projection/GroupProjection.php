@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Infrastructure\ReadModel\Group\Projection;
+namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Projection;
 
-use App\Infrastructure\ReadModel\AbstractReadModelProjector;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\AbstractReadModelProjector;
 
 class GroupProjection extends AbstractReadModelProjector
 {

@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Group\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Group\Command;
 
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Group\Model\GroupName;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\Command;
 

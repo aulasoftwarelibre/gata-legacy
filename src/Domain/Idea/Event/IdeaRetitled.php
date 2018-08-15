@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Idea\Event;
+namespace AulaSoftwareLibre\Gata\Domain\Idea\Event;
 
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\Idea\Model\IdeaTitle;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use Prooph\EventSourcing\AggregateChanged;
 
 class IdeaRetitled extends AggregateChanged

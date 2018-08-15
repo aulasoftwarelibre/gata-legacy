@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Comment\Event;
+namespace AulaSoftwareLibre\Gata\Domain\Comment\Event;
 
-use App\Domain\Comment\Model\CommentId;
-use App\Domain\Comment\Model\CommentText;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\User\Model\UserId;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
 use Prooph\EventSourcing\AggregateChanged;
 
 final class CommentAdded extends AggregateChanged

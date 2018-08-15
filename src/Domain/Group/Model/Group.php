@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Group\Model;
+namespace AulaSoftwareLibre\Gata\Domain\Group\Model;
 
-use App\Domain\ApplyMethodDispatcherTrait;
-use App\Domain\Group\Event\GroupAdded;
-use App\Domain\Group\Event\GroupRenamed;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaDescription;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\Idea\Model\IdeaTitle;
+use AulaSoftwareLibre\Gata\Domain\ApplyMethodDispatcherTrait;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupAdded;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupRenamed;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use Prooph\EventSourcing\AggregateRoot;
 
 class Group extends AggregateRoot

@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Group\Command;
+namespace AulaSoftwareLibre\Gata\Application\Group\Command;
 
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Group\Model\GroupName;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
 use Prooph\Common\Messaging\Command;
 use Prooph\Common\Messaging\PayloadTrait;
 

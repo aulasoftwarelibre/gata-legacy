@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Infrastructure\ReadModel\Group\View;
+namespace spec\AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View;
 
 use PhpSpec\ObjectBehavior;
 

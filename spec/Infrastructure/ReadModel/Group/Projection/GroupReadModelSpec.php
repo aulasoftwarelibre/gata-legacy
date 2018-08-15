@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Infrastructure\ReadModel\Group\Projection;
+namespace spec\AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Projection;
 
-use App\Domain\Group\Event\GroupAdded;
-use App\Domain\Group\Event\GroupRenamed;
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Group\Model\GroupName;
-use App\Infrastructure\ReadModel\Group\Repository\GroupViews;
-use App\Infrastructure\ReadModel\Group\View\GroupView;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupAdded;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupRenamed;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View\GroupView;
 use PhpSpec\ObjectBehavior;
 use Prooph\EventStore\Projection\ReadModel;
 

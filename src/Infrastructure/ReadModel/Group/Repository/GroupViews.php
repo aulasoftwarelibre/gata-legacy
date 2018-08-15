@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Infrastructure\ReadModel\Group\Repository;
+namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository;
 
-use App\Infrastructure\ReadModel\Group\View\GroupView;
-use App\Infrastructure\ReadModel\SchemaManagerInterface;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View\GroupView;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\SchemaManagerInterface;
 
 interface GroupViews extends SchemaManagerInterface
 {

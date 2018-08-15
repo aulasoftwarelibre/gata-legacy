@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Group\Model;
+namespace spec\AulaSoftwareLibre\Gata\Domain\Group\Model;
 
-use App\Domain\Group\Exception\InvalidGroupIdFormatException;
-use App\Domain\Group\Model\GroupId;
-use App\Domain\ValueObject;
+use AulaSoftwareLibre\Gata\Domain\Group\Exception\InvalidGroupIdFormatException;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\ValueObject;
 use PhpSpec\ObjectBehavior;
 
 final class GroupIdSpec extends ObjectBehavior

@@ -7,21 +7,21 @@
         <service id="tests.behat.context.application.group_context" class="Tests\Behat\Context\Application\GroupContext">
             <argument type="service" id="__symfony__.prooph_service_bus.default_command_bus" />
             <argument type="service" id="__symfony__.aulasl.prooph_plugin.event_collector_plugin" />
-            <argument type="service" id="__symfony__.App\Infrastructure\Repository\EventStoreGroups"/>
+            <argument type="service" id="__symfony__.AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreGroups"/>
             <tag name="fob.context_service" />
         </service>
         <service id="tests.behat.context.application.idea_context" class="Tests\Behat\Context\Application\IdeaContext">
             <argument type="service" id="__symfony__.prooph_service_bus.default_command_bus" />
             <argument type="service" id="__symfony__.aulasl.prooph_plugin.event_collector_plugin" />
             <argument type="service" id="__symfony__.aulasl.shared_storage" />
-            <argument type="service" id="__symfony__.App\Infrastructure\Repository\EventStoreIdeas" />
+            <argument type="service" id="__symfony__.AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreIdeas" />
             <tag name="fob.context_service" />
         </service>
         <service id="tests.behat.context.application.comment_context" class="Tests\Behat\Context\Application\CommentContext">
             <argument type="service" id="__symfony__.prooph_service_bus.default_command_bus" />
             <argument type="service" id="__symfony__.aulasl.prooph_plugin.event_collector_plugin" />
             <argument type="service" id="__symfony__.aulasl.shared_storage" />
-            <argument type="service" id="__symfony__.App\Infrastructure\Repository\EventStoreComments" />
+            <argument type="service" id="__symfony__.AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreComments" />
             <tag name="fob.context_service" />
         </service>
         <service id="tests.behat.context.application.security_context" class="Tests\Behat\Context\Application\SecurityContext">

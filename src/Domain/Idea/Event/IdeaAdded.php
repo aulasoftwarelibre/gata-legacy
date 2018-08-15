@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Idea\Event;
+namespace AulaSoftwareLibre\Gata\Domain\Idea\Event;
 
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Idea\Model\IdeaCapacity;
-use App\Domain\Idea\Model\IdeaDescription;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\Idea\Model\IdeaStatus;
-use App\Domain\Idea\Model\IdeaTitle;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaCapacity;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaStatus;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Prooph\EventSourcing\AggregateChanged;

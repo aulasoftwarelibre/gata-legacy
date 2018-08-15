@@ -13,7 +13,7 @@ doctrine:
                 is_bundle: false
                 type: xml
                 dir: '%kernel.root_dir%/Resources/config/doctrine'
-                prefix: 'App\Infrastructure\ReadModel'
+                prefix: 'AulaSoftwareLibre\Gata\Infrastructure\ReadModel'
                 alias: ReadModel
 
 services:
@@ -21,8 +21,8 @@ services:
         public: true
 
     # Repositories
-    App\Application\Group\Repository\Groups: '@App\Infrastructure\Repository\EventStoreGroups'
-    App\Application\Idea\Repository\Ideas: '@App\Infrastructure\Repository\EventStoreIdeas'
-    App\Application\Comment\Repository\Comments: '@App\Infrastructure\Repository\EventStoreComments'
+    AulaSoftwareLibre\Gata\Application\Group\Repository\Groups: '@AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreGroups'
+    AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas: '@AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreIdeas'
+    AulaSoftwareLibre\Gata\Application\Comment\Repository\Comments: '@AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreComments'
 
-    App\Infrastructure\ReadModel\Group\Repository\GroupViews: '@App\Infrastructure\Doctrine\Repository\GroupViewORMRepository'
+    AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews: '@AulaSoftwareLibre\Gata\Infrastructure\Doctrine\Repository\GroupViewORMRepository'

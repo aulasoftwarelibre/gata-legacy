@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Idea\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Idea\Command;
 
-use App\Application\Idea\Command\AcceptIdea;
-use App\Application\Idea\Exception\IdeaNotFoundException;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Application\Idea\Command\AcceptIdea;
+use AulaSoftwareLibre\Gata\Application\Idea\Exception\IdeaNotFoundException;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 use PhpSpec\ObjectBehavior;
 
 final class AcceptIdeaHandlerSpec extends ObjectBehavior

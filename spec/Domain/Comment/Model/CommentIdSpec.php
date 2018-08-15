@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Comment\Model;
+namespace spec\AulaSoftwareLibre\Gata\Domain\Comment\Model;
 
-use App\Domain\Comment\Exception\InvalidCommentIdFormatException;
-use App\Domain\Comment\Model\CommentId;
-use App\Domain\ValueObject;
+use AulaSoftwareLibre\Gata\Domain\Comment\Exception\InvalidCommentIdFormatException;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
+use AulaSoftwareLibre\Gata\Domain\ValueObject;
 use PhpSpec\ObjectBehavior;
 
 final class CommentIdSpec extends ObjectBehavior

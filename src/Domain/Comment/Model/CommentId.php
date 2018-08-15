@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Comment\Model;
+namespace AulaSoftwareLibre\Gata\Domain\Comment\Model;
 
-use App\Domain\Comment\Exception\InvalidCommentIdFormatException;
-use App\Domain\ValueObject;
+use AulaSoftwareLibre\Gata\Domain\Comment\Exception\InvalidCommentIdFormatException;
+use AulaSoftwareLibre\Gata\Domain\ValueObject;
 use Ramsey\Uuid\Uuid;
 
 final class CommentId implements ValueObject

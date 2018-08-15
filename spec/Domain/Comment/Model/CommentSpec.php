@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Comment\Model;
+namespace spec\AulaSoftwareLibre\Gata\Domain\Comment\Model;
 
-use App\Domain\Comment\Event\CommentAdded;
-use App\Domain\Comment\Model\CommentId;
-use App\Domain\Comment\Model\CommentText;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\User\Model\UserId;
 use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Spec\AggregateAsserter;
+use AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentAdded;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
 use PhpSpec\ObjectBehavior;
 use Prooph\EventSourcing\AggregateRoot;
 

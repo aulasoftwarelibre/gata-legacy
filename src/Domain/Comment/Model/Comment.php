@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Comment\Model;
+namespace AulaSoftwareLibre\Gata\Domain\Comment\Model;
 
-use App\Domain\ApplyMethodDispatcherTrait;
-use App\Domain\Comment\Event\CommentAdded;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\User\Model\UserId;
+use AulaSoftwareLibre\Gata\Domain\ApplyMethodDispatcherTrait;
+use AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentAdded;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
 use Prooph\EventSourcing\AggregateRoot;
 
 class Comment extends AggregateRoot

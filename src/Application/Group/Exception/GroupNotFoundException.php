@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Group\Exception;
+namespace AulaSoftwareLibre\Gata\Application\Group\Exception;
 
 use DomainException;
 

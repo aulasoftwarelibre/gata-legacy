@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Infrastructure\ReadModel\Group\Projection;
+namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Projection;
 
-use App\Domain\ApplyMethodDispatcherTrait;
-use App\Domain\Group\Event\GroupAdded;
-use App\Domain\Group\Event\GroupRenamed;
-use App\Infrastructure\ReadModel\AbstractReadModel;
-use App\Infrastructure\ReadModel\Group\Repository\GroupViews;
-use App\Infrastructure\ReadModel\Group\View\GroupView;
-use App\Infrastructure\ReadModel\SchemaManagerInterface;
+use AulaSoftwareLibre\Gata\Domain\ApplyMethodDispatcherTrait;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupAdded;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupRenamed;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\AbstractReadModel;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View\GroupView;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\SchemaManagerInterface;
 
 class GroupReadModel extends AbstractReadModel
 {

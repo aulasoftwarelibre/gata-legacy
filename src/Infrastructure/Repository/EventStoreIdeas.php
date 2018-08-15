@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Infrastructure\Repository;
+namespace AulaSoftwareLibre\Gata\Infrastructure\Repository;
 
-use App\Application\Idea\Exception\IdeaNotFoundException;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Application\Idea\Exception\IdeaNotFoundException;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Ramsey\Uuid\Uuid;
 

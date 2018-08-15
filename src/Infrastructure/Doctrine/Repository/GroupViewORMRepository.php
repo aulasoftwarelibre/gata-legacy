@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Infrastructure\Doctrine\Repository;
+namespace AulaSoftwareLibre\Gata\Infrastructure\Doctrine\Repository;
 
-use App\Infrastructure\Doctrine\SchemaManagerORMTrait;
-use App\Infrastructure\ReadModel\Group\Repository\GroupViews;
-use App\Infrastructure\ReadModel\Group\View\GroupView;
+use AulaSoftwareLibre\Gata\Infrastructure\Doctrine\SchemaManagerORMTrait;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View\GroupView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 

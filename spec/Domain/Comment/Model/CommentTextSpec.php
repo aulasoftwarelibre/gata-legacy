@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Comment\Model;
+namespace spec\AulaSoftwareLibre\Gata\Domain\Comment\Model;
 
-use App\Domain\Comment\Exception\EmptyCommentTextException;
-use App\Domain\Comment\Model\CommentText;
-use App\Domain\ValueObject;
+use AulaSoftwareLibre\Gata\Domain\Comment\Exception\EmptyCommentTextException;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
+use AulaSoftwareLibre\Gata\Domain\ValueObject;
 use PhpSpec\ObjectBehavior;
 
 final class CommentTextSpec extends ObjectBehavior

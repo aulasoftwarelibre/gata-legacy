@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Infrastructure\ReadModel;
+namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel;
 
 use Prooph\Bundle\EventStore\Projection\ReadModelProjection;
 use Prooph\Common\Messaging\Message;

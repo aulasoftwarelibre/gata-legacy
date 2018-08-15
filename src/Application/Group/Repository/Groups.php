@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Group\Repository;
+namespace AulaSoftwareLibre\Gata\Application\Group\Repository;
 
-use App\Domain\Group\Model\Group;
-use App\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\Group;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
 
 interface Groups
 {

@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace Tests\Behat\Context\Application;
 
-use App\Application\Comment\Command\AddComment;
-use App\Application\Comment\Repository\Comments;
-use App\Domain\Comment\Event\CommentAdded;
-use App\Domain\Comment\Model\CommentText;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaId;
 use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Plugin\EventsRecorder;
 use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
+use AulaSoftwareLibre\Gata\Application\Comment\Command\AddComment;
+use AulaSoftwareLibre\Gata\Application\Comment\Repository\Comments;
+use AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentAdded;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Prooph\ServiceBus\CommandBus;

@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Infrastructure\Repository;
+namespace AulaSoftwareLibre\Gata\Infrastructure\Repository;
 
-use App\Application\Comment\Exception\CommentNotFoundException;
-use App\Application\Comment\Repository\Comments;
-use App\Domain\Comment\Model\Comment;
-use App\Domain\Comment\Model\CommentId;
+use AulaSoftwareLibre\Gata\Application\Comment\Exception\CommentNotFoundException;
+use AulaSoftwareLibre\Gata\Application\Comment\Repository\Comments;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\Comment;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Ramsey\Uuid\Uuid;
 

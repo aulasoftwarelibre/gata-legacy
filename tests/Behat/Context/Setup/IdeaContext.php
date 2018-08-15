@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace Tests\Behat\Context\Setup;
 
-use App\Application\Idea\Command\AddIdea;
-use App\Application\Idea\Command\RegisterIdeaAttendee;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Idea\Model\IdeaDescription;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\Idea\Model\IdeaTitle;
 use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
+use AulaSoftwareLibre\Gata\Application\Idea\Command\AddIdea;
+use AulaSoftwareLibre\Gata\Application\Idea\Command\RegisterIdeaAttendee;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
 

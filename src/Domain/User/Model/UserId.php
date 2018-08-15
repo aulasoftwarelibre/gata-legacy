@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\User\Model;
+namespace AulaSoftwareLibre\Gata\Domain\User\Model;
 
-use App\Domain\User\Exception\InvalidUserIdFormatException;
-use App\Domain\ValueObject;
+use AulaSoftwareLibre\Gata\Domain\User\Exception\InvalidUserIdFormatException;
+use AulaSoftwareLibre\Gata\Domain\ValueObject;
 use Ramsey\Uuid\Uuid;
 
 final class UserId implements ValueObject

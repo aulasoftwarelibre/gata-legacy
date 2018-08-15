@@ -11,18 +11,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Comment\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Comment\Command;
 
-use App\Application\Comment\Command\AddComment;
-use App\Application\Comment\Repository\Comments;
-use App\Application\Idea\Exception\IdeaNotFoundException;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Comment\Model\Comment;
-use App\Domain\Comment\Model\CommentId;
-use App\Domain\Comment\Model\CommentText;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\User\Model\UserId;
+use AulaSoftwareLibre\Gata\Application\Comment\Command\AddComment;
+use AulaSoftwareLibre\Gata\Application\Comment\Repository\Comments;
+use AulaSoftwareLibre\Gata\Application\Idea\Exception\IdeaNotFoundException;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\Comment;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
 use PhpSpec\ObjectBehavior;
 
 class AddCommentHandlerSpec extends ObjectBehavior

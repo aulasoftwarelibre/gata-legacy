@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Tests\Behat\Context\Transform;
 
-use App\Domain\Idea\Model\IdeaId;
 use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 use Behat\Behat\Context\Context;
 
 final class IdeaContext implements Context

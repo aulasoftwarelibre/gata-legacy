@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Idea\Model;
+namespace AulaSoftwareLibre\Gata\Domain\Idea\Model;
 
-use App\Domain\Idea\Exception\ExceededCapacityLimitException;
-use App\Domain\Idea\Exception\InvalidIdeaCapacityException;
-use App\Domain\ValueObject;
+use AulaSoftwareLibre\Gata\Domain\Idea\Exception\ExceededCapacityLimitException;
+use AulaSoftwareLibre\Gata\Domain\Idea\Exception\InvalidIdeaCapacityException;
+use AulaSoftwareLibre\Gata\Domain\ValueObject;
 
 final class IdeaCapacity implements ValueObject
 {

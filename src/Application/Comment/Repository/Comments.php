@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Comment\Repository;
+namespace AulaSoftwareLibre\Gata\Application\Comment\Repository;
 
-use App\Domain\Comment\Model\Comment;
-use App\Domain\Comment\Model\CommentId;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\Comment;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
 
 interface Comments
 {

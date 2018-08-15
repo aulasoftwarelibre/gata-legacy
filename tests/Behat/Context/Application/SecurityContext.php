@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Tests\Behat\Context\Application;
 
-use App\Domain\User\Model\UserId;
 use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Plugin\EventsRecorder;
 use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
+use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
 use Ramsey\Uuid\Uuid;

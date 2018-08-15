@@ -6,4 +6,4 @@ services:
     Tests\Behat\Repository\:
         resource: '%kernel.project_dir%/tests/Behat/Repository'
 
-    App\Infrastructure\ReadModel\Group\Repository\GroupViews: '@Tests\Behat\Repository\GroupsInMemoryRepository'
+    AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews: '@Tests\Behat\Repository\GroupsInMemoryRepository'

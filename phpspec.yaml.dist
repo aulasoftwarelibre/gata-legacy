@@ -1,7 +1,7 @@
 suites:
     main:
-        namespace: App
-        psr4_prefix: App
+        namespace: AulaSoftwareLibre\Gata
+        psr4_prefix: AulaSoftwareLibre\Gata
 
 formatter.name: pretty
 

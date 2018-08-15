@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\User\Model;
+namespace spec\AulaSoftwareLibre\Gata\Domain\User\Model;
 
-use App\Domain\User\Exception\InvalidUserIdFormatException;
-use App\Domain\User\Model\UserId;
-use App\Domain\ValueObject;
+use AulaSoftwareLibre\Gata\Domain\User\Exception\InvalidUserIdFormatException;
+use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
+use AulaSoftwareLibre\Gata\Domain\ValueObject;
 use PhpSpec\ObjectBehavior;
 
 final class UserIdSpec extends ObjectBehavior

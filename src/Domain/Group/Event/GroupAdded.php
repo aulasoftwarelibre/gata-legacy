@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Group\Event;
+namespace AulaSoftwareLibre\Gata\Domain\Group\Event;
 
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Group\Model\GroupName;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
 use Prooph\EventSourcing\AggregateChanged;
 
 final class GroupAdded extends AggregateChanged

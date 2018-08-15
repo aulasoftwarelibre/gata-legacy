@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Idea\Event;
+namespace spec\AulaSoftwareLibre\Gata\Domain\Idea\Event;
 
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Idea\Model\IdeaDescription;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\Idea\Model\IdeaStatus;
-use App\Domain\Idea\Model\IdeaTitle;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaStatus;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
 use Prooph\Common\Messaging\DomainEvent;
 
