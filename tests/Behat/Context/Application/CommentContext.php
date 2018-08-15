@@ -19,11 +19,11 @@ use App\Domain\Comment\Event\CommentAdded;
 use App\Domain\Comment\Model\CommentText;
 use App\Domain\Idea\Model\Idea;
 use App\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Plugin\EventsRecorder;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Prooph\ServiceBus\CommandBus;
-use Tests\Service\Prooph\Plugin\EventsRecorder;
-use Tests\Service\SharedStorage;
 use Webmozart\Assert\Assert;
 
 class CommentContext implements Context

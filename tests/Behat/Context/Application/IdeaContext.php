@@ -32,10 +32,10 @@ use App\Domain\Idea\Event\IdeaRetitled;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Plugin\EventsRecorder;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
-use Tests\Service\Prooph\Plugin\EventsRecorder;
-use Tests\Service\SharedStorage;
 use Webmozart\Assert\Assert;
 
 final class IdeaContext implements Context

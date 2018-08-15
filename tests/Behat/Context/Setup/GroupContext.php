@@ -16,9 +16,9 @@ namespace Tests\Behat\Context\Setup;
 use App\Application\Group\Command\AddGroup;
 use App\Application\Group\Repository\Groups;
 use App\Domain\Group\Model\GroupName;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
-use Tests\Service\SharedStorage;
 
 final class GroupContext implements Context
 {

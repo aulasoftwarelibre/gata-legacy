@@ -3,22 +3,10 @@ services:
     database:
         image: 'postgres:9'
         ports:
-            - '5432'
+            - '32771:5432'
         volumes:
             - './vendor/prooph/pdo-event-store/scripts/postgres:/docker-entrypoint-initdb.d'
             - './var/run/postgresql:/run/postgresql'
         environment:
             - 'POSTGRES_USER=gata'
             - 'POSTGRES_PASSWORD'
-
-    group_projection:
-        build: 'docker/php'
-        entrypoint:
-            - '/app/.docker/wait-for-postgres.sh'
-        volumes:
-            - '.:/app'
-        depends_on:
-            - 'database'
-        environment:
-            - 'DATABASE_URL'
-        command: 'sh -c ".docker/wait-for database:5432 -- php bin/console event-store:projection:run group_projection"'

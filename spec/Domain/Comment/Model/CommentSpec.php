@@ -18,9 +18,9 @@ use App\Domain\Comment\Model\CommentId;
 use App\Domain\Comment\Model\CommentText;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\User\Model\UserId;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Spec\AggregateAsserter;
 use PhpSpec\ObjectBehavior;
 use Prooph\EventSourcing\AggregateRoot;
-use Tests\Service\Prooph\Spec\AggregateAsserter;
 
 final class CommentSpec extends ObjectBehavior
 {

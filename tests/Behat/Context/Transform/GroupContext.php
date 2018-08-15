@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Tests\Behat\Context\Transform;
 
 use App\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
 use Behat\Behat\Context\Context;
-use Tests\Service\SharedStorage;
 
 final class GroupContext implements Context
 {

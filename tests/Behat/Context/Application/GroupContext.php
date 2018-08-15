@@ -20,9 +20,9 @@ use App\Domain\Group\Event\GroupAdded;
 use App\Domain\Group\Event\GroupRenamed;
 use App\Domain\Group\Model\GroupId;
 use App\Domain\Group\Model\GroupName;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Plugin\EventsRecorder;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
-use Tests\Service\Prooph\Plugin\EventsRecorder;
 use Webmozart\Assert\Assert;
 
 final class GroupContext implements Context

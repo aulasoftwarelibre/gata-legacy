@@ -21,9 +21,9 @@ use App\Domain\Idea\Event\IdeaAdded;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Spec\AggregateAsserter;
 use PhpSpec\ObjectBehavior;
 use Prooph\EventSourcing\AggregateRoot;
-use Tests\Service\Prooph\Spec\AggregateAsserter;
 
 final class GroupSpec extends ObjectBehavior
 {

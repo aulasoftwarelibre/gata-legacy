@@ -13,40 +13,4 @@ prooph_event_store:
                     aggregate_type: 'App\Domain\Comment\Model\Comment'
                     aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
 
-    projection_managers:
-        default:
-            event_store: 'Prooph\EventStore\Pdo\PostgresEventStore'
-            connection: 'doctrine.pdo.connection'
-            projections:
-                group_projection:
-                    read_model: 'App\Infrastructure\ReadModel\Group\Projection\GroupReadModel'
-                    projection: 'App\Infrastructure\ReadModel\Group\Projection\GroupProjection'
 
-services:
-    _defaults:
-        public: false
-
-    Prooph\EventStore\Pdo\PostgresEventStore:
-        arguments:
-            - '@prooph_event_store.message_factory'
-            - '@doctrine.pdo.connection'
-            - '@prooph_event_store.single_stream_strategy'
-
-    Prooph\EventStore\EventStore: '@Prooph\EventStore\Pdo\PostgresEventStore'
-
-    doctrine.pdo.connection:
-        class: '\PDO'
-        factory: ['@database_connection', 'getWrappedConnection']
-
-    prooph_event_sourcing.aggregate_translator:
-        class: 'Prooph\EventSourcing\EventStoreIntegration\AggregateTranslator'
-
-    prooph_event_store.single_stream_strategy:
-        class: 'Prooph\EventStore\Pdo\PersistenceStrategy\PostgresSingleStreamStrategy'
-
-    # Repositories
-    App\Application\Group\Repository\Groups: '@App\Infrastructure\Repository\EventStoreGroups'
-    App\Application\Idea\Repository\Ideas: '@App\Infrastructure\Repository\EventStoreIdeas'
-    App\Application\Comment\Repository\Comments: '@App\Infrastructure\Repository\EventStoreComments'
-
-    App\Infrastructure\ReadModel\Group\Repository\GroupViews: '@App\Infrastructure\Doctrine\Repository\GroupViewORMRepository'

@@ -20,9 +20,9 @@ use App\Domain\Group\Model\GroupId;
 use App\Domain\Idea\Model\IdeaDescription;
 use App\Domain\Idea\Model\IdeaId;
 use App\Domain\Idea\Model\IdeaTitle;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
-use Tests\Service\SharedStorage;
 
 final class IdeaContext implements Context
 {

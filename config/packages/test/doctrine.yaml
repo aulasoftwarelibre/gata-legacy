@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        public: false
+
+    ## In memory read model repositories
+    Tests\Behat\Repository\:
+        resource: '%kernel.project_dir%/tests/Behat/Repository'
+
+    App\Infrastructure\ReadModel\Group\Repository\GroupViews: '@Tests\Behat\Repository\GroupsInMemoryRepository'
