@@ -13,10 +13,7 @@ declare(strict_types=1);
 
 namespace spec\AulaSoftwareLibre\Gata\Domain\Idea\Model;
 
-use AulaSoftwareLibre\Gata\Domain\Idea\Exception\ExceededCapacityLimitException;
-use AulaSoftwareLibre\Gata\Domain\Idea\Exception\InvalidIdeaCapacityException;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaCapacity;
-use AulaSoftwareLibre\Gata\Domain\ValueObject;
 use PhpSpec\ObjectBehavior;
 
 final class IdeaCapacitySpec extends ObjectBehavior
@@ -31,11 +28,6 @@ final class IdeaCapacitySpec extends ObjectBehavior
         $this->beConstructedWith(self::LIMIT, self::COUNT);
     }
 
-    public function it_is_a_value_object(): void
-    {
-        $this->shouldImplement(ValueObject::class);
-    }
-
     public function it_is_unlimited_and_starts_counting_from_zero_by_default(): void
     {
         $this->beConstructedWith();
@@ -46,13 +38,13 @@ final class IdeaCapacitySpec extends ObjectBehavior
 
     public function it_can_not_have_negative_or_zero_limit_values(): void
     {
-        $this->shouldThrow(InvalidIdeaCapacityException::class)->during(
+        $this->shouldThrow(\InvalidArgumentException::class)->during(
             '__construct', [
                 -1,
             ]
         );
 
-        $this->shouldThrow(InvalidIdeaCapacityException::class)->during(
+        $this->shouldThrow(\InvalidArgumentException::class)->during(
             '__construct', [
                 0,
             ]
@@ -61,7 +53,7 @@ final class IdeaCapacitySpec extends ObjectBehavior
 
     public function it_can_not_start_counting_from_negative_values(): void
     {
-        $this->shouldThrow(InvalidIdeaCapacityException::class)->during(
+        $this->shouldThrow(\InvalidArgumentException::class)->during(
             '__construct', [
                 1,
                 -1,
@@ -71,7 +63,7 @@ final class IdeaCapacitySpec extends ObjectBehavior
 
     public function it_can_not_exceed_the_limit(): void
     {
-        $this->shouldThrow(ExceededCapacityLimitException::class)->during(
+        $this->shouldThrow(\InvalidArgumentException::class)->during(
             '__construct', [
                 1,
                 2,

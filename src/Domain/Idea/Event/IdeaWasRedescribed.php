@@ -14,40 +14,46 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AulaSoftwareLibre\Gata\Application\Idea\Command;
+namespace AulaSoftwareLibre\Gata\Domain\Idea\Event;
 
-final class RedescribeIdea extends \Prooph\Common\Messaging\Command
+final class IdeaWasRedescribed extends \Prooph\EventSourcing\AggregateChanged
 {
-    use \Prooph\Common\Messaging\PayloadTrait;
-
-    public const MESSAGE_NAME = 'AulaSoftwareLibre\Gata\Application\Idea\Command\RedescribeIdea';
+    public const MESSAGE_NAME = 'AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRedescribed';
 
     protected $messageName = self::MESSAGE_NAME;
 
+    protected $payload = [];
+
+    private $ideaId;
+    private $description;
+
     public function ideaId(): \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId
     {
-        return \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId::fromString($this->payload['ideaId']);
+        if (null === $this->ideaId) {
+            $this->ideaId = \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId::fromString($this->aggregateId());
+        }
+
+        return $this->ideaId;
     }
 
     public function description(): \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription
     {
-        return \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription::fromString($this->payload['description']);
+        if (null === $this->description) {
+            $this->description = \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription::fromString($this->payload['description']);
+        }
+
+        return $this->description;
     }
 
-    public static function with(\AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId $ideaId, \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription $description): RedescribeIdea
+    public static function with(\AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId $ideaId, \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription $description): IdeaWasRedescribed
     {
-        return new self([
-            'ideaId' => $ideaId->toString(),
+        return new self($ideaId->toString(), [
             'description' => $description->toString(),
         ]);
     }
 
     protected function setPayload(array $payload): void
     {
-        if (!isset($payload['ideaId']) || !\is_string($payload['ideaId'])) {
-            throw new \InvalidArgumentException("Key 'ideaId' is missing in payload or is not a string");
-        }
-
         if (!isset($payload['description']) || !\is_string($payload['description'])) {
             throw new \InvalidArgumentException("Key 'description' is missing in payload or is not a string");
         }

@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace AulaSoftwareLibre\Gata\Application\Idea\Command;
 
+use AulaSoftwareLibre\DDD\BaseBundle\Handlers\CommandHandler;
 use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
 
-final class AddIdeaHandler
+final class AddIdeaHandler implements CommandHandler
 {
     /**
      * @var Ideas

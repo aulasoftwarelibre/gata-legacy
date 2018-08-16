@@ -32,15 +32,15 @@ final class RedescribeIdeaHandlerSpec extends ObjectBehavior
 
     public function it_redescribe_an_idea(Ideas $ideas, Idea $idea): void
     {
-        $ideas->get(Argument::exact(new IdeaId(self::IDEA_ID)))->willReturn($idea);
+        $ideas->get(Argument::exact(IdeaId::fromString(self::IDEA_ID)))->willReturn($idea);
 
-        $idea->redescribe(Argument::exact(new IdeaDescription('Description')))->shouldBeCalled();
+        $idea->redescribe(Argument::exact(IdeaDescription::fromString('Description')))->shouldBeCalled();
 
         $ideas->save($idea)->shouldBeCalled();
 
-        $this(RedescribeIdea::create(
-            new IdeaId(self::IDEA_ID),
-            new IdeaDescription('Description')
+        $this(RedescribeIdea::with(
+            IdeaId::fromString(self::IDEA_ID),
+            IdeaDescription::fromString('Description')
         ));
     }
 }

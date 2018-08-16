@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace AulaSoftwareLibre\Gata\Application\Idea\Command;
 
+use AulaSoftwareLibre\DDD\BaseBundle\Handlers\CommandHandler;
 use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
 
-final class RedescribeIdeaHandler
+final class RedescribeIdeaHandler implements CommandHandler
 {
     /**
      * @var Ideas

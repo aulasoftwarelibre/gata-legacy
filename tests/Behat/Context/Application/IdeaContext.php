@@ -24,16 +24,15 @@ use AulaSoftwareLibre\Gata\Application\Idea\Command\RetitleIdea;
 use AulaSoftwareLibre\Gata\Application\Idea\Command\UnregisterIdeaAttendee;
 use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAccepted;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAdded;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeRegistered;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeUnregistered;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaRedescribed;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaRejected;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaRetitled;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeWasRegistered;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeWasUnregistered;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasAccepted;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRedescribed;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRejected;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRetitled;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
-use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
 use Webmozart\Assert\Assert;
@@ -76,11 +75,11 @@ final class IdeaContext implements Context
      */
     public function iAddANewIdeaTitledWithAnyDescriptionToThisGroup(string $title, GroupId $groupId): void
     {
-        $this->commandBus->dispatch(AddIdea::create(
+        $this->commandBus->dispatch(AddIdea::with(
             $this->ideas->nextIdentity(),
             $groupId,
-            new IdeaTitle($title),
-            new IdeaDescription('Description')
+            group($title),
+            IdeaDescription::fromString('Description')
         ));
     }
 
@@ -89,17 +88,17 @@ final class IdeaContext implements Context
      */
     public function theIdeaShouldBeAvailableInThisGroup(string $title, GroupId $groupId): void
     {
-        /** @var IdeaAdded $event */
+        /** @var IdeaWasAdded $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
 
-        Assert::isInstanceOf($event, IdeaAdded::class, sprintf(
+        Assert::isInstanceOf($event, IdeaWasAdded::class, sprintf(
             'Event has to be of class %s, but %s given',
-            IdeaAdded::class,
+            IdeaWasAdded::class,
             get_class($event)
         ));
 
         Assert::true($event->groupId()->equals($groupId));
-        Assert::true($event->title()->equals(new IdeaTitle($title)));
+        Assert::true($event->title()->equals(group($title)));
     }
 
     /**
@@ -107,9 +106,9 @@ final class IdeaContext implements Context
      */
     public function iRetitleItTo(IdeaId $ideaId, string $title): void
     {
-        $this->commandBus->dispatch(RetitleIdea::create(
+        $this->commandBus->dispatch(RetitleIdea::with(
             $ideaId,
-            new IdeaTitle($title)
+            group($title)
         ));
     }
 
@@ -118,17 +117,17 @@ final class IdeaContext implements Context
      */
     public function itShouldBeRetitledTo(IdeaId $ideaId, string $title): void
     {
-        /** @var IdeaRetitled $event */
+        /** @var IdeaWasRetitled $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
 
-        Assert::isInstanceOf($event, IdeaRetitled::class, sprintf(
+        Assert::isInstanceOf($event, IdeaWasRetitled::class, sprintf(
             'Event has to be of class %s, but %s given',
-            IdeaRetitled::class,
+            IdeaWasRetitled::class,
             get_class($event)
         ));
 
         Assert::true($event->ideaId()->equals($ideaId));
-        Assert::true($event->title()->equals(new IdeaTitle($title)));
+        Assert::true($event->title()->equals(group($title)));
     }
 
     /**
@@ -136,7 +135,7 @@ final class IdeaContext implements Context
      */
     public function iAcceptIt(IdeaId $ideaId): void
     {
-        $this->commandBus->dispatch(AcceptIdea::create(
+        $this->commandBus->dispatch(AcceptIdea::with(
             $ideaId
         ));
     }
@@ -146,7 +145,7 @@ final class IdeaContext implements Context
      */
     public function iRejectIt(IdeaId $ideaId): void
     {
-        $this->commandBus->dispatch(RejectIdea::create(
+        $this->commandBus->dispatch(RejectIdea::with(
             $ideaId
         ));
     }
@@ -156,12 +155,12 @@ final class IdeaContext implements Context
      */
     public function itShouldBeMarkedAsAccepted(IdeaId $ideaId): void
     {
-        /** @var IdeaAccepted $event */
+        /** @var IdeaWasAccepted $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
 
-        Assert::isInstanceOf($event, IdeaAccepted::class, sprintf(
+        Assert::isInstanceOf($event, IdeaWasAccepted::class, sprintf(
             'Event has to be of class %s, but %s given',
-            IdeaAccepted::class,
+            IdeaWasAccepted::class,
             get_class($event)
         ));
 
@@ -173,12 +172,12 @@ final class IdeaContext implements Context
      */
     public function itShouldBeMarkedAsRejected(IdeaId $ideaId): void
     {
-        /** @var IdeaRejected $event */
+        /** @var IdeaWasRejected $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
 
-        Assert::isInstanceOf($event, IdeaRejected::class, sprintf(
+        Assert::isInstanceOf($event, IdeaWasRejected::class, sprintf(
             'Event has to be of class %s, but %s given',
-            IdeaRejected::class,
+            IdeaWasRejected::class,
             get_class($event)
         ));
 
@@ -190,9 +189,9 @@ final class IdeaContext implements Context
      */
     public function iRedescribeItTo(IdeaId $ideaId, string $description): void
     {
-        $this->commandBus->dispatch(RedescribeIdea::create(
+        $this->commandBus->dispatch(RedescribeIdea::with(
             $ideaId,
-            new IdeaDescription($description)
+            IdeaDescription::fromString($description)
         ));
     }
 
@@ -201,17 +200,17 @@ final class IdeaContext implements Context
      */
     public function itShouldBeRedescribedTo(IdeaId $ideaId, string $description): void
     {
-        /** @var IdeaRedescribed $event */
+        /** @var IdeaWasRedescribed $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
 
-        Assert::isInstanceOf($event, IdeaRedescribed::class, sprintf(
+        Assert::isInstanceOf($event, IdeaWasRedescribed::class, sprintf(
             'Event has to be of class %s, but %s given',
-            IdeaRedescribed::class,
+            IdeaWasRedescribed::class,
             get_class($event)
         ));
 
         Assert::true($event->ideaId()->equals($ideaId));
-        Assert::true($event->description()->equals(new IdeaDescription($description)));
+        Assert::true($event->description()->equals(IdeaDescription::fromString($description)));
     }
 
     /**
@@ -221,7 +220,7 @@ final class IdeaContext implements Context
     {
         $myUserId = $this->sharedStorage->get('myUserId');
 
-        $this->commandBus->dispatch(RegisterIdeaAttendee::create(
+        $this->commandBus->dispatch(RegisterIdeaAttendee::with(
             $ideaId,
             $myUserId
         ));
@@ -232,12 +231,12 @@ final class IdeaContext implements Context
      */
     public function iHaveToBeRegisteredAsAttendeeInThisIdea(IdeaId $ideaId): void
     {
-        /** @var IdeaAttendeeRegistered $event */
+        /** @var IdeaAttendeeWasRegistered $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
 
-        Assert::isInstanceOf($event, IdeaAttendeeRegistered::class, sprintf(
+        Assert::isInstanceOf($event, IdeaAttendeeWasRegistered::class, sprintf(
             'Event has to be of class %s, but %s given',
-            IdeaAttendeeRegistered::class,
+            IdeaAttendeeWasRegistered::class,
             get_class($event)
         ));
 
@@ -254,7 +253,7 @@ final class IdeaContext implements Context
     {
         $myUserId = $this->sharedStorage->get('myUserId');
 
-        $this->commandBus->dispatch(UnregisterIdeaAttendee::create(
+        $this->commandBus->dispatch(UnregisterIdeaAttendee::with(
             $ideaId,
             $myUserId
         ));
@@ -265,12 +264,12 @@ final class IdeaContext implements Context
      */
     public function iHaveToBeUnregisteredAsAttendeeInThisIdea(IdeaId $ideaId)
     {
-        /** @var IdeaAttendeeUnregistered $event */
+        /** @var IdeaAttendeeWasUnregistered $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
 
-        Assert::isInstanceOf($event, IdeaAttendeeUnregistered::class, sprintf(
+        Assert::isInstanceOf($event, IdeaAttendeeWasUnregistered::class, sprintf(
             'Event has to be of class %s, but %s given',
-            IdeaAttendeeUnregistered::class,
+            IdeaAttendeeWasUnregistered::class,
             get_class($event)
         ));
 

@@ -14,40 +14,60 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AulaSoftwareLibre\Gata\Application\Idea\Command;
+namespace AulaSoftwareLibre\Gata\Domain\Idea\Event;
 
-final class AddIdea extends \Prooph\Common\Messaging\Command
+final class IdeaWasAdded extends \Prooph\EventSourcing\AggregateChanged
 {
-    use \Prooph\Common\Messaging\PayloadTrait;
-
-    public const MESSAGE_NAME = 'AulaSoftwareLibre\Gata\Application\Idea\Command\AddIdea';
+    public const MESSAGE_NAME = 'AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasAdded';
 
     protected $messageName = self::MESSAGE_NAME;
 
+    protected $payload = [];
+
+    private $ideaId;
+    private $groupId;
+    private $title;
+    private $description;
+
     public function ideaId(): \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId
     {
-        return \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId::fromString($this->payload['ideaId']);
+        if (null === $this->ideaId) {
+            $this->ideaId = \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId::fromString($this->aggregateId());
+        }
+
+        return $this->ideaId;
     }
 
     public function groupId(): \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId
     {
-        return \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId::fromString($this->payload['groupId']);
+        if (null === $this->groupId) {
+            $this->groupId = \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId::fromString($this->payload['groupId']);
+        }
+
+        return $this->groupId;
     }
 
     public function title(): \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle
     {
-        return \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle::fromString($this->payload['title']);
+        if (null === $this->title) {
+            $this->title = \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle::fromString($this->payload['title']);
+        }
+
+        return $this->title;
     }
 
     public function description(): \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription
     {
-        return \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription::fromString($this->payload['description']);
+        if (null === $this->description) {
+            $this->description = \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription::fromString($this->payload['description']);
+        }
+
+        return $this->description;
     }
 
-    public static function with(\AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId $ideaId, \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId $groupId, \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle $title, \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription $description): AddIdea
+    public static function with(\AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId $ideaId, \AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId $groupId, \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle $title, \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription $description): IdeaWasAdded
     {
-        return new self([
-            'ideaId' => $ideaId->toString(),
+        return new self($ideaId->toString(), [
             'groupId' => $groupId->toString(),
             'title' => $title->toString(),
             'description' => $description->toString(),
@@ -56,10 +76,6 @@ final class AddIdea extends \Prooph\Common\Messaging\Command
 
     protected function setPayload(array $payload): void
     {
-        if (!isset($payload['ideaId']) || !\is_string($payload['ideaId'])) {
-            throw new \InvalidArgumentException("Key 'ideaId' is missing in payload or is not a string");
-        }
-
         if (!isset($payload['groupId']) || !\is_string($payload['groupId'])) {
             throw new \InvalidArgumentException("Key 'groupId' is missing in payload or is not a string");
         }

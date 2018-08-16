@@ -55,7 +55,7 @@ final class GroupContext implements Context
 
         $this->sharedStorage->set('groupId', $groupId);
 
-        $this->commandBus->dispatch(AddGroup::create(
+        $this->commandBus->dispatch(AddGroup::with(
             $groupId,
             new GroupName($name)
         ));

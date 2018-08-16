@@ -57,7 +57,7 @@ final class GroupContext implements Context
      */
     public function iAddANewGroupNamed(string $name): void
     {
-        $this->commandBus->dispatch(AddGroup::create(
+        $this->commandBus->dispatch(AddGroup::with(
             $this->groups->nextIdentity(),
             new GroupName($name)
         ));
@@ -84,7 +84,7 @@ final class GroupContext implements Context
      */
     public function iRenameItTo(GroupId $groupId, string $name): void
     {
-        $this->commandBus->dispatch(RenameGroup::create(
+        $this->commandBus->dispatch(RenameGroup::with(
             $groupId,
             new GroupName($name)
         ));

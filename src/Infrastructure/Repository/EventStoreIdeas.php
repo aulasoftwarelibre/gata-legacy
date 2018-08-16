@@ -29,7 +29,7 @@ final class EventStoreIdeas extends AggregateRepository implements Ideas
 
     public function get(IdeaId $ideaId): ?Idea
     {
-        $idea = $this->getAggregateRoot($ideaId->value());
+        $idea = $this->getAggregateRoot($ideaId->toString());
 
         if (!$idea instanceof Idea) {
             throw new IdeaNotFoundException();
@@ -40,6 +40,6 @@ final class EventStoreIdeas extends AggregateRepository implements Ideas
 
     public function nextIdentity(): IdeaId
     {
-        return new IdeaId(Uuid::uuid4()->toString());
+        return IdeaId::fromString(Uuid::uuid4()->toString());
     }
 }

@@ -33,23 +33,23 @@ final class UnregisterIdeaAttendeeHandlerSpec extends ObjectBehavior
 
     public function it_unregister_an_idea_attendee(Ideas $ideas, Idea $idea): void
     {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
         $idea->unregisterAttendee(UserId::fromString(self::USER_ID))->shouldBeCalled();
         $ideas->save($idea)->shouldBeCalled();
 
-        $this(UnregisterIdeaAttendee::create(
-            new IdeaId(self::IDEA_ID),
+        $this(UnregisterIdeaAttendee::with(
+            IdeaId::fromString(self::IDEA_ID),
             UserId::fromString(self::USER_ID)
         ));
     }
 
     public function it_checks_if_idea_does_not_exists(Ideas $ideas): void
     {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
 
         $this->shouldThrow(IdeaNotFoundException::class)->during('__invoke', [
-            UnregisterIdeaAttendee::create(
-                new IdeaId(self::IDEA_ID),
+            UnregisterIdeaAttendee::with(
+                IdeaId::fromString(self::IDEA_ID),
                 UserId::fromString(self::USER_ID)
             ),
         ]);

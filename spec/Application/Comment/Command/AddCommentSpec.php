@@ -35,13 +35,13 @@ class AddCommentSpec extends ObjectBehavior
     {
         $this->beConstructedThrough('create', [
             new CommentId(self::COMMENT_ID),
-            new IdeaId(self::IDEA_ID),
+            IdeaId::fromString(self::IDEA_ID),
             UserId::fromString(self::USER_ID),
             new CommentText('Lorem Ipsum'),
         ]);
 
         $this->commentId()->shouldBeLike(new CommentId(self::COMMENT_ID));
-        $this->ideaId()->shouldBeLike(new IdeaId(self::IDEA_ID));
+        $this->ideaId()->shouldBeLike(IdeaId::fromString(self::IDEA_ID));
         $this->userId()->shouldBeLike(UserId::fromString(self::USER_ID));
         $this->text()->shouldBeLike(new CommentText('Lorem Ipsum'));
     }

@@ -42,7 +42,7 @@ class AddCommentHandlerSpec extends ObjectBehavior
         Comments $comments,
         Comment $comment
     ) {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
         $idea->addComment(
             new CommentId(self::COMMENT_ID),
             UserId::fromString(self::USER_ID),
@@ -55,7 +55,7 @@ class AddCommentHandlerSpec extends ObjectBehavior
 
         $this(AddComment::create(
             new CommentId(self::COMMENT_ID),
-            new IdeaId(self::IDEA_ID),
+            IdeaId::fromString(self::IDEA_ID),
             UserId::fromString(self::USER_ID),
             new CommentText('Lorem ipsum')
         ));
@@ -63,12 +63,12 @@ class AddCommentHandlerSpec extends ObjectBehavior
 
     public function it_checks_if_idea_does_not_exists(Ideas $ideas)
     {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
 
         $this->shouldThrow(IdeaNotFoundException::class)->during('__invoke', [
             AddComment::create(
                 new CommentId(self::COMMENT_ID),
-                new IdeaId(self::IDEA_ID),
+                IdeaId::fromString(self::IDEA_ID),
                 UserId::fromString(self::USER_ID),
                 new CommentText('Lorem ipsum')
             ),

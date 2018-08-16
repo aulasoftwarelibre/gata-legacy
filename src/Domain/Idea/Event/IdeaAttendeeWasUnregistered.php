@@ -14,40 +14,46 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AulaSoftwareLibre\Gata\Application\Idea\Command;
+namespace AulaSoftwareLibre\Gata\Domain\Idea\Event;
 
-final class UnregisterIdeaAttendee extends \Prooph\Common\Messaging\Command
+final class IdeaAttendeeWasUnregistered extends \Prooph\EventSourcing\AggregateChanged
 {
-    use \Prooph\Common\Messaging\PayloadTrait;
-
-    public const MESSAGE_NAME = 'AulaSoftwareLibre\Gata\Application\Idea\Command\UnregisterIdeaAttendee';
+    public const MESSAGE_NAME = 'AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeWasUnregistered';
 
     protected $messageName = self::MESSAGE_NAME;
 
+    protected $payload = [];
+
+    private $ideaId;
+    private $userId;
+
     public function ideaId(): \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId
     {
-        return \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId::fromString($this->payload['ideaId']);
+        if (null === $this->ideaId) {
+            $this->ideaId = \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId::fromString($this->aggregateId());
+        }
+
+        return $this->ideaId;
     }
 
     public function userId(): \AulaSoftwareLibre\Gata\Domain\User\Model\UserId
     {
-        return \AulaSoftwareLibre\Gata\Domain\User\Model\UserId::fromString($this->payload['userId']);
+        if (null === $this->userId) {
+            $this->userId = \AulaSoftwareLibre\Gata\Domain\User\Model\UserId::fromString($this->payload['userId']);
+        }
+
+        return $this->userId;
     }
 
-    public static function with(\AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId $ideaId, \AulaSoftwareLibre\Gata\Domain\User\Model\UserId $userId): UnregisterIdeaAttendee
+    public static function with(\AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId $ideaId, \AulaSoftwareLibre\Gata\Domain\User\Model\UserId $userId): IdeaAttendeeWasUnregistered
     {
-        return new self([
-            'ideaId' => $ideaId->toString(),
+        return new self($ideaId->toString(), [
             'userId' => $userId->toString(),
         ]);
     }
 
     protected function setPayload(array $payload): void
     {
-        if (!isset($payload['ideaId']) || !\is_string($payload['ideaId'])) {
-            throw new \InvalidArgumentException("Key 'ideaId' is missing in payload or is not a string");
-        }
-
         if (!isset($payload['userId']) || !\is_string($payload['userId'])) {
             throw new \InvalidArgumentException("Key 'userId' is missing in payload or is not a string");
         }

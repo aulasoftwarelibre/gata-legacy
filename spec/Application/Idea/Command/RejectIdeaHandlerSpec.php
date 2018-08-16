@@ -32,22 +32,22 @@ class RejectIdeaHandlerSpec extends ObjectBehavior
 
     public function it_rejects_an_idea(Ideas $ideas, Idea $idea): void
     {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
         $idea->reject()->shouldBeCalled();
         $ideas->save($idea)->shouldBeCalled();
 
-        $this(RejectIdea::create(
-            new IdeaId(self::IDEA_ID)
+        $this(RejectIdea::with(
+            IdeaId::fromString(self::IDEA_ID)
         ));
     }
 
     public function it_checks_if_idea_does_not_exists(Ideas $ideas)
     {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
 
         $this->shouldThrow(IdeaNotFoundException::class)->during('__invoke', [
-            RejectIdea::create(
-                new IdeaId(self::IDEA_ID)
+            RejectIdea::with(
+                IdeaId::fromString(self::IDEA_ID)
             ),
         ]);
     }

@@ -28,7 +28,7 @@ final class CommentAdded extends AggregateChanged
         CommentText $commentText
     ): self {
         return self::occur($commentId->value(), [
-            'ideaId' => $ideaId->value(),
+            'ideaId' => $ideaId->toString(),
             'userId' => $userId->toString(),
             'text' => $commentText->value(),
         ]);
@@ -41,7 +41,7 @@ final class CommentAdded extends AggregateChanged
 
     public function ideaId(): IdeaId
     {
-        return new IdeaId($this->payload()['ideaId']);
+        return IdeaId::fromString($this->payload()['ideaId']);
     }
 
     public function userId(): UserId

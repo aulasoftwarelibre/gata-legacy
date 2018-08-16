@@ -18,15 +18,15 @@ use AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentAdded;
 use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
 use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAccepted;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAdded;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeRegistered;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeUnregistered;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaCapacityLimited;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaCapacityUnlimited;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaRedescribed;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaRejected;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaRetitled;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeWasRegistered;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeWasUnregistered;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaCapacityWasLimited;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaCapacityWasUnlimited;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasAccepted;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRedescribed;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRejected;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRetitled;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaCapacity;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
@@ -48,19 +48,19 @@ final class IdeaSpec extends ObjectBehavior
     public function let(): void
     {
         $this->beConstructedThrough('add', [
-            new IdeaId(self::IDEA_ID),
+            IdeaId::fromString(self::IDEA_ID),
             GroupId::fromString(self::GROUP_ID),
-            new IdeaTitle('Title'),
-            new IdeaDescription('Description'),
+            IdeaTitle::fromString('Title'),
+            IdeaDescription::fromString('Description'),
         ]);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaAdded::withData(
-                new IdeaId(self::IDEA_ID),
+            IdeaWasAdded::with(
+                IdeaId::fromString(self::IDEA_ID),
                 GroupId::fromString(self::GROUP_ID),
-                new IdeaTitle('Title'),
-                new IdeaDescription('Description')
+                IdeaTitle::fromString('Title'),
+                IdeaDescription::fromString('Description')
             )
         );
     }
@@ -77,7 +77,7 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_has_an_idea_id(): void
     {
-        $this->ideaId()->shouldBeLike(new IdeaId(self::IDEA_ID));
+        $this->ideaId()->shouldBeLike(IdeaId::fromString(self::IDEA_ID));
     }
 
     public function it_has_a_group_id(): void
@@ -97,66 +97,66 @@ final class IdeaSpec extends ObjectBehavior
 
     public function it_has_a_title(): void
     {
-        $this->title()->shouldBeLike(new IdeaTitle('Title'));
+        $this->title()->shouldBeLike(IdeaTitle::fromString('Title'));
     }
 
     public function it_can_change_its_title(): void
     {
-        $this->retitle(new IdeaTitle('Other title'));
+        $this->retitle(IdeaTitle::fromString('Other title'));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaRetitled::withData(
-                new IdeaId(self::IDEA_ID),
-                new IdeaTitle('Other title')
+            IdeaWasRetitled::with(
+                IdeaId::fromString(self::IDEA_ID),
+                IdeaTitle::fromString('Other title')
             )
         );
 
-        $this->title()->shouldBeLike(new IdeaTitle('Other title'));
+        $this->title()->shouldBeLike(IdeaTitle::fromString('Other title'));
     }
 
     public function it_not_change_its_title_when_it_is_the_same(): void
     {
-        $this->retitle(new IdeaTitle('Title'));
+        $this->retitle(IdeaTitle::fromString('Title'));
 
         (new AggregateAsserter())->assertAggregateHasNotProducedEvent(
             $this->getWrappedObject(),
-            IdeaRetitled::withData(
-                new IdeaId(self::IDEA_ID),
-                new IdeaTitle('Title')
+            IdeaWasRetitled::with(
+                IdeaId::fromString(self::IDEA_ID),
+                IdeaTitle::fromString('Title')
             )
         );
     }
 
     public function it_has_an_description(): void
     {
-        $this->description()->shouldBeLike(new IdeaDescription('Description'));
+        $this->description()->shouldBeLike(IdeaDescription::fromString('Description'));
     }
 
     public function it_can_change_its_description(): void
     {
-        $this->redescribe(new IdeaDescription('Other description'));
+        $this->redescribe(IdeaDescription::fromString('Other description'));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaRedescribed::withData(
-                new IdeaId(self::IDEA_ID),
-                new IdeaDescription('Other description')
+            IdeaWasRedescribed::with(
+                IdeaId::fromString(self::IDEA_ID),
+                IdeaDescription::fromString('Other description')
             )
         );
 
-        $this->description()->shouldBeLike(new IdeaDescription('Other description'));
+        $this->description()->shouldBeLike(IdeaDescription::fromString('Other description'));
     }
 
     public function it_not_change_its_description_when_it_is_the_same(): void
     {
-        $this->redescribe(new IdeaDescription('Description'));
+        $this->redescribe(IdeaDescription::fromString('Description'));
 
         (new AggregateAsserter())->assertAggregateHasNotProducedEvent(
             $this->getWrappedObject(),
-            IdeaRedescribed::withData(
-                new IdeaId(self::IDEA_ID),
-                new IdeaDescription('Description')
+            IdeaWasRedescribed::with(
+                IdeaId::fromString(self::IDEA_ID),
+                IdeaDescription::fromString('Description')
             )
         );
     }
@@ -167,8 +167,8 @@ final class IdeaSpec extends ObjectBehavior
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaAccepted::withData(
-                new IdeaId(self::IDEA_ID)
+            IdeaWasAccepted::with(
+                IdeaId::fromString(self::IDEA_ID)
             )
         );
 
@@ -181,8 +181,8 @@ final class IdeaSpec extends ObjectBehavior
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaRejected::withData(
-                new IdeaId(self::IDEA_ID)
+            IdeaWasRejected::with(
+                IdeaId::fromString(self::IDEA_ID)
             )
         );
 
@@ -201,7 +201,7 @@ final class IdeaSpec extends ObjectBehavior
             $comment->getWrappedObject(),
             CommentAdded::withData(
                 new CommentId(self::COMMENT_ID),
-                new IdeaId(self::IDEA_ID),
+                IdeaId::fromString(self::IDEA_ID),
                 UserId::fromString(self::USER_ID),
                 new CommentText('Text')
             )
@@ -230,8 +230,8 @@ final class IdeaSpec extends ObjectBehavior
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaAttendeeRegistered::withData(
-                new IdeaId(self::IDEA_ID),
+            IdeaAttendeeWasRegistered::with(
+                IdeaId::fromString(self::IDEA_ID),
                 UserId::fromString(self::USER_ID)
             )
         );
@@ -267,8 +267,8 @@ final class IdeaSpec extends ObjectBehavior
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaAttendeeUnregistered::withData(
-                new IdeaId(self::IDEA_ID),
+            IdeaAttendeeWasUnregistered::with(
+                IdeaId::fromString(self::IDEA_ID),
                 UserId::fromString(self::USER_ID)
             )
         );
@@ -291,8 +291,8 @@ final class IdeaSpec extends ObjectBehavior
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaCapacityUnlimited::withData(
-                new IdeaId(self::IDEA_ID)
+            IdeaCapacityWasUnlimited::with(
+                IdeaId::fromString(self::IDEA_ID)
             )
         );
     }
@@ -303,8 +303,8 @@ final class IdeaSpec extends ObjectBehavior
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            IdeaCapacityLimited::withData(
-                new IdeaId(self::IDEA_ID),
+            IdeaCapacityWasLimited::with(
+                IdeaId::fromString(self::IDEA_ID),
                 self::CAPACITY_LIMIT
             )
         );

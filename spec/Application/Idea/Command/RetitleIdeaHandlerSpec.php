@@ -32,15 +32,15 @@ final class RetitleIdeaHandlerSpec extends ObjectBehavior
 
     public function it_retitle_an_idea(Ideas $ideas, Idea $idea): void
     {
-        $ideas->get(Argument::exact(new IdeaId(self::IDEA_ID)))->willReturn($idea);
+        $ideas->get(Argument::exact(IdeaId::fromString(self::IDEA_ID)))->willReturn($idea);
 
-        $idea->retitle(Argument::exact(new IdeaTitle('Title')))->shouldBeCalled();
+        $idea->retitle(Argument::exact(IdeaTitle::fromString('Title')))->shouldBeCalled();
 
         $ideas->save($idea)->shouldBeCalled();
 
-        $this(RetitleIdea::create(
-            new IdeaId(self::IDEA_ID),
-            new IdeaTitle('Title')
+        $this(RetitleIdea::with(
+            IdeaId::fromString(self::IDEA_ID),
+            IdeaTitle::fromString('Title')
         ));
     }
 }

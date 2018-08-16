@@ -18,15 +18,15 @@ use AulaSoftwareLibre\Gata\Domain\Comment\Model\Comment;
 use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
 use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAccepted;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAdded;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeRegistered;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeUnregistered;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaCapacityLimited;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaCapacityUnlimited;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaRedescribed;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaRejected;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaRetitled;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeWasRegistered;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAttendeeWasUnregistered;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaCapacityWasLimited;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaCapacityWasUnlimited;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasAccepted;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRedescribed;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRejected;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRetitled;
 use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -79,7 +79,7 @@ class Idea extends AggregateRoot
     ): self {
         $idea = new self();
 
-        $idea->recordThat(IdeaAdded::withData($ideaId, $groupId, $ideaTitle, $ideaDescription));
+        $idea->recordThat(IdeaWasAdded::with($ideaId, $groupId, $ideaTitle, $ideaDescription));
 
         return $idea;
     }
@@ -106,12 +106,12 @@ class Idea extends AggregateRoot
 
     public function accept(): void
     {
-        $this->recordThat(IdeaAccepted::withData($this->ideaId()));
+        $this->recordThat(IdeaWasAccepted::with($this->ideaId()));
     }
 
     public function reject(): void
     {
-        $this->recordThat(IdeaRejected::withData($this->ideaId()));
+        $this->recordThat(IdeaWasRejected::with($this->ideaId()));
     }
 
     public function title(): IdeaTitle
@@ -125,7 +125,7 @@ class Idea extends AggregateRoot
             return;
         }
 
-        $this->recordThat(IdeaRetitled::withData($this->ideaId(), $ideaTitle));
+        $this->recordThat(IdeaWasRetitled::with($this->ideaId(), $ideaTitle));
     }
 
     public function description(): IdeaDescription
@@ -139,7 +139,7 @@ class Idea extends AggregateRoot
             return;
         }
 
-        $this->recordThat(IdeaRedescribed::withData($this->ideaId(), $ideaDescription));
+        $this->recordThat(IdeaWasRedescribed::with($this->ideaId(), $ideaDescription));
     }
 
     public function capacity(): IdeaCapacity
@@ -166,61 +166,61 @@ class Idea extends AggregateRoot
 
     public function registerAttendee(UserId $userId): void
     {
-        $this->recordThat(IdeaAttendeeRegistered::withData($this->ideaId(), $userId));
+        $this->recordThat(IdeaAttendeeWasRegistered::with($this->ideaId(), $userId));
     }
 
     public function unregisterAttendee(UserId $userId): void
     {
-        $this->recordThat(IdeaAttendeeUnregistered::withData($this->ideaId(), $userId));
+        $this->recordThat(IdeaAttendeeWasUnregistered::with($this->ideaId(), $userId));
     }
 
     public function capacityUnlimited(): void
     {
-        $this->recordThat(IdeaCapacityUnlimited::withData($this->ideaId()));
+        $this->recordThat(IdeaCapacityWasUnlimited::with($this->ideaId()));
     }
 
     public function capacityLimited(int $limit): void
     {
-        $this->recordThat(IdeaCapacityLimited::withData($this->ideaId(), $limit));
+        $this->recordThat(IdeaCapacityWasLimited::with($this->ideaId(), $limit));
     }
 
     protected function aggregateId(): string
     {
-        return $this->ideaId()->value();
+        return $this->ideaId()->toString();
     }
 
-    protected function applyIdeaAdded(IdeaAdded $event): void
+    protected function applyIdeaWasAdded(IdeaWasAdded $event): void
     {
         $this->ideaId = $event->ideaId();
         $this->groupId = $event->groupId();
-        $this->status = $event->status();
+        $this->status = IdeaStatus::pending();
         $this->title = $event->title();
         $this->description = $event->description();
-        $this->capacity = $event->capacity();
-        $this->attendees = $event->attendees();
+        $this->capacity = new IdeaCapacity();
+        $this->attendees = new ArrayCollection();
     }
 
-    protected function applyIdeaRetitled(IdeaRetitled $event): void
+    protected function applyIdeaWasRetitled(IdeaWasRetitled $event): void
     {
         $this->title = $event->title();
     }
 
-    protected function applyIdeaRedescribed(IdeaRedescribed $event): void
+    protected function applyIdeaWasRedescribed(IdeaWasRedescribed $event): void
     {
         $this->description = $event->description();
     }
 
-    protected function applyIdeaAccepted(IdeaAccepted $event): void
+    protected function applyIdeaWasAccepted(IdeaWasAccepted $event): void
     {
-        $this->status = $event->status();
+        $this->status = IdeaStatus::accepted();
     }
 
-    protected function applyIdeaRejected(IdeaRejected $event): void
+    protected function applyIdeaWasRejected(IdeaWasRejected $event): void
     {
-        $this->status = $event->status();
+        $this->status = IdeaStatus::rejected();
     }
 
-    protected function applyIdeaAttendeeRegistered(IdeaAttendeeRegistered $event): void
+    protected function applyIdeaAttendeeWasRegistered(IdeaAttendeeWasRegistered $event): void
     {
         if ($this->isAttendeeRegistered($event->userId())) {
             return;
@@ -230,7 +230,7 @@ class Idea extends AggregateRoot
         $this->attendees->add($event->userId());
     }
 
-    protected function applyIdeaAttendeeUnregistered(IdeaAttendeeUnregistered $event): void
+    protected function applyIdeaAttendeeWasUnregistered(IdeaAttendeeWasUnregistered $event): void
     {
         if (!$this->isAttendeeRegistered($event->userId())) {
             return;
@@ -242,12 +242,12 @@ class Idea extends AggregateRoot
         });
     }
 
-    protected function applyIdeaCapacityUnlimited(IdeaCapacityUnlimited $event): void
+    protected function applyIdeaCapacityWasUnlimited(IdeaCapacityWasUnlimited $event): void
     {
         $this->capacity = $this->capacity()->unlimited();
     }
 
-    protected function applyIdeaCapacityLimited(IdeaCapacityLimited $event): void
+    protected function applyIdeaCapacityWasLimited(IdeaCapacityWasLimited $event): void
     {
         $this->capacity = $this->capacity->limited($event->limit());
     }

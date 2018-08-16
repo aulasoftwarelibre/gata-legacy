@@ -31,8 +31,7 @@ final class AddGroupHandlerSpec extends ObjectBehavior
     }
 
     public function it_creates_a_group(
-        Groups $groups,
-        Group $group
+        Groups $groups
     ): void {
         $groups->save(Argument::that(
             function (Group $group) {

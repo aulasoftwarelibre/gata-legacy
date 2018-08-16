@@ -18,7 +18,7 @@ use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasAdded;
 use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasRenamed;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
-use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaAdded;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasAdded;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
@@ -69,18 +69,18 @@ final class GroupSpec extends ObjectBehavior
     public function it_can_add_ideas(): void
     {
         $idea = $this->addIdea(
-            new IdeaId(self::IDEA_ID),
-            new IdeaTitle('Title'),
-            new IdeaDescription('Description')
+            IdeaId::fromString(self::IDEA_ID),
+            IdeaTitle::fromString('Title'),
+            IdeaDescription::fromString('Description')
         );
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $idea->getWrappedObject(),
-            IdeaAdded::withData(
-                new IdeaId(self::IDEA_ID),
+            IdeaWasAdded::with(
+                IdeaId::fromString(self::IDEA_ID),
                 GroupId::fromString(self::GROUP_ID),
-                new IdeaTitle('Title'),
-                new IdeaDescription('Description')
+                IdeaTitle::fromString('Title'),
+                IdeaDescription::fromString('Description')
             )
         );
     }
