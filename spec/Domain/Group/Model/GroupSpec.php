@@ -11,19 +11,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Group\Model;
+namespace spec\AulaSoftwareLibre\Gata\Domain\Group\Model;
 
-use App\Domain\Group\Event\GroupAdded;
-use App\Domain\Group\Event\GroupRenamed;
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Group\Model\GroupName;
-use App\Domain\Idea\Event\IdeaAdded;
-use App\Domain\Idea\Model\IdeaDescription;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\Idea\Model\IdeaTitle;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Spec\AggregateAsserter;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasRenamed;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
+use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
 use Prooph\EventSourcing\AggregateRoot;
-use Tests\Service\Prooph\Spec\AggregateAsserter;
 
 final class GroupSpec extends ObjectBehavior
 {
@@ -33,15 +33,15 @@ final class GroupSpec extends ObjectBehavior
     public function let(): void
     {
         $this->beConstructedThrough('add', [
-            new GroupId(self::GROUP_ID),
-            new GroupName('Name'),
+            GroupId::fromString(self::GROUP_ID),
+            GroupName::fromString('Name'),
         ]);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            GroupAdded::withData(
-                new GroupId(self::GROUP_ID),
-                new GroupName('Name')
+            GroupWasAdded::with(
+                GroupId::fromString(self::GROUP_ID),
+                GroupName::fromString('Name')
             )
         );
     }
@@ -58,45 +58,45 @@ final class GroupSpec extends ObjectBehavior
 
     public function it_has_a_group_id(): void
     {
-        $this->groupId()->shouldBeLike(new GroupId(self::GROUP_ID));
+        $this->groupId()->shouldBeLike(GroupId::fromString(self::GROUP_ID));
     }
 
     public function it_has_a_name(): void
     {
-        $this->name()->shouldBeLike(new GroupName('Name'));
+        $this->name()->shouldBeLike(GroupName::fromString('Name'));
     }
 
     public function it_can_add_ideas(): void
     {
         $idea = $this->addIdea(
-            new IdeaId(self::IDEA_ID),
-            new IdeaTitle('Title'),
-            new IdeaDescription('Description')
+            IdeaId::fromString(self::IDEA_ID),
+            IdeaTitle::fromString('Title'),
+            IdeaDescription::fromString('Description')
         );
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $idea->getWrappedObject(),
-            IdeaAdded::withData(
-                new IdeaId(self::IDEA_ID),
-                new GroupId(self::GROUP_ID),
-                new IdeaTitle('Title'),
-                new IdeaDescription('Description')
+            IdeaWasAdded::with(
+                IdeaId::fromString(self::IDEA_ID),
+                GroupId::fromString(self::GROUP_ID),
+                IdeaTitle::fromString('Title'),
+                IdeaDescription::fromString('Description')
             )
         );
     }
 
     public function it_can_change_its_name(): void
     {
-        $this->rename(new GroupName('Other name'));
+        $this->rename(GroupName::fromString('Other name'));
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            GroupRenamed::withData(
-                new GroupId(self::GROUP_ID),
-                new GroupName('Other name')
+            GroupWasRenamed::with(
+                GroupId::fromString(self::GROUP_ID),
+                GroupName::fromString('Other name')
             )
         );
 
-        $this->name()->shouldBeLike(new GroupName('Other name'));
+        $this->name()->shouldBeLike(GroupName::fromString('Other name'));
     }
 }

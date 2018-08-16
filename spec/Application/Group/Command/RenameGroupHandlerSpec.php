@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Group\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Group\Command;
 
-use App\Application\Group\Command\RenameGroup;
-use App\Application\Group\Repository\Groups;
-use App\Domain\Group\Model\Group;
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Group\Model\GroupName;
+use AulaSoftwareLibre\Gata\Application\Group\Command\RenameGroup;
+use AulaSoftwareLibre\Gata\Application\Group\Repository\Groups;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\Group;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -32,15 +32,15 @@ final class RenameGroupHandlerSpec extends ObjectBehavior
 
     public function it_renames_a_group(Groups $groups, Group $group): void
     {
-        $groups->get(Argument::exact(new GroupId(self::GROUP_ID)))->willReturn($group);
+        $groups->get(Argument::exact(GroupId::fromString(self::GROUP_ID)))->willReturn($group);
 
         $group->rename(Argument::exact(new GroupName('Name')))->shouldBeCalled();
 
         $groups->save($group)->shouldBeCalled();
 
-        $this(RenameGroup::create(
-            new GroupId(self::GROUP_ID),
-            new GroupName('Name')
+        $this(RenameGroup::with(
+            GroupId::fromString(self::GROUP_ID),
+            GroupName::fromString('Name')
         ));
     }
 }

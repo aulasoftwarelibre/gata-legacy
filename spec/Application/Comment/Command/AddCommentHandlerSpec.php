@@ -11,18 +11,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Comment\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Comment\Command;
 
-use App\Application\Comment\Command\AddComment;
-use App\Application\Comment\Repository\Comments;
-use App\Application\Idea\Exception\IdeaNotFoundException;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Comment\Model\Comment;
-use App\Domain\Comment\Model\CommentId;
-use App\Domain\Comment\Model\CommentText;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\User\Model\UserId;
+use AulaSoftwareLibre\Gata\Application\Comment\Command\AddComment;
+use AulaSoftwareLibre\Gata\Application\Comment\Repository\Comments;
+use AulaSoftwareLibre\Gata\Application\Idea\Exception\IdeaNotFoundException;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\Comment;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
 use PhpSpec\ObjectBehavior;
 
 class AddCommentHandlerSpec extends ObjectBehavior
@@ -42,35 +42,35 @@ class AddCommentHandlerSpec extends ObjectBehavior
         Comments $comments,
         Comment $comment
     ) {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
         $idea->addComment(
-            new CommentId(self::COMMENT_ID),
-            new UserId(self::USER_ID),
-            new CommentText('Lorem ipsum')
+            CommentId::fromString(self::COMMENT_ID),
+            UserId::fromString(self::USER_ID),
+            CommentText::fromString('Lorem ipsum')
             )
             ->shouldBeCalled()
             ->willReturn($comment)
         ;
         $comments->save($comment)->shouldBeCalled();
 
-        $this(AddComment::create(
-            new CommentId(self::COMMENT_ID),
-            new IdeaId(self::IDEA_ID),
-            new UserId(self::USER_ID),
-            new CommentText('Lorem ipsum')
+        $this(AddComment::with(
+            CommentId::fromString(self::COMMENT_ID),
+            IdeaId::fromString(self::IDEA_ID),
+            UserId::fromString(self::USER_ID),
+            CommentText::fromString('Lorem ipsum')
         ));
     }
 
     public function it_checks_if_idea_does_not_exists(Ideas $ideas)
     {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
 
         $this->shouldThrow(IdeaNotFoundException::class)->during('__invoke', [
-            AddComment::create(
-                new CommentId(self::COMMENT_ID),
-                new IdeaId(self::IDEA_ID),
-                new UserId(self::USER_ID),
-                new CommentText('Lorem ipsum')
+            AddComment::with(
+                CommentId::fromString(self::COMMENT_ID),
+                IdeaId::fromString(self::IDEA_ID),
+                UserId::fromString(self::USER_ID),
+                CommentText::fromString('Lorem ipsum')
             ),
         ]);
     }

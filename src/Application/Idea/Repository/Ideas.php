@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Idea\Repository;
+namespace AulaSoftwareLibre\Gata\Application\Idea\Repository;
 
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 
 interface Ideas
 {

@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Comment\Model;
+namespace AulaSoftwareLibre\Gata\Domain\Comment\Model;
 
-use App\Domain\ApplyMethodDispatcherTrait;
-use App\Domain\Comment\Event\CommentAdded;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\User\Model\UserId;
+use AulaSoftwareLibre\Gata\Domain\ApplyMethodDispatcherTrait;
+use AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
 use Prooph\EventSourcing\AggregateRoot;
 
 class Comment extends AggregateRoot
@@ -51,7 +51,7 @@ class Comment extends AggregateRoot
     ): self {
         $comment = new self();
 
-        $comment->recordThat(CommentAdded::withData($commentId, $ideaId, $userId, $commentText));
+        $comment->recordThat(CommentWasAdded::with($commentId, $ideaId, $userId, $commentText));
 
         return $comment;
     }
@@ -83,10 +83,10 @@ class Comment extends AggregateRoot
 
     protected function aggregateId(): string
     {
-        return $this->commentId->value();
+        return $this->commentId->toString();
     }
 
-    protected function applyCommentAdded(CommentAdded $event): void
+    protected function applyCommentWasAdded(CommentWasAdded $event): void
     {
         $this->commentId = $event->commentId();
         $this->ideaId = $event->ideaId();

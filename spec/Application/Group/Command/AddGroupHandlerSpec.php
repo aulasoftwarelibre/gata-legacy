@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Group\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Group\Command;
 
-use App\Application\Group\Command\AddGroup;
-use App\Application\Group\Repository\Groups;
-use App\Domain\Group\Model\Group;
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Group\Model\GroupName;
+use AulaSoftwareLibre\Gata\Application\Group\Command\AddGroup;
+use AulaSoftwareLibre\Gata\Application\Group\Repository\Groups;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\Group;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -30,19 +30,20 @@ final class AddGroupHandlerSpec extends ObjectBehavior
         $this->beConstructedWith($groups);
     }
 
-    public function it_creates_a_group(Groups $groups): void
-    {
+    public function it_creates_a_group(
+        Groups $groups
+    ): void {
         $groups->save(Argument::that(
             function (Group $group) {
-                return $group->groupId()->equals(new GroupId(self::GROUP_ID))
-                    && $group->name()->equals(new GroupName('Name'))
+                return $group->groupId()->equals(GroupId::fromString(self::GROUP_ID))
+                    && $group->name()->equals(GroupName::fromString('Name'))
                 ;
             }
         ))->shouldBeCalled();
 
-        $this(AddGroup::create(
-            new GroupId(self::GROUP_ID),
-            new GroupName('Name')
+        $this(AddGroup::with(
+            GroupId::fromString(self::GROUP_ID),
+            GroupName::fromString('Name')
         ));
     }
 }

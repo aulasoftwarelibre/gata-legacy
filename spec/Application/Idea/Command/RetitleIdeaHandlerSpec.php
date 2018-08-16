@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Idea\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Idea\Command;
 
-use App\Application\Idea\Command\RetitleIdea;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\Idea\Model\IdeaTitle;
+use AulaSoftwareLibre\Gata\Application\Idea\Command\RetitleIdea;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -32,15 +32,15 @@ final class RetitleIdeaHandlerSpec extends ObjectBehavior
 
     public function it_retitle_an_idea(Ideas $ideas, Idea $idea): void
     {
-        $ideas->get(Argument::exact(new IdeaId(self::IDEA_ID)))->willReturn($idea);
+        $ideas->get(Argument::exact(IdeaId::fromString(self::IDEA_ID)))->willReturn($idea);
 
-        $idea->retitle(Argument::exact(new IdeaTitle('Title')))->shouldBeCalled();
+        $idea->retitle(Argument::exact(IdeaTitle::fromString('Title')))->shouldBeCalled();
 
         $ideas->save($idea)->shouldBeCalled();
 
-        $this(RetitleIdea::create(
-            new IdeaId(self::IDEA_ID),
-            new IdeaTitle('Title')
+        $this(RetitleIdea::with(
+            IdeaId::fromString(self::IDEA_ID),
+            IdeaTitle::fromString('Title')
         ));
     }
 }

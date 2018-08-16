@@ -11,14 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Comment\Command;
+namespace AulaSoftwareLibre\Gata\Application\Comment\Command;
 
-use App\Application\Comment\Repository\Comments;
-use App\Application\Idea\Exception\IdeaNotFoundException;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\DDD\BaseBundle\Handlers\CommandHandler;
+use AulaSoftwareLibre\Gata\Application\Comment\Repository\Comments;
+use AulaSoftwareLibre\Gata\Application\Idea\Exception\IdeaNotFoundException;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
 
-class AddCommentHandler
+class AddCommentHandler implements CommandHandler
 {
     /**
      * @var Ideas

@@ -11,11 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Group\Command;
+namespace AulaSoftwareLibre\Gata\Application\Group\Command;
 
-use App\Application\Group\Repository\Groups;
+use AulaSoftwareLibre\DDD\BaseBundle\Handlers\CommandHandler;
+use AulaSoftwareLibre\Gata\Application\Group\Repository\Groups;
 
-final class RenameGroupHandler
+final class RenameGroupHandler implements CommandHandler
 {
     /**
      * @var Groups

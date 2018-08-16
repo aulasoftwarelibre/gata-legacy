@@ -11,11 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Application\Idea\Command;
+namespace AulaSoftwareLibre\Gata\Application\Idea\Command;
 
-use App\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\DDD\BaseBundle\Handlers\CommandHandler;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
 
-final class RedescribeIdeaHandler
+final class RedescribeIdeaHandler implements CommandHandler
 {
     /**
      * @var Ideas

@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Idea\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Idea\Command;
 
-use App\Application\Idea\Command\AddIdea;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Group\Model\GroupId;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaDescription;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\Idea\Model\IdeaTitle;
+use AulaSoftwareLibre\Gata\Application\Idea\Command\AddIdea;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -37,19 +37,19 @@ final class AddIdeaHandlerSpec extends ObjectBehavior
     {
         $ideas->save(Argument::that(
             function (Idea $idea) {
-                return $idea->ideaId()->equals(new IdeaId(self::IDEA_ID))
-                    && $idea->groupId()->equals(new GroupId(self::GROUP_ID))
-                    && $idea->title()->equals(new IdeaTitle('Title'))
-                    && $idea->description()->equals(new IdeaDescription('Description'))
+                return $idea->ideaId()->equals(IdeaId::fromString(self::IDEA_ID))
+                    && $idea->groupId()->equals(GroupId::fromString(self::GROUP_ID))
+                    && $idea->title()->equals(IdeaTitle::fromString('Title'))
+                    && $idea->description()->equals(IdeaDescription::fromString('Description'))
                 ;
             }
         ))->shouldBeCalled();
 
-        $this(AddIdea::create(
-            new IdeaId(self::IDEA_ID),
-            new GroupId(self::GROUP_ID),
-            new IdeaTitle('Title'),
-            new IdeaDescription('Description')
+        $this(AddIdea::with(
+            IdeaId::fromString(self::IDEA_ID),
+            GroupId::fromString(self::GROUP_ID),
+            IdeaTitle::fromString('Title'),
+            IdeaDescription::fromString('Description')
         ));
     }
 }

@@ -11,40 +11,39 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain\Idea\Model;
+namespace AulaSoftwareLibre\Gata\Domain\Idea\Model;
 
-use App\Domain\Idea\Exception\ExceededCapacityLimitException;
-use App\Domain\Idea\Exception\InvalidIdeaCapacityException;
-use App\Domain\ValueObject;
-
-final class IdeaCapacity implements ValueObject
+final class IdeaCapacity
 {
-    /**
-     * @var int
-     */
     private $count;
-
-    /**
-     * @var int
-     */
     private $limit;
 
     public function __construct(?int $limit = null, int $count = 0)
     {
         if ($count < 0) {
-            throw new InvalidIdeaCapacityException();
+            throw new \InvalidArgumentException('Count must be positive.');
         }
 
         if (null !== $limit && $limit < 1) {
-            throw new InvalidIdeaCapacityException();
+            throw new \InvalidArgumentException('Limit must be null or greater than zero.');
         }
 
         if (null !== $limit && $limit < $count) {
-            throw new ExceededCapacityLimitException();
+            throw new \InvalidArgumentException('Count can not exceed limit.');
         }
 
         $this->count = $count;
         $this->limit = $limit;
+    }
+
+    public function count(): int
+    {
+        return $this->count;
+    }
+
+    public function limit(): ?int
+    {
+        return $this->limit;
     }
 
     public function increment(): self
@@ -67,26 +66,41 @@ final class IdeaCapacity implements ValueObject
         return new IdeaCapacity($limit, $this->count());
     }
 
+    public function toArray(): array
+    {
+        return [
+            'limit' => $this->limit,
+            'count' => $this->count,
+        ];
+    }
+
+    public function fromArray(array $data): IdeaCapacity
+    {
+        if (!isset($data['limit']) || !\is_int($data['limit'])) {
+            throw new \InvalidArgumentException("Key 'limit' is missing in data array or is not an integer");
+        }
+
+        $limit = $data['limit'];
+
+        if (!isset($data['count']) || !\is_int($data['count'])) {
+            throw new \InvalidArgumentException("Key 'count' is missing in data array or is not an integer");
+        }
+
+        $count = $data['count'];
+
+        return new self($limit, $count);
+    }
+
     public function __toString(): string
     {
         return "{$this->count()}/{$this->limit()}";
     }
 
-    public function count(): int
+    public function equals(IdeaCapacity $ideaCapacity): bool
     {
-        return $this->count;
-    }
-
-    public function limit(): ?int
-    {
-        return $this->limit;
-    }
-
-    public function equals(ValueObject $valueObject): bool
-    {
-        return $valueObject instanceof self
-            && $this->count() === $valueObject->count()
-            && $this->limit() === $valueObject->limit()
+        return $ideaCapacity instanceof self
+            && $this->count() === $ideaCapacity->count()
+            && $this->limit() === $ideaCapacity->limit()
         ;
     }
 }

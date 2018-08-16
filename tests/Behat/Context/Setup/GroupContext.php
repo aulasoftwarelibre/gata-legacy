@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Tests\Behat\Context\Setup;
 
-use App\Application\Group\Command\AddGroup;
-use App\Application\Group\Repository\Groups;
-use App\Domain\Group\Model\GroupName;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
+use AulaSoftwareLibre\Gata\Application\Group\Command\AddGroup;
+use AulaSoftwareLibre\Gata\Application\Group\Repository\Groups;
+use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
-use Tests\Service\SharedStorage;
 
 final class GroupContext implements Context
 {
@@ -55,7 +55,7 @@ final class GroupContext implements Context
 
         $this->sharedStorage->set('groupId', $groupId);
 
-        $this->commandBus->dispatch(AddGroup::create(
+        $this->commandBus->dispatch(AddGroup::with(
             $groupId,
             new GroupName($name)
         ));

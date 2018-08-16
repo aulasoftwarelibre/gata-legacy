@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Idea\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Idea\Command;
 
-use App\Application\Idea\Command\AcceptIdea;
-use App\Application\Idea\Exception\IdeaNotFoundException;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Application\Idea\Command\AcceptIdea;
+use AulaSoftwareLibre\Gata\Application\Idea\Exception\IdeaNotFoundException;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 use PhpSpec\ObjectBehavior;
 
 final class AcceptIdeaHandlerSpec extends ObjectBehavior
@@ -32,22 +32,22 @@ final class AcceptIdeaHandlerSpec extends ObjectBehavior
 
     public function it_accepts_an_idea(Ideas $ideas, Idea $idea): void
     {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
         $idea->accept()->shouldBeCalled();
         $ideas->save($idea)->shouldBeCalled();
 
-        $this(AcceptIdea::create(
-            new IdeaId(self::IDEA_ID)
+        $this(AcceptIdea::with(
+            IdeaId::fromString(self::IDEA_ID)
         ));
     }
 
     public function it_checks_if_idea_does_not_exists(Ideas $ideas)
     {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
 
         $this->shouldThrow(IdeaNotFoundException::class)->during('__invoke', [
-            AcceptIdea::create(
-                new IdeaId(self::IDEA_ID)
+            AcceptIdea::with(
+                IdeaId::fromString(self::IDEA_ID)
             ),
         ]);
     }

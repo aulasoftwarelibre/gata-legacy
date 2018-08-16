@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the `gata` project.
  *
@@ -16,4 +18,6 @@ return [
     Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle::class => ['all' => true],
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
+    AulaSoftwareLibre\DDD\BaseBundle\BaseBundle::class => ['all' => true],
+    AulaSoftwareLibre\DDD\TestsBundle\TestBundle::class => ['test' => true],
 ];

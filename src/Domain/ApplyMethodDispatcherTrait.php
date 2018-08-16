@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Domain;
+namespace AulaSoftwareLibre\Gata\Domain;
 
 use Prooph\Common\Messaging\Message;
 use Prooph\EventSourcing\AggregateChanged;

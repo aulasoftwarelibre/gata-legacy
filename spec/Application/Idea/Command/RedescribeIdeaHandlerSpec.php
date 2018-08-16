@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Idea\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Idea\Command;
 
-use App\Application\Idea\Command\RedescribeIdea;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaDescription;
-use App\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Application\Idea\Command\RedescribeIdea;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -32,15 +32,15 @@ final class RedescribeIdeaHandlerSpec extends ObjectBehavior
 
     public function it_redescribe_an_idea(Ideas $ideas, Idea $idea): void
     {
-        $ideas->get(Argument::exact(new IdeaId(self::IDEA_ID)))->willReturn($idea);
+        $ideas->get(Argument::exact(IdeaId::fromString(self::IDEA_ID)))->willReturn($idea);
 
-        $idea->redescribe(Argument::exact(new IdeaDescription('Description')))->shouldBeCalled();
+        $idea->redescribe(Argument::exact(IdeaDescription::fromString('Description')))->shouldBeCalled();
 
         $ideas->save($idea)->shouldBeCalled();
 
-        $this(RedescribeIdea::create(
-            new IdeaId(self::IDEA_ID),
-            new IdeaDescription('Description')
+        $this(RedescribeIdea::with(
+            IdeaId::fromString(self::IDEA_ID),
+            IdeaDescription::fromString('Description')
         ));
     }
 }

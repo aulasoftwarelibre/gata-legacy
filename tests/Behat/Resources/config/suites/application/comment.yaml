@@ -5,6 +5,9 @@ default:
                 - 'tests.behat.context.application.comment_context'
                 - 'tests.behat.context.application.security_context'
 
+                - 'tests.behat.context.hook.prooph_context'
+                - 'tests.behat.context.hook.database_context'
+
                 - 'tests.behat.context.setup.group_context'
                 - 'tests.behat.context.setup.idea_context'
 

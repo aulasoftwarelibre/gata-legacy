@@ -11,16 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Domain\Comment\Model;
+namespace spec\AulaSoftwareLibre\Gata\Domain\Comment\Model;
 
-use App\Domain\Comment\Event\CommentAdded;
-use App\Domain\Comment\Model\CommentId;
-use App\Domain\Comment\Model\CommentText;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\User\Model\UserId;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Spec\AggregateAsserter;
+use AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
 use PhpSpec\ObjectBehavior;
 use Prooph\EventSourcing\AggregateRoot;
-use Tests\Service\Prooph\Spec\AggregateAsserter;
 
 final class CommentSpec extends ObjectBehavior
 {
@@ -31,19 +31,19 @@ final class CommentSpec extends ObjectBehavior
     public function let(): void
     {
         $this->beConstructedThrough('add', [
-            new CommentId(self::COMMENT_ID),
-            new IdeaId(self::IDEA_ID),
-            new UserId(self::USER_ID),
-            new CommentText('Text'),
+            CommentId::fromString(self::COMMENT_ID),
+            IdeaId::fromString(self::IDEA_ID),
+            UserId::fromString(self::USER_ID),
+            CommentText::fromString('Text'),
         ]);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            CommentAdded::withData(
-                new CommentId(self::COMMENT_ID),
-                new IdeaId(self::IDEA_ID),
-                new UserId(self::USER_ID),
-                new CommentText('Text')
+            CommentWasAdded::with(
+                CommentId::fromString(self::COMMENT_ID),
+                IdeaId::fromString(self::IDEA_ID),
+                UserId::fromString(self::USER_ID),
+                CommentText::fromString('Text')
             )
         );
     }
@@ -60,21 +60,21 @@ final class CommentSpec extends ObjectBehavior
 
     public function it_has_a_comment_id(): void
     {
-        $this->commentId()->shouldBeLike(new CommentId(self::COMMENT_ID));
+        $this->commentId()->shouldBeLike(CommentId::fromString(self::COMMENT_ID));
     }
 
     public function it_has_an_idea_id(): void
     {
-        $this->ideaId()->shouldBeLike(new IdeaId(self::IDEA_ID));
+        $this->ideaId()->shouldBeLike(IdeaId::fromString(self::IDEA_ID));
     }
 
     public function it_has_an_user_id(): void
     {
-        $this->userId()->shouldBeLike(new UserId(self::USER_ID));
+        $this->userId()->shouldBeLike(UserId::fromString(self::USER_ID));
     }
 
     public function it_has_a_text(): void
     {
-        $this->text()->shouldBeLike(new CommentText('Text'));
+        $this->text()->shouldBeLike(CommentText::fromString('Text'));
     }
 }

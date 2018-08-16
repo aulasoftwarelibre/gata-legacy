@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the `gata` project.
  *
@@ -9,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-use App\Infrastructure\Kernel;
+use AulaSoftwareLibre\Gata\Infrastructure\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;

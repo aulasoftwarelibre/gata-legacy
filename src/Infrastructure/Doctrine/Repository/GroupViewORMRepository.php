@@ -11,18 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Infrastructure\Doctrine\Repository;
+namespace AulaSoftwareLibre\Gata\Infrastructure\Doctrine\Repository;
 
-use App\Infrastructure\Doctrine\SchemaManagerORMTrait;
-use App\Infrastructure\ReadModel\Group\Repository\GroupViews;
-use App\Infrastructure\ReadModel\Group\View\GroupView;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Repository\GroupViews;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\View\GroupView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 class GroupViewORMRepository extends ServiceEntityRepository implements GroupViews
 {
-    use SchemaManagerORMTrait;
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, GroupView::class);
@@ -34,7 +31,7 @@ class GroupViewORMRepository extends ServiceEntityRepository implements GroupVie
         $this->_em->flush();
     }
 
-    public function get(string $groupId): GroupView
+    public function ofId(string $groupId): GroupView
     {
         return $this->find($groupId);
     }

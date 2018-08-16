@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Tests\Behat\Context\Application;
 
-use App\Domain\User\Model\UserId;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Plugin\EventsRecorder;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
+use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
 use Ramsey\Uuid\Uuid;
-use Tests\Service\Prooph\Plugin\EventsRecorder;
-use Tests\Service\SharedStorage;
 
 final class SecurityContext implements Context
 {
@@ -52,7 +52,7 @@ final class SecurityContext implements Context
      */
     public function iAmLoggedInAs(): void
     {
-        $userId = new UserId(Uuid::uuid4()->toString());
+        $userId = UserId::fromString(Uuid::uuid4()->toString());
 
         $this->sharedStorage->set('myUserId', $userId);
     }

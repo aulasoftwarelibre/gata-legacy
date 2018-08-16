@@ -13,17 +13,17 @@ declare(strict_types=1);
 
 namespace Tests\Behat\Context\Application;
 
-use App\Application\Comment\Command\AddComment;
-use App\Application\Comment\Repository\Comments;
-use App\Domain\Comment\Event\CommentAdded;
-use App\Domain\Comment\Model\CommentText;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Plugin\EventsRecorder;
+use AulaSoftwareLibre\DDD\TestsBundle\Service\SharedStorage;
+use AulaSoftwareLibre\Gata\Application\Comment\Command\AddComment;
+use AulaSoftwareLibre\Gata\Application\Comment\Repository\Comments;
+use AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentWasAdded;
+use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Prooph\ServiceBus\CommandBus;
-use Tests\Service\Prooph\Plugin\EventsRecorder;
-use Tests\Service\SharedStorage;
 use Webmozart\Assert\Assert;
 
 class CommentContext implements Context
@@ -65,11 +65,11 @@ class CommentContext implements Context
         $ideaId = $this->sharedStorage->get('ideaId');
         $userId = $this->sharedStorage->get('myUserId');
 
-        $this->commandBus->dispatch(AddComment::create(
+        $this->commandBus->dispatch(AddComment::with(
             $this->comments->nextIdentity(),
             $ideaId,
             $userId,
-            new CommentText($string->getRaw())
+            CommentText::fromString($string->getRaw())
         ));
     }
 
@@ -78,12 +78,12 @@ class CommentContext implements Context
      */
     public function theCommentShouldBeAvailableInThisIdea(IdeaId $ideaId)
     {
-        /** @var CommentAdded $event */
+        /** @var CommentWasAdded $event */
         $event = $this->eventsRecorder->getLastMessage()->event();
 
-        Assert::isInstanceOf($event, CommentAdded::class, sprintf(
+        Assert::isInstanceOf($event, CommentWasAdded::class, sprintf(
             'Event has to be of class %s, but %s given',
-            CommentAdded::class,
+            CommentWasAdded::class,
             \get_class($event)
         ));
         Assert::true($event->ideaId()->equals($ideaId));

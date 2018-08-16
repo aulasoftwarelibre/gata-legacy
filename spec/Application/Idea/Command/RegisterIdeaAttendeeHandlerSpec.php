@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\App\Application\Idea\Command;
+namespace spec\AulaSoftwareLibre\Gata\Application\Idea\Command;
 
-use App\Application\Idea\Command\RegisterIdeaAttendee;
-use App\Application\Idea\Exception\IdeaNotFoundException;
-use App\Application\Idea\Repository\Ideas;
-use App\Domain\Idea\Model\Idea;
-use App\Domain\Idea\Model\IdeaId;
-use App\Domain\User\Model\UserId;
+use AulaSoftwareLibre\Gata\Application\Idea\Command\RegisterIdeaAttendee;
+use AulaSoftwareLibre\Gata\Application\Idea\Exception\IdeaNotFoundException;
+use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\User\Model\UserId;
 use PhpSpec\ObjectBehavior;
 
 final class RegisterIdeaAttendeeHandlerSpec extends ObjectBehavior
@@ -33,24 +33,24 @@ final class RegisterIdeaAttendeeHandlerSpec extends ObjectBehavior
 
     public function it_register_an_idea_attendee(Ideas $ideas, Idea $idea): void
     {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
-        $idea->registerAttendee(new UserId(self::USER_ID))->shouldBeCalled();
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
+        $idea->registerAttendee(UserId::fromString(self::USER_ID))->shouldBeCalled();
         $ideas->save($idea)->shouldBeCalled();
 
-        $this(RegisterIdeaAttendee::create(
-            new IdeaId(self::IDEA_ID),
-            new UserId(self::USER_ID)
+        $this(RegisterIdeaAttendee::with(
+            IdeaId::fromString(self::IDEA_ID),
+            UserId::fromString(self::USER_ID)
         ));
     }
 
     public function it_checks_if_idea_does_not_exists(Ideas $ideas): void
     {
-        $ideas->get(new IdeaId(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
+        $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
 
         $this->shouldThrow(IdeaNotFoundException::class)->during('__invoke', [
-            RegisterIdeaAttendee::create(
-                new IdeaId(self::IDEA_ID),
-                new UserId(self::USER_ID)
+            RegisterIdeaAttendee::with(
+                IdeaId::fromString(self::IDEA_ID),
+                UserId::fromString(self::USER_ID)
             ),
         ]);
     }
