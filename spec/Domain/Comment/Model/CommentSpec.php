@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace spec\AulaSoftwareLibre\Gata\Domain\Comment\Model;
 
 use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Spec\AggregateAsserter;
-use AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentAdded;
+use AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentWasAdded;
 use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
 use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
@@ -31,19 +31,19 @@ final class CommentSpec extends ObjectBehavior
     public function let(): void
     {
         $this->beConstructedThrough('add', [
-            new CommentId(self::COMMENT_ID),
+            CommentId::fromString(self::COMMENT_ID),
             IdeaId::fromString(self::IDEA_ID),
             UserId::fromString(self::USER_ID),
-            new CommentText('Text'),
+            CommentText::fromString('Text'),
         ]);
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $this->getWrappedObject(),
-            CommentAdded::withData(
-                new CommentId(self::COMMENT_ID),
+            CommentWasAdded::with(
+                CommentId::fromString(self::COMMENT_ID),
                 IdeaId::fromString(self::IDEA_ID),
                 UserId::fromString(self::USER_ID),
-                new CommentText('Text')
+                CommentText::fromString('Text')
             )
         );
     }
@@ -60,7 +60,7 @@ final class CommentSpec extends ObjectBehavior
 
     public function it_has_a_comment_id(): void
     {
-        $this->commentId()->shouldBeLike(new CommentId(self::COMMENT_ID));
+        $this->commentId()->shouldBeLike(CommentId::fromString(self::COMMENT_ID));
     }
 
     public function it_has_an_idea_id(): void
@@ -75,6 +75,6 @@ final class CommentSpec extends ObjectBehavior
 
     public function it_has_a_text(): void
     {
-        $this->text()->shouldBeLike(new CommentText('Text'));
+        $this->text()->shouldBeLike(CommentText::fromString('Text'));
     }
 }

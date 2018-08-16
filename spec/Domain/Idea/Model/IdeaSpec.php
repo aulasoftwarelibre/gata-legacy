@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace spec\AulaSoftwareLibre\Gata\Domain\Idea\Model;
 
 use AulaSoftwareLibre\DDD\TestsBundle\Service\Prooph\Spec\AggregateAsserter;
-use AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentAdded;
+use AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentWasAdded;
 use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
 use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
@@ -192,18 +192,18 @@ final class IdeaSpec extends ObjectBehavior
     public function it_can_add_comments(): void
     {
         $comment = $this->addComment(
-            new CommentId(self::COMMENT_ID),
+            CommentId::fromString(self::COMMENT_ID),
             UserId::fromString(self::USER_ID),
-            new CommentText('Text')
+            CommentText::fromString('Text')
         );
 
         (new AggregateAsserter())->assertAggregateHasProducedEvent(
             $comment->getWrappedObject(),
-            CommentAdded::withData(
-                new CommentId(self::COMMENT_ID),
+            CommentWasAdded::with(
+                CommentId::fromString(self::COMMENT_ID),
                 IdeaId::fromString(self::IDEA_ID),
                 UserId::fromString(self::USER_ID),
-                new CommentText('Text')
+                CommentText::fromString('Text')
             )
         );
     }

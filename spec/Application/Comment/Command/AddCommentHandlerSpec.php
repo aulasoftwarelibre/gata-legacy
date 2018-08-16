@@ -44,20 +44,20 @@ class AddCommentHandlerSpec extends ObjectBehavior
     ) {
         $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn($idea);
         $idea->addComment(
-            new CommentId(self::COMMENT_ID),
+            CommentId::fromString(self::COMMENT_ID),
             UserId::fromString(self::USER_ID),
-            new CommentText('Lorem ipsum')
+            CommentText::fromString('Lorem ipsum')
             )
             ->shouldBeCalled()
             ->willReturn($comment)
         ;
         $comments->save($comment)->shouldBeCalled();
 
-        $this(AddComment::create(
-            new CommentId(self::COMMENT_ID),
+        $this(AddComment::with(
+            CommentId::fromString(self::COMMENT_ID),
             IdeaId::fromString(self::IDEA_ID),
             UserId::fromString(self::USER_ID),
-            new CommentText('Lorem ipsum')
+            CommentText::fromString('Lorem ipsum')
         ));
     }
 
@@ -66,11 +66,11 @@ class AddCommentHandlerSpec extends ObjectBehavior
         $ideas->get(IdeaId::fromString(self::IDEA_ID))->shouldBeCalled()->willReturn(null);
 
         $this->shouldThrow(IdeaNotFoundException::class)->during('__invoke', [
-            AddComment::create(
-                new CommentId(self::COMMENT_ID),
+            AddComment::with(
+                CommentId::fromString(self::COMMENT_ID),
                 IdeaId::fromString(self::IDEA_ID),
                 UserId::fromString(self::USER_ID),
-                new CommentText('Lorem ipsum')
+                CommentText::fromString('Lorem ipsum')
             ),
         ]);
     }

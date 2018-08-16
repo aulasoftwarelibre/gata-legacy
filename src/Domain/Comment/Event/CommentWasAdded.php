@@ -14,40 +14,60 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AulaSoftwareLibre\Gata\Application\Comment\Command;
+namespace AulaSoftwareLibre\Gata\Domain\Comment\Event;
 
-final class AddComment extends \Prooph\Common\Messaging\Command
+final class CommentWasAdded extends \Prooph\EventSourcing\AggregateChanged
 {
-    use \Prooph\Common\Messaging\PayloadTrait;
-
-    public const MESSAGE_NAME = 'AulaSoftwareLibre\Gata\Application\Comment\Command\AddComment';
+    public const MESSAGE_NAME = 'AulaSoftwareLibre\Gata\Domain\Comment\Event\CommentWasAdded';
 
     protected $messageName = self::MESSAGE_NAME;
 
+    protected $payload = [];
+
+    private $commentId;
+    private $ideaId;
+    private $userId;
+    private $text;
+
     public function commentId(): \AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId
     {
-        return \AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId::fromString($this->payload['commentId']);
+        if (null === $this->commentId) {
+            $this->commentId = \AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId::fromString($this->aggregateId());
+        }
+
+        return $this->commentId;
     }
 
     public function ideaId(): \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId
     {
-        return \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId::fromString($this->payload['ideaId']);
+        if (null === $this->ideaId) {
+            $this->ideaId = \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId::fromString($this->payload['ideaId']);
+        }
+
+        return $this->ideaId;
     }
 
     public function userId(): \AulaSoftwareLibre\Gata\Domain\User\Model\UserId
     {
-        return \AulaSoftwareLibre\Gata\Domain\User\Model\UserId::fromString($this->payload['userId']);
+        if (null === $this->userId) {
+            $this->userId = \AulaSoftwareLibre\Gata\Domain\User\Model\UserId::fromString($this->payload['userId']);
+        }
+
+        return $this->userId;
     }
 
     public function text(): \AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText
     {
-        return \AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText::fromString($this->payload['text']);
+        if (null === $this->text) {
+            $this->text = \AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText::fromString($this->payload['text']);
+        }
+
+        return $this->text;
     }
 
-    public static function with(\AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId $commentId, \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId $ideaId, \AulaSoftwareLibre\Gata\Domain\User\Model\UserId $userId, \AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText $text): AddComment
+    public static function with(\AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId $commentId, \AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId $ideaId, \AulaSoftwareLibre\Gata\Domain\User\Model\UserId $userId, \AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentText $text): CommentWasAdded
     {
-        return new self([
-            'commentId' => $commentId->toString(),
+        return new self($commentId->toString(), [
             'ideaId' => $ideaId->toString(),
             'userId' => $userId->toString(),
             'text' => $text->toString(),
@@ -56,10 +76,6 @@ final class AddComment extends \Prooph\Common\Messaging\Command
 
     protected function setPayload(array $payload): void
     {
-        if (!isset($payload['commentId']) || !\is_string($payload['commentId'])) {
-            throw new \InvalidArgumentException("Key 'commentId' is missing in payload or is not a string");
-        }
-
         if (!isset($payload['ideaId']) || !\is_string($payload['ideaId'])) {
             throw new \InvalidArgumentException("Key 'ideaId' is missing in payload or is not a string");
         }

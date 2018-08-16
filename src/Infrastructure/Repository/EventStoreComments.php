@@ -29,7 +29,7 @@ class EventStoreComments extends AggregateRepository implements Comments
 
     public function get(CommentId $commentId): ?Comment
     {
-        $comment = $this->getAggregateRoot($commentId->value());
+        $comment = $this->getAggregateRoot($commentId->toString());
 
         if (!$comment instanceof Comment) {
             throw new CommentNotFoundException();
@@ -40,6 +40,6 @@ class EventStoreComments extends AggregateRepository implements Comments
 
     public function nextIdentity(): CommentId
     {
-        return new CommentId(Uuid::uuid4()->toString());
+        return CommentId::fromString(Uuid::uuid4()->toString());
     }
 }
