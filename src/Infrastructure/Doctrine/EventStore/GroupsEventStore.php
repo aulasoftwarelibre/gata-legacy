@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AulaSoftwareLibre\Gata\Infrastructure\Repository;
+namespace AulaSoftwareLibre\Gata\Infrastructure\Doctrine\EventStore;
 
 use AulaSoftwareLibre\Gata\Application\Group\Exception\GroupNotFoundException;
 use AulaSoftwareLibre\Gata\Application\Group\Repository\Groups;
@@ -20,7 +20,7 @@ use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Ramsey\Uuid\Uuid;
 
-final class EventStoreGroups extends AggregateRepository implements Groups
+final class GroupsEventStore extends AggregateRepository implements Groups
 {
     public function save(Group $group): void
     {

@@ -1,16 +1,14 @@
 prooph_event_store:
     stores:
         default:
-            event_store: 'Prooph\EventStore\Pdo\PostgresEventStore'
+            event_store: 'Prooph\EventStore\EventStore'
             repositories:
-                AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreGroups:
+                AulaSoftwareLibre\Gata\Infrastructure\Doctrine\EventStore\GroupsEventStore:
                     aggregate_type: 'AulaSoftwareLibre\Gata\Domain\Group\Model\Group'
                     aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
-                AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreIdeas:
+                AulaSoftwareLibre\Gata\Infrastructure\Doctrine\EventStore\IdeasEventStore:
                     aggregate_type: 'AulaSoftwareLibre\Gata\Domain\Idea\Model\Idea'
                     aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
-                AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreComments:
+                AulaSoftwareLibre\Gata\Infrastructure\Doctrine\EventStore\CommentsEventStore:
                     aggregate_type: 'AulaSoftwareLibre\Gata\Domain\Comment\Model\Comment'
                     aggregate_translator: 'prooph_event_sourcing.aggregate_translator'
-
-

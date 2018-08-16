@@ -1,9 +1,11 @@
 services:
     _defaults:
-        public: false
+        public: true
+
 
     ## In memory read model repositories
     Tests\Behat\Repository\:
         resource: '%kernel.project_dir%/tests/Behat/Repository'
 
-    AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews: '@Tests\Behat\Repository\GroupsInMemoryRepository'
+    ## Read model interfaces
+    AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Repository\GroupViews: '@Tests\Behat\Repository\GroupViewsInMemoryRepository'

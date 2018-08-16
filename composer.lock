@@ -3815,16 +3815,16 @@
     "packages-dev": [
         {
             "name": "aulasoftwarelibre/ddd-test",
-            "version": "v0.3.0",
+            "version": "v0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aulasoftwarelibre/ddd-test.git",
-                "reference": "bb5095d8778db131a4d44867084428326c507cbe"
+                "reference": "072b7031f46442f81806e16573fd9cc0e8421d37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aulasoftwarelibre/ddd-test/zipball/bb5095d8778db131a4d44867084428326c507cbe",
-                "reference": "bb5095d8778db131a4d44867084428326c507cbe",
+                "url": "https://api.github.com/repos/aulasoftwarelibre/ddd-test/zipball/072b7031f46442f81806e16573fd9cc0e8421d37",
+                "reference": "072b7031f46442f81806e16573fd9cc0e8421d37",
                 "shasum": ""
             },
             "require": {
@@ -3869,7 +3869,7 @@
                 }
             ],
             "description": "Base test classes for DDD projects",
-            "time": "2018-08-15T09:51:36+00:00"
+            "time": "2018-08-16T15:41:46+00:00"
         },
         {
             "name": "behat/behat",
@@ -4231,16 +4231,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "c919dc6c62e221fc6406f861ea13433c0aa24f08"
+                "reference": "e1809da56ce1bd1b547a752936817341ac244d8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/c919dc6c62e221fc6406f861ea13433c0aa24f08",
-                "reference": "c919dc6c62e221fc6406f861ea13433c0aa24f08",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/e1809da56ce1bd1b547a752936817341ac244d8e",
+                "reference": "e1809da56ce1bd1b547a752936817341ac244d8e",
                 "shasum": ""
             },
             "require": {
@@ -4271,7 +4271,7 @@
                 "Xdebug",
                 "performance"
             ],
-            "time": "2018-04-11T15:42:36+00:00"
+            "time": "2018-08-16T10:54:23+00:00"
         },
         {
             "name": "container-interop/container-interop",

@@ -2,7 +2,7 @@
 
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
 
-    <entity name="AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View\GroupView" table="group_view">
+    <entity name="AulaSoftwareLibre\Gata\Infrastructure\ReadModel\View\GroupView" table="group_view">
         <id name="id" column="id" type="string" />
         <field name="name" column="name" type="string" length="255" />
     </entity>

@@ -11,30 +11,23 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Projection;
+namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Projection;
 
-use AulaSoftwareLibre\Gata\Domain\ApplyMethodDispatcherTrait;
 use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasAdded;
 use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasRenamed;
-use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\AbstractReadModel;
-use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews;
-use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View\GroupView;
-use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\SchemaManagerInterface;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Repository\GroupViews;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\View\GroupView;
 
-class GroupReadModel extends AbstractReadModel
+class GroupReadModel
 {
-    use ApplyMethodDispatcherTrait;
-
     /**
-     * @var GroupViews|SchemaManagerInterface
+     * @var GroupViews
      */
     private $groupViews;
 
     public function __construct(GroupViews $groupViews)
     {
         $this->groupViews = $groupViews;
-
-        parent::__construct($groupViews);
     }
 
     public function applyGroupAdded(GroupWasAdded $groupAdded): void

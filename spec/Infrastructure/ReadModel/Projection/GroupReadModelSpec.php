@@ -11,16 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace spec\AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Projection;
+namespace spec\AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Projection;
 
 use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasAdded;
 use AulaSoftwareLibre\Gata\Domain\Group\Event\GroupWasRenamed;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupName;
-use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews;
-use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View\GroupView;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Repository\GroupViews;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\View\GroupView;
 use PhpSpec\ObjectBehavior;
-use Prooph\EventStore\Projection\ReadModel;
 
 class GroupReadModelSpec extends ObjectBehavior
 {
@@ -29,11 +28,6 @@ class GroupReadModelSpec extends ObjectBehavior
     public function let(GroupViews $groupViews)
     {
         $this->beConstructedWith($groupViews);
-    }
-
-    public function it_is_initializable()
-    {
-        $this->shouldHaveType(ReadModel::class);
     }
 
     public function it_creates_a_group_view(GroupViews $groupViews)

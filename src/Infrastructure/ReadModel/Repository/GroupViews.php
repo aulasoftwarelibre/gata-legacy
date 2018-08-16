@@ -11,16 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository;
+namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Repository;
 
-use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View\GroupView;
-use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\SchemaManagerInterface;
+use AulaSoftwareLibre\Gata\Infrastructure\ReadModel\View\GroupView;
 
-interface GroupViews extends SchemaManagerInterface
+interface GroupViews
 {
     public function add(GroupView $groupView): void;
 
-    public function get(string $groupId): GroupView;
+    public function ofId(string $groupId): GroupView;
 
     public function rename(string $groupId, string $newName): void;
 }

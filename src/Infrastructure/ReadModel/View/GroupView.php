@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\View;
+namespace AulaSoftwareLibre\Gata\Infrastructure\ReadModel\View;
 
-final class GroupView
+class GroupView
 {
     /**
      * @var string

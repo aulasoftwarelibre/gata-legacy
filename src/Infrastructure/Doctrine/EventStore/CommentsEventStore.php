@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AulaSoftwareLibre\Gata\Infrastructure\Repository;
+namespace AulaSoftwareLibre\Gata\Infrastructure\Doctrine\EventStore;
 
 use AulaSoftwareLibre\Gata\Application\Comment\Exception\CommentNotFoundException;
 use AulaSoftwareLibre\Gata\Application\Comment\Repository\Comments;
@@ -20,7 +20,7 @@ use AulaSoftwareLibre\Gata\Domain\Comment\Model\CommentId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Ramsey\Uuid\Uuid;
 
-class EventStoreComments extends AggregateRepository implements Comments
+class CommentsEventStore extends AggregateRepository implements Comments
 {
     public function save(Comment $comment): void
     {

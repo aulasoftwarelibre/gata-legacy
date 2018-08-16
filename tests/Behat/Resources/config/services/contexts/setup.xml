@@ -7,13 +7,13 @@
         <service id="tests.behat.context.setup.group_context" class="Tests\Behat\Context\Setup\GroupContext">
             <argument type="service" id="__symfony__.prooph_service_bus.default_command_bus" />
             <argument type="service" id="__symfony__.aulasl.shared_storage" />
-            <argument type="service" id="__symfony__.AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreGroups"/>
+            <argument type="service" id="__symfony__.AulaSoftwareLibre\Gata\Infrastructure\Doctrine\EventStore\GroupsEventStore"/>
             <tag name="fob.context_service" />
         </service>
         <service id="tests.behat.context.setup.idea_context" class="Tests\Behat\Context\Setup\IdeaContext">
             <argument type="service" id="__symfony__.prooph_service_bus.default_command_bus" />
             <argument type="service" id="__symfony__.aulasl.shared_storage" />
-            <argument type="service" id="__symfony__.AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreIdeas" />
+            <argument type="service" id="__symfony__.AulaSoftwareLibre\Gata\Infrastructure\Doctrine\EventStore\IdeasEventStore" />
             <tag name="fob.context_service" />
         </service>
     </services>

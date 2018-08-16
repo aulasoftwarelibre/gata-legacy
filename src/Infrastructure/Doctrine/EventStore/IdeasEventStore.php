@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace AulaSoftwareLibre\Gata\Infrastructure\Repository;
+namespace AulaSoftwareLibre\Gata\Infrastructure\Doctrine\EventStore;
 
 use AulaSoftwareLibre\Gata\Application\Idea\Exception\IdeaNotFoundException;
 use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
@@ -20,7 +20,7 @@ use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
 use Prooph\EventSourcing\Aggregate\AggregateRepository;
 use Ramsey\Uuid\Uuid;
 
-final class EventStoreIdeas extends AggregateRepository implements Ideas
+final class IdeasEventStore extends AggregateRepository implements Ideas
 {
     public function save(Idea $idea): void
     {

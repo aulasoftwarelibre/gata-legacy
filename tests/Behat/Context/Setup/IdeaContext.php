@@ -20,6 +20,7 @@ use AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas;
 use AulaSoftwareLibre\Gata\Domain\Group\Model\GroupId;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
 
@@ -61,7 +62,7 @@ final class IdeaContext implements Context
         $this->commandBus->dispatch(AddIdea::with(
             $ideaId,
             $groupId,
-            group($title),
+            IdeaTitle::fromString($title),
             IdeaDescription::fromString('Description')
         ));
     }

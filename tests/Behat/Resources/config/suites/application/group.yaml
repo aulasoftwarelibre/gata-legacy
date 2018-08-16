@@ -3,7 +3,12 @@ default:
         group_application_features:
             contexts_services:
                 - 'tests.behat.context.application.group_context'
+
+                - 'tests.behat.context.hook.prooph_context'
+                - 'tests.behat.context.hook.database_context'
+
                 - 'tests.behat.context.setup.group_context'
+
                 - 'tests.behat.context.transform.group_context'
             filters:
                 tags: '@group && @application'

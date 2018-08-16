@@ -52,7 +52,7 @@ final class SecurityContext implements Context
      */
     public function iAmLoggedInAs(): void
     {
-        $userId = new UserId(Uuid::uuid4()->toString());
+        $userId = UserId::fromString(Uuid::uuid4()->toString());
 
         $this->sharedStorage->set('myUserId', $userId);
     }

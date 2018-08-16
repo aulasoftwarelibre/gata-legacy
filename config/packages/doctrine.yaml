@@ -11,18 +11,18 @@ doctrine:
         mappings:
             ReadModel:
                 is_bundle: false
-                type: xml
+                type: 'xml'
                 dir: '%kernel.root_dir%/Resources/config/doctrine'
-                prefix: 'AulaSoftwareLibre\Gata\Infrastructure\ReadModel'
-                alias: ReadModel
+                prefix: 'AulaSoftwareLibre\Gata\Infrastructure\ReadModel\View'
+                alias: 'ReadModel'
 
 services:
     _defaults:
         public: true
 
     # Repositories
-    AulaSoftwareLibre\Gata\Application\Group\Repository\Groups: '@AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreGroups'
-    AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas: '@AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreIdeas'
-    AulaSoftwareLibre\Gata\Application\Comment\Repository\Comments: '@AulaSoftwareLibre\Gata\Infrastructure\Repository\EventStoreComments'
+    AulaSoftwareLibre\Gata\Application\Group\Repository\Groups: '@AulaSoftwareLibre\Gata\Infrastructure\Doctrine\EventStore\GroupsEventStore'
+    AulaSoftwareLibre\Gata\Application\Idea\Repository\Ideas: '@AulaSoftwareLibre\Gata\Infrastructure\Doctrine\EventStore\IdeasEventStore'
+    AulaSoftwareLibre\Gata\Application\Comment\Repository\Comments: '@AulaSoftwareLibre\Gata\Infrastructure\Doctrine\EventStore\CommentsEventStore'
 
-    AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Group\Repository\GroupViews: '@AulaSoftwareLibre\Gata\Infrastructure\Doctrine\Repository\GroupViewORMRepository'
+    AulaSoftwareLibre\Gata\Infrastructure\ReadModel\Repository\GroupViews: '@AulaSoftwareLibre\Gata\Infrastructure\Doctrine\Repository\GroupViewORMRepository'

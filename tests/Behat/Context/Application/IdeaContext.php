@@ -33,6 +33,7 @@ use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRejected;
 use AulaSoftwareLibre\Gata\Domain\Idea\Event\IdeaWasRetitled;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaDescription;
 use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaId;
+use AulaSoftwareLibre\Gata\Domain\Idea\Model\IdeaTitle;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
 use Webmozart\Assert\Assert;
@@ -78,7 +79,7 @@ final class IdeaContext implements Context
         $this->commandBus->dispatch(AddIdea::with(
             $this->ideas->nextIdentity(),
             $groupId,
-            group($title),
+            IdeaTitle::fromString($title),
             IdeaDescription::fromString('Description')
         ));
     }
@@ -98,7 +99,7 @@ final class IdeaContext implements Context
         ));
 
         Assert::true($event->groupId()->equals($groupId));
-        Assert::true($event->title()->equals(group($title)));
+        Assert::true($event->title()->equals(IdeaTitle::fromString($title)));
     }
 
     /**
@@ -108,7 +109,7 @@ final class IdeaContext implements Context
     {
         $this->commandBus->dispatch(RetitleIdea::with(
             $ideaId,
-            group($title)
+            IdeaTitle::fromString($title)
         ));
     }
 
@@ -127,7 +128,7 @@ final class IdeaContext implements Context
         ));
 
         Assert::true($event->ideaId()->equals($ideaId));
-        Assert::true($event->title()->equals(group($title)));
+        Assert::true($event->title()->equals(IdeaTitle::fromString($title)));
     }
 
     /**
